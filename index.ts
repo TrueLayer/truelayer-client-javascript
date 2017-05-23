@@ -1,22 +1,24 @@
 // Imports
-import { IAuth } from "./src/auth";
-import { IData } from "./src/dataApi";
+import * as auth from "./src/auth";
+import * as data from "./src/dataApi";
 import { IOptions } from "./src/IOptions";
+import { IClientHelpers } from "./src/IClientHelpers";
 
 export class ApiClient {
     public options: IOptions;
 
-    public auth: IAuth;
-    public data: IData;
+    public auth: auth.IAuth;
+    public data: data.IData;
 
     constructor(options: IOptions) {
         this.options = options;
     }
 
-    public v1(): object {
+    // TODO pass all options to the auth and data rather than input params on call
+    public v1(): IClientHelpers {
         return {
-            auth: this.auth,
-            data: this.data
+            auth,
+            data
         };
     }
 }

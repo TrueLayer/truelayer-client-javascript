@@ -26,12 +26,11 @@ const envVar: IOptions = {
 };
 
 const app = express();
-const client = new trueLayer.ApiClient(envVar);
-console.log("Me" + util.inspect(client.v1()));
+const client = new trueLayer.ApiClient(envVar).v1();
 
 app.get("/", (req, res) => {
-  // const authURL = client.auth.getAuthUrl(envVar);
-  res.redirect(`https://${auth_host}/?response_type=code&response_mode=form_post&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&nonce=${nonce}&state=${state}&enable_mock=true`);
+  const authURL = client.auth.getAuthUrl(envVar);
+  res.redirect(authURL);
 });
 
 app.use(parser.urlencoded({
