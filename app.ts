@@ -1,19 +1,32 @@
+import * as TrueLayer from './index'
 
 import * as express from 'express';
 import * as parser from 'body-parser';
 import * as request from 'request-promise';
 
-// Get environment vars
+// Get environment varibles
 const client_id: string = process.env.client_id;
 const client_secret: string = process.env.client_secret;
 const redirect_uri: string = process.env.redirect_uri;
 const nonce: string = process.env.nonce;
 const state: string = process.env.state;
 const scope: string = process.env.scope;
+const auth_host: string = process.env.scope;
 
-const auth_host: string = 'auth.truelayer.com';
+// Build 'options' to pass to APIClient
+const options: TrueLayer.IOptions = {
+    auth_host,
+    client_id,
+    client_secret,
+    redirect_uri,
+    nonce,
+    state,
+    scope
+}
 
 const app = express();
+
+// TODO: APIClient class
 
 app.get('/', (req, res) => {
   res.redirect(`https://${auth_host}/?response_type=code&response_mode=form_post&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&nonce=${nonce}&state=${state}&enable_mock=true`)
