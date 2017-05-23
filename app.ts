@@ -1,6 +1,5 @@
 import * as express from "express";
 import * as parser from "body-parser";
-import * as request from "request-promise";
 import * as trueLayer from "./index";
 import { IOptions } from "./src/IOptions";
 import * as util from "util";
@@ -27,9 +26,10 @@ const envVar: IOptions = {
 
 const app = express();
 const client = new trueLayer.ApiClient(envVar).v1();
+const clientAuth = client.auth;
 
 app.get("/", (req, res) => {
-  const authURL = client.auth.getAuthUrl(envVar);
+  const authURL = clientAuth.getAuthUrl(envVar);
   res.redirect(authURL);
 });
 
@@ -40,32 +40,11 @@ app.use(parser.urlencoded({
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
 
-  const jwt = await exchangeCodeForJWT(code);
+  const tokens = await clientAuth.exchangeCodeForToken(code, envVar);
+ // const newToken = await clientAuth.refreshAccessToken(tokens.access_token, envVar); // todo unhandled promise
   res.set("Content-Type", "text/plain");
-  res.send(`You sent: ${jwt} to Express`);
+  res.send(`You sent: ${tokens.access_token} to Express`);
 });
-
-async function exchangeCodeForJWT(code: string): Promise<string> {
-
-  const options: request.Options = {
-    uri: `https://${auth_host}/connect/token`,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    form: {
-      grant_type: "authorization_code",
-      client_id,
-      client_secret,
-      redirect_uri,
-      code
-    }
-  };
-
-  const response: string = await request(options);
-  const parsedResponse: any = JSON.parse(response);
-  return parsedResponse.access_token;
-}
 
 app.listen(5000, () => {
   console.log("Example app listening on port 5000...");
