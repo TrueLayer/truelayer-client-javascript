@@ -1,23 +1,22 @@
 // Imports
-import { getAuthUrl, exchangeCodeForToken } from "./src/auth";
-import * as data from "./src/dataApi";
+import { IAuth } from "./src/auth";
+import { IData } from "./src/dataApi";
+import { IOptions } from "./src/IOptions";
 
-// Interface to support options
-export interface IOptions {
-    auth_host: string,
-    client_id: string,
-    client_secret: string,
-    redirect_uri: string,
-    nonce: string,
-    state: string,
-    scope: string
-}
+export class ApiClient {
+    public options: IOptions;
 
-export interface ApiClient {
-    v1(options: IOptions): {
-        auth: auth,
-        data: data
+    public auth: IAuth;
+    public data: IData;
+
+    constructor(options: IOptions) {
+        this.options = options;
+    }
+
+    public v1(): object {
+        return {
+            auth: this.auth,
+            data: this.data
+        };
     }
 }
-
-// const client: new Truelayer.ApiClient.v1(options);
