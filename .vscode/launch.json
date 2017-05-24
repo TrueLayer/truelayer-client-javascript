@@ -8,19 +8,18 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/index.ts",
+            "program": "${workspaceRoot}/app.ts",
             "sourceMaps": true,
             "outFiles": [
                 "${workspaceRoot}/dist/**/*.js"
             ],
             "env": {
-                "auth_host": "auth.truelayer.com",
                 "client_id": "test",
+                "client_secret": "secret",
                 "redirect_uri": "http://localhost:5000/truelayer-redirect",
                 "nonce": "foo",
                 "state": "bar",
-                "scope": "offline_access info accounts transactions balance",
-                "client_secret": "secret"
+                "scope": "offline_access info accounts transactions balance"
             }
         }
     ]

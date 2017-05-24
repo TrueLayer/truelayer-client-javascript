@@ -1,64 +1,110 @@
 import { IOptions } from "./IOptions";
 import * as request from "request-promise";
 
-export interface IAuth {
-    getAuthUrl(options: IOptions): string;
-    exchangeCodeForToken(code: string, options: IOptions): Promise<IAccessTokens>;
-    refreshAccessToken(refresh_token: string, options: IOptions): Promise<string>;
-}
-
-export interface IAccessTokens {
+interface IAccessTokens {
     access_token: string,
     refresh_token: string
 }
 
-// TODO pass enable_mock optionally
-// TODO pass options to class rather than individual methods
-export const getAuthUrl = (options: IOptions): string => {
-        return `https://${options.auth_host}/?response_type=code&response_mode=form_post&client_id=${options.client_id}&redirect_uri=${options.redirect_uri}&scope=${options.scope}&nonce=${options.nonce}&state=${options.state}&enable_mock=true`;
-};
+interface IExchangeReponse {
+    access_token: string,
+    expires_in: number,
+    token_type: string,
+    refresh_token: string
+}
 
+export default class Auth {
 
-export async function exchangeCodeForToken(code: string, options: IOptions): Promise<IAccessTokens> {
-    const requestOptions: request.Options = {
-        uri: `https://${options.auth_host}/connect/token`,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        form: {
-            grant_type: "authorization_code",
-            client_id: options.client_id,
-            client_secret: options.client_secret,
-            redirect_uri: options.redirect_uri,
-            code
-        }
+    // Private
+    private readonly auth_host: string = "auth.truelayer.com";
+    private readonly options: IOptions;
+
+    // Constructor
+    constructor(options: IOptions) {
+        this.options = options;
+    }
+
+    /**
+     * Builds a correctly formatted authentication url
+     * 
+     * @param {boolean} mock 
+     * @returns {string} 
+     * 
+     * @memberof Auth
+     */
+    public getAuthUrl(mock: boolean): string {
+        return `https://${this.auth_host}/?` +
+               `response_type=code&` +
+               `response_mode=form_post&` +
+               `client_id=${this.options.client_id}&` +
+               `redirect_uri=${this.options.redirect_uri}&` +
+               `scope=${this.options.scope}&` +
+               `nonce=${this.options.nonce}&` +
+               `state=${this.options.state}&` +
+               `enable_mock=${mock}`;
     };
 
-    const response: string = await request(requestOptions);
-    const parsedResponse: any = JSON.parse(response);
-    return {
-        access_token: parsedResponse.access_token,
-        refresh_token: parsedResponse.refresh_token
-    };
-};
+    /**
+     * Exchanges an auth code for an access token
+     * 
+     * @param {string} code 
+     * @returns {Promise<IAccessTokens>} 
+     * 
+     * @memberof Auth
+     */
+    public async exchangeCodeForToken(code: string): Promise<IAccessTokens> {
+        const requestOptions: request.Options = {
+            uri: `https://${this.auth_host}/connect/token`,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            form: {
+                grant_type: "authorization_code",
+                client_id: this.options.client_id,
+                client_secret: this.options.client_secret,
+                redirect_uri: this.options.redirect_uri,
+                code
+            }
+        };
 
-export async function refreshAccessToken(refreshToken: string, options: IOptions): Promise<string> {
-    const requestOptions: request.Options = {
-        uri: `https://${options.auth_host}/connect/token`,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        form: {
-            grant_type: "refresh_token",
-            client_id: options.client_id,
-            client_secret: options.client_secret,
-            refresh_token: refreshToken
-        }
+        const response: string = await request(requestOptions);
+        const parsedResponse: IExchangeReponse = JSON.parse(response);
+        return {
+            access_token: parsedResponse.access_token,
+            refresh_token: parsedResponse.refresh_token
+        };
     };
 
-    const response: string = await request(requestOptions);
-    const parsedResponse: any = JSON.parse(response);
-    return parsedResponse.refresh_token;
-};
+    /**
+     * Exchanges a refresh token for a fresh access token
+     * 
+     * @param {string} refreshToken 
+     * @returns {Promise<IAccessTokens>} 
+     * 
+     * @memberof Auth
+     */
+    public async refreshAccessToken(refreshToken: string): Promise<IAccessTokens> {
+        const requestOptions: request.Options = {
+            uri: `https://${this.auth_host}/connect/token`,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            form: {
+                grant_type: "refresh_token",
+                client_id: this.options.client_id,
+                client_secret: this.options.client_secret,
+                refresh_token: refreshToken
+            }
+        };
+
+        const response: string = await request(requestOptions);
+        const parsedResponse: IExchangeReponse = JSON.parse(response);
+        return {
+            access_token: parsedResponse.access_token,
+            refresh_token: parsedResponse.refresh_token
+        };
+    }
+
+}

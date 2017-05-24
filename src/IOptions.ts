@@ -1,10 +1,10 @@
 // Interface to support options
 
 export interface IOptions {
-    auth_host: string;
     client_id: string;
     client_secret: string;
     redirect_uri: string;
+    // add belwo to params of method aurthenticationlink()
     nonce: string;
     state: string;
     scope: string;

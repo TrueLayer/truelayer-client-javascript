@@ -1,24 +1,22 @@
 // Imports
-import * as auth from "./src/auth";
-import * as data from "./src/dataApi";
 import { IOptions } from "./src/IOptions";
-import { IClientHelpers } from "./src/IClientHelpers";
+import Data from "./src/data";
+import Auth from "./src/auth";
 
-export class ApiClient {
-    public options: IOptions;
+export namespace V1 {
+    export class ApiClient {
 
-    public auth: auth.IAuth;
-    public data: data.IData;
+        // Private
+        private options: IOptions;
+        // Pulbic
+        public auth: Auth;
+        public data: Data;
 
-    constructor(options: IOptions) {
-        this.options = options;
-    }
-
-    // TODO pass all options to the auth and data rather than input params on call
-    public v1(): IClientHelpers {
-        return {
-            auth,
-            data
-        };
+        // Constructor
+        constructor(options: IOptions) {
+            this.options = options;
+            this.auth = new Auth(this.options);
+            this.data = new Data(this.options);
+        }
     }
 }

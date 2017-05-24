@@ -2,7 +2,6 @@ import * as express from "express";
 import * as parser from "body-parser";
 import * as trueLayer from "./index";
 import { IOptions } from "./src/IOptions";
-import * as util from "util";
 
 // Get environment varibles
 const client_id: string = process.env.client_id;
@@ -11,11 +10,9 @@ const redirect_uri: string = process.env.redirect_uri;
 const nonce: string = process.env.nonce;
 const state: string = process.env.state;
 const scope: string = process.env.scope;
-const auth_host: string = process.env.auth_host;
 
 // Build 'options' to pass to APIClient
-const envVar: IOptions = {
-    auth_host,
+const options: IOptions = {
     client_id,
     client_secret,
     redirect_uri,
@@ -24,24 +21,32 @@ const envVar: IOptions = {
     scope
 };
 
-const app = express();
-const client = new trueLayer.ApiClient(envVar).v1();
+const client = new trueLayer.V1.ApiClient(options);
 const clientAuth = client.auth;
+const clientData = client.data;
 
+const app = express();
+
+// Redirect to the auth server
 app.get("/", (req, res) => {
-  const authURL = clientAuth.getAuthUrl(envVar);
+  const authURL = clientAuth.getAuthUrl(true);
   res.redirect(authURL);
 });
 
+// Body parser setup
 app.use(parser.urlencoded({
-  extended: true     // to support URL-encoded bodies
+  extended: true
 }));
 
+// Recieving post request
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
-
-  const tokens = await clientAuth.exchangeCodeForToken(code, envVar);
- // const newToken = await clientAuth.refreshAccessToken(tokens.access_token, envVar); // todo unhandled promise
+  const tokens = await clientAuth.exchangeCodeForToken(code);
+  console.log("access token: " + tokens.access_token);
+  console.log("refresh token: " + tokens.refresh_token);
+  const newTokens = await clientAuth.refreshAccessToken(tokens.refresh_token);
+  console.log("new access token: " + newTokens.access_token);
+  console.log("new refresh token: " + newTokens.refresh_token);
   res.set("Content-Type", "text/plain");
   res.send(`You sent: ${tokens.access_token} to Express`);
 });
