@@ -1,27 +1,27 @@
 import IOptions from "./IOptions";
 import C from "./constants"
 
-interface IAPIResponse {
+interface IResponse {
     success: boolean,
-    error?: IAPIError,
-    results?: [Info]
+    error?: IError,
+    results?: [IInfo]
 }
 
-interface IAPIError {
+interface IError {
     code: string,
     message: string
 }
 
-interface Info {
+interface IInfo {
     update_timestamp: string,
     full_name: string,
     date_of_birth: string,
-    addresses: [AddressInfo],
+    addresses: [IAddressInfo],
     emails: [string],
     phones: [string]
 }
 
-interface AddressInfo {
+interface IAddressInfo {
     address: string,
     city: string,
     state: string,
