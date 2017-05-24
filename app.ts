@@ -2,7 +2,6 @@ import * as express from "express";
 import * as parser from "body-parser";
 import * as trueLayer from "./index";
 import { IOptions } from "./src/IOptions";
-import * as util from "util";
 
 // Get environment varibles
 const client_id: string = process.env.client_id;
@@ -41,9 +40,11 @@ app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
 
   const tokens = await clientAuth.exchangeCodeForToken(code, envVar);
- // const newToken = await clientAuth.refreshAccessToken(tokens.access_token, envVar); // todo unhandled promise
+
+  // refresh token
+  const newToken = await clientAuth.refreshAccessToken(tokens.refresh_token, envVar);
   res.set("Content-Type", "text/plain");
-  res.send(`You sent: ${tokens.access_token} to Express`);
+  res.send(`You sent: ${newToken.access_token} to Express`);
 });
 
 app.listen(5000, () => {
