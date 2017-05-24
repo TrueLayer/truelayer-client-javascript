@@ -1,5 +1,6 @@
-import {IOptions} from "./IOptions";
 import * as request from "request-promise";
+import IOptions from "./IOptions";
+import C from "./constants"
 
 interface IAccessTokens {
     access_token: string,
@@ -16,7 +17,6 @@ interface IExchangeReponse {
 export default class Auth {
 
     // Private
-    private readonly auth_host: string = "auth.truelayer.com";
     private readonly options: IOptions;
 
     // Constructor
@@ -27,20 +27,25 @@ export default class Auth {
     /**
      * Builds a correctly formatted authentication url
      * 
-     * @param {boolean} mock 
+     * @param {any} [scope=this.default_scope] 
+     * @param {string} [nonce=this.default_nonce] 
+     * @param {string} [state=this.default_state] 
+     * @param {boolean} [mock=false] 
      * @returns {string} 
      * 
      * @memberof Auth
      */
-    public getAuthUrl(mock: boolean): string {
-        return `https://${this.auth_host}/?` +
+    // TODO: remove nonce and state default
+    public getAuthUrl(scope = C.SCOPE, nonce: string = C.NONCE, state?: string, mock: boolean = C.MOCK): string {
+
+        return `https://${C.AUTH_HOST}/?` +
                `response_type=code&` +
                `response_mode=form_post&` +
                `client_id=${this.options.client_id}&` +
                `redirect_uri=${this.options.redirect_uri}&` +
-               `scope=${this.options.scope}&` +
-               `nonce=${this.options.nonce}&` +
-               `state=${this.options.state}&` +
+               `scope=${scope}&` +
+               `nonce=${nonce}&` +
+               `state=${state}&` +
                `enable_mock=${mock}`;
     };
 
@@ -54,7 +59,7 @@ export default class Auth {
      */
     public async exchangeCodeForToken(code: string): Promise<IAccessTokens> {
         const requestOptions: request.Options = {
-            uri: `https://${this.auth_host}/connect/token`,
+            uri: `https://${C.AUTH_HOST}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -86,7 +91,7 @@ export default class Auth {
      */
     public async refreshAccessToken(refreshToken: string): Promise<IAccessTokens> {
         const requestOptions: request.Options = {
-            uri: `https://${this.auth_host}/connect/token`,
+            uri: `https://${C.AUTH_HOST}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

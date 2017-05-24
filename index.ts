@@ -1,5 +1,5 @@
 // Imports
-import { IOptions } from "./src/IOptions";
+import IOptions from "./src/IOptions";
 import Data from "./src/data";
 import Auth from "./src/auth";
 

@@ -1,24 +1,21 @@
 import * as express from "express";
 import * as parser from "body-parser";
 import * as trueLayer from "./index";
-import { IOptions } from "./src/IOptions";
+import IOptions from "./src/IOptions";
 
 // Get environment varibles
 const client_id: string = process.env.client_id;
 const client_secret: string = process.env.client_secret;
 const redirect_uri: string = process.env.redirect_uri;
-const nonce: string = process.env.nonce;
-const state: string = process.env.state;
-const scope: string = process.env.scope;
+// const nonce: string = process.env.nonce;
+// const state: string = process.env.state;
+// const scope: string = process.env.scope;
 
 // Build 'options' to pass to APIClient
 const options: IOptions = {
     client_id,
     client_secret,
-    redirect_uri,
-    nonce,
-    state,
-    scope
+    redirect_uri
 };
 
 const client = new trueLayer.V1.ApiClient(options);
@@ -29,7 +26,7 @@ const app = express();
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-  const authURL = clientAuth.getAuthUrl(true);
+  const authURL = clientAuth.getAuthUrl();
   res.redirect(authURL);
 });
 
