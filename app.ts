@@ -44,8 +44,10 @@ app.post("/truelayer-redirect", async (req, res) => {
   const newTokens = await clientAuth.refreshAccessToken(tokens.refresh_token);
   // console.log("new access token: " + newTokens.access_token);
   // console.log("new refresh token: " + newTokens.refresh_token);
+  const info = await clientData.info(newTokens.access_token);
+  const prettyInfo = JSON.stringify(info);
   res.set("Content-Type", "text/plain");
-  res.send(`You sent: ${newTokens.access_token} to Express`);
+  res.send(`You sent: ${prettyInfo} to Express`);
 });
 
 app.listen(5000, () => {

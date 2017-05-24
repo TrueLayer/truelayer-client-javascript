@@ -27,7 +27,7 @@ export default class Auth {
     /**
      * Builds a correctly formatted authentication url
      * 
-     * @param {any} [scope=this.default_scope] 
+     * @param {any} [scope=this.default_scope]
      * @param {string} [nonce=this.default_nonce] 
      * @param {string} [state=this.default_state] 
      * @param {boolean} [mock=false] 
