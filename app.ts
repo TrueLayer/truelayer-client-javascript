@@ -42,13 +42,13 @@ app.use(parser.urlencoded({
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
   const tokens = await clientAuth.exchangeCodeForToken(code);
-  console.log("access token: " + tokens.access_token);
-  console.log("refresh token: " + tokens.refresh_token);
+  // console.log("access token: " + tokens.access_token);
+  // console.log("refresh token: " + tokens.refresh_token);
   const newTokens = await clientAuth.refreshAccessToken(tokens.refresh_token);
-  console.log("new access token: " + newTokens.access_token);
-  console.log("new refresh token: " + newTokens.refresh_token);
+  // console.log("new access token: " + newTokens.access_token);
+  // console.log("new refresh token: " + newTokens.refresh_token);
   res.set("Content-Type", "text/plain");
-  res.send(`You sent: ${tokens.access_token} to Express`);
+  res.send(`You sent: ${newTokens.access_token} to Express`);
 });
 
 app.listen(5000, () => {

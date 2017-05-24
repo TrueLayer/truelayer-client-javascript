@@ -1,4 +1,4 @@
-import { IOptions } from "./IOptions";
+import {IOptions} from "./IOptions";
 import * as request from "request-promise";
 
 interface IAccessTokens {
