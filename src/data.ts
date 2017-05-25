@@ -1,11 +1,11 @@
 import * as request from "request-promise";
 import IOptions from "./IOptions";
-import C from "./constants"
+import C from "./constants";
 
 interface IResponse<T> {
     success: boolean;
     error?: IError;
-    results?: T;
+    results?: T | [T];
 }
 
 interface IError {
@@ -80,19 +80,76 @@ export default class Data {
         this.options = options;
     }
 
-
-    public async info(access_token: string): Promise<IResponse<IInfo>> {
+    private async callAPI<T>(accessToken: string, path: string): Promise<IResponse<T>> {
         const requestOptions: request.Options = {
-            uri: `https://${C.AUTH_HOST}/data/v1/info`,
+            uri: path,
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${access_token}`
+                Authorization: "Bearer " + accessToken
             }
         };
 
         const response: string = await request(requestOptions);
-        const parsedResponse: IResponse<IInfo> = JSON.parse(response);
+        const parsedResponse: IResponse<T> = JSON.parse(response);
         return parsedResponse;
-    };
+    }
 
+    /**
+     * Call to /info API.
+     * @param accessToken
+     * @returns {Promise<IResponse>}
+     */
+    // TODO handle input validation and errors
+    public async info(accessToken: string): Promise<IResponse<IInfo>> {
+        return this.callAPI<IInfo>(accessToken, `https://api.truelayer.com/data/v1/info`);
+    }
+
+    /**
+     * Call to /me API.
+     * @param accessToken
+     * @returns {Promise<IResponse<IMe>>}
+     */
+    public async me(accessToken: string): Promise<IResponse<IMe>> {
+        return this.callAPI<IMe>(accessToken, `https://api.truelayer.com/data/v1/me`);
+    }
+
+    /**
+     * Call to /accounts API.
+     * @param accessToken
+     * @returns {Promise<IResponse<IAccount>>}
+     */
+    public async accounts(accessToken: string): Promise<IResponse<IAccount>> {
+        return this.callAPI<IAccount>(accessToken, `https://api.truelayer.com/data/v1/accounts`);
+    }
+
+    /**
+     * Call to /accounts/account_id API.
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResponse<IAccount>>}
+     */
+    public async accountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
+        return this.callAPI<IAccount>(accessToken, `https://api.truelayer.com/data/v1/accounts/${accountId}`);
+    }
+
+    /**
+     * Call to /accounts/account_id/transactions API
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResponse<ITransaction>>}
+     */
+    // // TODO add to from params
+    public async transactions(accessToken: string, accountId: string): Promise<IResponse<ITransaction>> {
+        return this.callAPI<ITransaction>(accessToken, `https://api.truelayer.com/data/v1/accounts/${accountId}/transactions`);
+    }
+
+    /**
+     * Call to /accounts/account_id/balance API
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResponse<IBalance>>}
+     */
+    public async balance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
+        return this.callAPI<IBalance>(accessToken, `https://api.truelayer.com/data/v1/accounts/${accountId}/balance`);
+    }
 }

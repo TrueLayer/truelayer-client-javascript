@@ -1,17 +1,17 @@
 import * as request from "request-promise";
 import IOptions from "./IOptions";
-import C from "./constants"
+import C from "./constants";
 
 interface IAccessTokens {
-    access_token: string,
-    refresh_token: string
+    access_token: string;
+    refresh_token: string;
 }
 
 interface IExchangeReponse {
-    access_token: string,
-    expires_in: number,
-    token_type: string,
-    refresh_token: string
+    access_token: string;
+    expires_in: number;
+    token_type: string;
+    refresh_token: string;
 }
 
 export default class Auth {
@@ -26,13 +26,13 @@ export default class Auth {
 
     /**
      * Builds a correctly formatted authentication url
-     * 
+     *
      * @param {any} [scope=this.default_scope]
-     * @param {string} [nonce=this.default_nonce] 
-     * @param {string} [state=this.default_state] 
-     * @param {boolean} [mock=false] 
-     * @returns {string} 
-     * 
+     * @param {string} [nonce=this.default_nonce]
+     * @param {string} [state=this.default_state]
+     * @param {boolean} [mock=false]
+     * @returns {string}
+     *
      * @memberof Auth
      */
     // TODO: remove nonce and state default
@@ -51,10 +51,10 @@ export default class Auth {
 
     /**
      * Exchanges an auth code for an access token
-     * 
-     * @param {string} code 
-     * @returns {Promise<IAccessTokens>} 
-     * 
+     *
+     * @param {string} code
+     * @returns {Promise<IAccessTokens>}
+     *
      * @memberof Auth
      */
     public async exchangeCodeForToken(code: string): Promise<IAccessTokens> {
@@ -83,10 +83,10 @@ export default class Auth {
 
     /**
      * Exchanges a refresh token for a fresh access token
-     * 
-     * @param {string} refreshToken 
-     * @returns {Promise<IAccessTokens>} 
-     * 
+     *
+     * @param {string} refreshToken
+     * @returns {Promise<IAccessTokens>}
+     *
      * @memberof Auth
      */
     public async refreshAccessToken(refreshToken: string): Promise<IAccessTokens> {
