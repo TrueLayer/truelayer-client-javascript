@@ -1,4 +1,5 @@
 import * as request from "request-promise";
+import * as moment from "moment";
 import IOptions from "./IOptions";
 import C from "./constants";
 
@@ -80,7 +81,7 @@ export default class Data {
         this.options = options;
     }
 
-    private async callAPI<T>(accessToken: string, path: string): Promise<IResponse<T>> {
+    private async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = {
             uri: path,
             method: "GET",
@@ -88,6 +89,12 @@ export default class Data {
                 Authorization: "Bearer " + accessToken
             }
         };
+
+        if (qs) {
+            requestOptions.qs = qs;
+        }
+
+        console.log("request options: ", requestOptions);
 
         const response: string = await request(requestOptions);
         const parsedResponse: IResponse<T> = JSON.parse(response);
@@ -139,8 +146,17 @@ export default class Data {
      * @returns {Promise<IResponse<ITransaction>>}
      */
     // // TODO add to from params
-    public async transactions(accessToken: string, accountId: string): Promise<IResponse<ITransaction>> {
-        return this.callAPI<ITransaction>(accessToken, `https://api.truelayer.com/data/v1/accounts/${accountId}/transactions`);
+    public async transactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+       if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
+           throw Error("Error");
+       }
+
+       const qs = {
+            from,
+            to
+        };
+
+       return this.callAPI<ITransaction>(accessToken, `https://api.truelayer.com/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**

@@ -49,7 +49,7 @@ app.post("/truelayer-redirect", async (req, res) => {
   const accounts = await clientData.accounts(tokens.access_token);
   const accountsList = accounts.results as any; // todo is this safe typescript?
   const accountInfo = await clientData.accountInfo(tokens.access_token, accountsList[0].account_id);
-  const transactions = await clientData.transactions(tokens.access_token, accountsList[0].account_id);
+  const transactions = await clientData.transactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
   const balance = await clientData.balance(tokens.access_token, accountsList[0].account_id);
   console.log("Info " + JSON.stringify(info));
   console.log("Me " + JSON.stringify(me));
