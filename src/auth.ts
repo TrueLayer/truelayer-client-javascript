@@ -27,35 +27,29 @@ export default class Auth {
     /**
      * Builds a correctly formatted authentication url
      *
-     * @param {any} [scope=this.default_scope]
-     * @param {string} [nonce=this.default_nonce]
-     * @param {string} [state=this.default_state]
-     * @param {boolean} [mock=false]
+     * @param {string} scope
+     * @param {string} nonce
+     * @param {boolean} [mock=C.MOCK]
+     * @param {string} [state]
      * @returns {string}
-     *
-     * @memberof Auth
      */
-    // TODO: remove nonce and state default
-    public getAuthUrl(scope = C.SCOPE, nonce: string = C.NONCE, state?: string, mock: boolean = C.MOCK): string {
-
+    public getAuthUrl(scope: string, nonce: string, mock: boolean = C.MOCK, state?: string): string {
         return `https://${C.AUTH_HOST}/?` +
-               `response_type=code&` +
-               `response_mode=form_post&` +
-               `client_id=${this.options.client_id}&` +
-               `redirect_uri=${this.options.redirect_uri}&` +
-               `scope=${scope}&` +
-               `nonce=${nonce}&` +
-               `state=${state}&` +
-               `enable_mock=${mock}`;
-    };
+            `response_type=code&` +
+            `response_mode=form_post&` +
+            `client_id=${this.options.client_id}&` +
+            `redirect_uri=${this.options.redirect_uri}&` +
+            `scope=${scope}&` +
+            `nonce=${nonce}&` +
+            `state=${state}&` +
+            `enable_mock=${mock}`;
+    }
 
     /**
      * Exchanges an auth code for an access token
      *
      * @param {string} code
      * @returns {Promise<IAccessTokens>}
-     *
-     * @memberof Auth
      */
     public async exchangeCodeForToken(code: string): Promise<IAccessTokens> {
         const requestOptions: request.Options = {
@@ -79,15 +73,13 @@ export default class Auth {
             access_token: parsedResponse.access_token,
             refresh_token: parsedResponse.refresh_token
         };
-    };
+    }
 
     /**
      * Exchanges a refresh token for a fresh access token
      *
      * @param {string} refreshToken
      * @returns {Promise<IAccessTokens>}
-     *
-     * @memberof Auth
      */
     public async refreshAccessToken(refreshToken: string): Promise<IAccessTokens> {
         const requestOptions: request.Options = {

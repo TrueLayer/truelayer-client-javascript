@@ -16,10 +16,7 @@
             "env": {
                 "client_id": "test",
                 "client_secret": "secret",
-                "redirect_uri": "http://localhost:5000/truelayer-redirect",
-                "nonce": "foo",
-                "state": "bar",
-                "scope": "offline_access info accounts transactions balance"
+                "redirect_uri": "http://localhost:5000/truelayer-redirect"
             }
         }
     ]

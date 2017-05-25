@@ -7,9 +7,6 @@ import IOptions from "./src/IOptions";
 const client_id: string = process.env.client_id;
 const client_secret: string = process.env.client_secret;
 const redirect_uri: string = process.env.redirect_uri;
-// const nonce: string = process.env.nonce;
-// const state: string = process.env.state;
-// const scope: string = process.env.scope;
 
 // Build 'options' to pass to APIClient
 const options: IOptions = {
@@ -22,11 +19,12 @@ const client = new trueLayer.V1.ApiClient(options);
 const clientAuth = client.auth;
 const clientData = client.data;
 
+// Create express instance
 const app = express();
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-  const authURL = clientAuth.getAuthUrl();
+  const authURL = clientAuth.getAuthUrl("offline_access info accounts transactions balance", "abc", true);
   res.redirect(authURL);
 });
 
@@ -51,6 +49,7 @@ app.post("/truelayer-redirect", async (req, res) => {
   const accountInfo = await clientData.accountInfo(tokens.access_token, accountsList[0].account_id);
   const transactions = await clientData.transactions(tokens.access_token, accountsList[0].account_id);
   const balance = await clientData.balance(tokens.access_token, accountsList[0].account_id);
+  /* tslint:disable:no-console */
   console.log("Info " + JSON.stringify(info));
   console.log("Me " + JSON.stringify(me));
   console.log("Accounts " + JSON.stringify(accounts));
@@ -58,11 +57,10 @@ app.post("/truelayer-redirect", async (req, res) => {
   console.log("transactions " + JSON.stringify(transactions));
   console.log("balance " + JSON.stringify(balance));
 
-
   res.set("Content-Type", "text/plain");
   res.send(`You sent: ${JSON.stringify(tokens.access_token)} to Express`);
 });
 
 app.listen(5000, () => {
-  console.log("Example app listening on port 5000...");
+  // console.log("Example app listening on port 5000...");
 });
