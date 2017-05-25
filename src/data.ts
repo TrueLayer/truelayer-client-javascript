@@ -1,25 +1,15 @@
 // Imports
 import * as request from "request-promise";
-import IOptions from "./IOptions";
+import IResponse from "./interfaces/IResponse";
+import IOptions from "./interfaces/IOptions";
 import C from "./constants";
 
 // Endpoint interfaces
-import IAccount from "./model/info";
-import IBalance from "./model/info";
+import ITransaction from "./model/transaction";
+import IAccount from "./model/account";
+import IBalance from "./model/balance";
 import IInfo from "./model/info";
-import IMe from "./model/info";
-import ITransaction from "./model/info";
-
-interface IResponse<T> {
-    success: boolean;
-    error?: IError;
-    results?: T | [T];
-}
-
-interface IError {
-    code: string;
-    message?: string;
-}
+import IMe from "./model/me";
 
 export default class Data {
 
@@ -62,9 +52,8 @@ export default class Data {
      * @param {string} accessToken
      * @returns {Promise<IResponse<IInfo>>}
      */
-    // TODO: handle input validation and errors
     public async info(accessToken: string): Promise<IResponse<IInfo>> {
-        return this.callAPI<IInfo>(accessToken, `https://${C.AUTH_HOST}/data/v1/info`);
+        return this.callAPI<IInfo>(accessToken, `${C.API_HOST}/data/v1/info`);
     }
 
     /**
@@ -74,7 +63,7 @@ export default class Data {
      * @returns {Promise<IResponse<IMe>>}
      */
     public async me(accessToken: string): Promise<IResponse<IMe>> {
-        return this.callAPI<IMe>(accessToken, `https://${C.AUTH_HOST}/data/v1/me`);
+        return this.callAPI<IMe>(accessToken, `${C.API_HOST}/data/v1/me`);
     }
 
     /**
@@ -84,7 +73,7 @@ export default class Data {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public async accounts(accessToken: string): Promise<IResponse<IAccount>> {
-        return this.callAPI<IAccount>(accessToken, `https://${C.AUTH_HOST}/data/v1/accounts`);
+        return this.callAPI<IAccount>(accessToken, `${C.API_HOST}/data/v1/accounts`);
     }
 
     /**
@@ -95,7 +84,7 @@ export default class Data {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public async accountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
-        return this.callAPI<IAccount>(accessToken, `https://${C.AUTH_HOST}/data/v1/accounts/${accountId}`);
+        return this.callAPI<IAccount>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}`);
     }
 
     /**
@@ -107,7 +96,7 @@ export default class Data {
      */
     public async transactions(accessToken: string, accountId: string): Promise<IResponse<ITransaction>> {
         // TODO add to from params
-        return this.callAPI<ITransaction>(accessToken, `https://${C.AUTH_HOST}/data/v1/accounts/${accountId}/transactions`);
+        return this.callAPI<ITransaction>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}/transactions`);
     }
 
     /**
@@ -118,6 +107,6 @@ export default class Data {
      * @returns {Promise<IResponse<IBalance>>}
      */
     public async balance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
-        return this.callAPI<IBalance>(accessToken, `https://${C.AUTH_HOST}/data/v1/accounts/${accountId}/balance`);
+        return this.callAPI<IBalance>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}/balance`);
     }
 }

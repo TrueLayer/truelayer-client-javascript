@@ -1,18 +1,8 @@
 import * as request from "request-promise";
-import IOptions from "./IOptions";
+import IExchangeResponse from "./interfaces/IExchangeResponse";
+import IAccessTokens from "./interfaces/IAccessTokens";
+import IOptions from "./interfaces/IOptions";
 import C from "./constants";
-
-interface IAccessTokens {
-    access_token: string;
-    refresh_token: string;
-}
-
-interface IExchangeReponse {
-    access_token: string;
-    expires_in: number;
-    token_type: string;
-    refresh_token: string;
-}
 
 export default class Auth {
 
@@ -68,7 +58,7 @@ export default class Auth {
         };
 
         const response: string = await request(requestOptions);
-        const parsedResponse: IExchangeReponse = JSON.parse(response);
+        const parsedResponse: IExchangeResponse = JSON.parse(response);
         return {
             access_token: parsedResponse.access_token,
             refresh_token: parsedResponse.refresh_token
@@ -97,7 +87,7 @@ export default class Auth {
         };
 
         const response: string = await request(requestOptions);
-        const parsedResponse: IExchangeReponse = JSON.parse(response);
+        const parsedResponse: IExchangeResponse = JSON.parse(response);
         return {
             access_token: parsedResponse.access_token,
             refresh_token: parsedResponse.refresh_token

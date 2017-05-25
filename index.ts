@@ -1,7 +1,19 @@
 // Imports
-import IOptions from "./src/IOptions";
+import IOptions from "./src/interfaces/IOptions";
 import Data from "./src/data";
 import Auth from "./src/auth";
+
+// Module exports
+export { default as IOptions } from "./src/interfaces/IOptions";
+export { default as IAccessTokens } from "./src/interfaces/IAccessTokens";
+export { default as IResponse } from "./src/interfaces/IResponse";
+
+// Endpoint interface exports
+export { default as IAccount } from "./src/model/account";
+export { default as IBalance } from "./src/model/balance";
+export { default as IInfo } from "./src/model/info";
+export { default as IMe } from "./src/model/me";
+export { default as ITransaction } from "./src/model/transaction";
 
 export namespace V1 {
     export class ApiClient {
