@@ -1,5 +1,6 @@
 // Imports
 import * as request from "request-promise";
+import * as moment from "moment";
 import IResponse from "./interfaces/IResponse";
 import IOptions from "./interfaces/IOptions";
 import C from "./constants";
@@ -32,7 +33,7 @@ export default class Data {
      *
      * @memberof Data
      */
-    private async callAPI<T>(accessToken: string, path: string): Promise<IResponse<T>> {
+    private async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = {
             uri: path,
             method: "GET",
@@ -40,6 +41,13 @@ export default class Data {
                 Authorization: "Bearer " + accessToken
             }
         };
+
+        if (qs) {
+            requestOptions.qs = qs;
+        }
+
+        // tslint:disable-next-line:no-console
+        console.log("request options: ", requestOptions);
 
         const response: string = await request(requestOptions);
         const parsedResponse: IResponse<T> = JSON.parse(response);
@@ -94,9 +102,17 @@ export default class Data {
      * @param accountId
      * @returns {Promise<IResponse<ITransaction>>}
      */
-    public async transactions(accessToken: string, accountId: string): Promise<IResponse<ITransaction>> {
-        // TODO add to from params
-        return this.callAPI<ITransaction>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}/transactions`);
+    public async transactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+       if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
+           throw Error("Error");
+       }
+
+       const qs = {
+            from,
+            to
+        };
+
+       return this.callAPI<ITransaction>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**

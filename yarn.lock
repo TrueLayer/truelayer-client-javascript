@@ -47,7 +47,7 @@
     "@types/bluebird" "*"
     "@types/request" "*"
 
-"@types/request@*", "@types/request@^0.0.43":
+"@types/request@*":
   version "0.0.43"
   resolved "https://registry.yarnpkg.com/@types/request/-/request-0.0.43.tgz#fcc59cfd88e63034e813c6884a0aade2d0f7e935"
   dependencies:
@@ -540,6 +540,10 @@ minimatch@^3.0.4:
 minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
+
+moment@^2.18.1:
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 ms@2.0.0:
   version "2.0.0"
