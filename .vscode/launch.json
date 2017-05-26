@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "node",
             "request": "launch",
@@ -26,7 +27,12 @@
             "program": "${workspaceRoot}/node_modules/ava/profile.js",
             "args": [
                 "${file}"
-            ]
+            ],
+            "env": {
+                "client_id": "test",
+                "client_secret": "secret",
+                "redirect_uri": "http://localhost:5000/truelayer-redirect"
+            }
         }
     ]
 }
