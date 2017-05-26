@@ -49,9 +49,14 @@ export default class Data {
         // tslint:disable-next-line:no-console
         console.log("request options: ", requestOptions);
 
-        const response: string = await request(requestOptions);
-        const parsedResponse: IResponse<T> = JSON.parse(response);
-        return parsedResponse;
+        try {
+            const response: string = await request(requestOptions);
+            const parsedResponse: IResponse<T> = JSON.parse(response);
+            return parsedResponse;
+        }
+        catch (e) {
+            return e;
+        }
     }
 
     /**

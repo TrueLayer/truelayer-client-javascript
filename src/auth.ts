@@ -57,12 +57,17 @@ export default class Auth {
             }
         };
 
-        const response: string = await request(requestOptions);
-        const parsedResponse: IExchangeResponse = JSON.parse(response);
-        return {
-            access_token: parsedResponse.access_token,
-            refresh_token: parsedResponse.refresh_token
-        };
+        try {
+            const response: string = await request(requestOptions);
+            const parsedResponse: IExchangeResponse = JSON.parse(response);
+            return {
+                access_token: parsedResponse.access_token,
+                refresh_token: parsedResponse.refresh_token
+            };
+        }
+        catch (e) {
+            return e;
+        }
     }
 
     /**
@@ -86,12 +91,18 @@ export default class Auth {
             }
         };
 
-        const response: string = await request(requestOptions);
-        const parsedResponse: IExchangeResponse = JSON.parse(response);
-        return {
-            access_token: parsedResponse.access_token,
-            refresh_token: parsedResponse.refresh_token
-        };
+        try {
+            const response: string = await request(requestOptions);
+            const parsedResponse: IExchangeResponse = JSON.parse(response);
+            return {
+                access_token: parsedResponse.access_token,
+                refresh_token: parsedResponse.refresh_token
+            };
+        }
+        catch (e) {
+            return e;
+        }
+
     }
 
 }
