@@ -23,17 +23,36 @@ export default class Data {
     }
 
     /**
-     * Generic api calling function
+     * Generic API calling function
      *
      * @private
      * @template T
      * @param {string} accessToken
      * @param {string} path
+     * @param {object} [qs]
      * @returns {Promise<IResponse<T>>}
-     *
-     * @memberof Data
      */
     private async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
+        const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
+        try {
+            const response: string = await request(requestOptions);
+            const parsedResponse: IResponse<T> = JSON.parse(response);
+            return parsedResponse;
+        } catch (e) {
+            return e;
+        }
+    }
+
+    /**
+     * Build Request options
+     *
+     * @private
+     * @param {string} accessToken
+     * @param {string} path
+     * @param {object} [qs]
+     * @returns {request.Options}
+     */
+    private buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
         const requestOptions: request.Options = {
             uri: path,
             method: "GET",
@@ -41,32 +60,10 @@ export default class Data {
                 Authorization: "Bearer " + accessToken
             }
         };
-
         if (qs) {
             requestOptions.qs = qs;
         }
-
-        // tslint:disable-next-line:no-console
-        console.log("request options: ", requestOptions);
-
-        try {
-            const response: string = await request(requestOptions);
-            const parsedResponse: IResponse<T> = JSON.parse(response);
-            return parsedResponse;
-        }
-        catch (e) {
-            return e;
-        }
-    }
-
-    /**
-     * Call to /info API.
-     *
-     * @param {string} accessToken
-     * @returns {Promise<IResponse<IInfo>>}
-     */
-    public async info(accessToken: string): Promise<IResponse<IInfo>> {
-        return this.callAPI<IInfo>(accessToken, `${C.API_HOST}/data/v1/info`);
+        return requestOptions;
     }
 
     /**
@@ -77,6 +74,16 @@ export default class Data {
      */
     public async me(accessToken: string): Promise<IResponse<IMe>> {
         return this.callAPI<IMe>(accessToken, `${C.API_HOST}/data/v1/me`);
+    }
+
+    /**
+     * Call to /info API.
+     *
+     * @param {string} accessToken
+     * @returns {Promise<IResponse<IInfo>>}
+     */
+    public async info(accessToken: string): Promise<IResponse<IInfo>> {
+        return this.callAPI<IInfo>(accessToken, `${C.API_HOST}/data/v1/info`);
     }
 
     /**

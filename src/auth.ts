@@ -64,8 +64,7 @@ export default class Auth {
                 access_token: parsedResponse.access_token,
                 refresh_token: parsedResponse.refresh_token
             };
-        }
-        catch (e) {
+        } catch (e) {
             return e;
         }
     }
@@ -98,8 +97,7 @@ export default class Auth {
                 access_token: parsedResponse.access_token,
                 refresh_token: parsedResponse.refresh_token
             };
-        }
-        catch (e) {
+        } catch (e) {
             return e;
         }
 

@@ -1,24 +1,7 @@
 import test from "ava";
 import * as TrueLayer from "./../../index";
 
-// -- Assertions --
-// .pass([message])
-// .fail([message])
-// .truthy(value, [message])
-// .falsy(value, [message])
-// .true(value, [message])
-// .false(value, [message])
-// .is(value, expected, [message])
-// .not(value, expected, [message])
-// .deepEqual(value, expected, [message])
-// .notDeepEqual(value, expected, [message])
-// .throws(function|promise, [error, [message]])
-// .regex(contents, regex, [message])
-// .notRegex(contents, regex, [message])
-// .ifError(error, [message])
-// .snapshot(contents, [message])
-
-// Get access token
+// Get access token from environment variable
 const access_token: string = process.env.access_token;
 
 // Dummy values
@@ -33,6 +16,7 @@ const options: TrueLayer.IOptions = {
     redirect_uri: redirectUri
 };
 
+// Setup the client with dummy options
 const client = new TrueLayer.V1.ApiClient(options);
 const clientData = client.data;
 
