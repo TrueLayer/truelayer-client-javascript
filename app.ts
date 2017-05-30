@@ -14,6 +14,15 @@ const options: TrueLayer.IOptions = {
     redirect_uri
 };
 
+// Create an array of scopes
+const scope: string[] = [
+    "offline_access",
+    "info",
+    "accounts",
+    "transactions",
+    "balance"
+];
+
 const client = new TrueLayer.V1.ApiClient(options);
 const clientAuth = client.auth;
 const clientData = client.data;
@@ -23,7 +32,7 @@ const app = Express();
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-  const authURL = clientAuth.getAuthUrl("offline_access info accounts transactions balance", "abc", true);
+  const authURL = clientAuth.getAuthUrl(scope, "abc", true);
   res.redirect(authURL);
 });
 
@@ -35,19 +44,21 @@ app.use(Parser.urlencoded({
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
-  const tokens: TrueLayer.IAccessTokens = await clientAuth.exchangeCodeForToken(code);
+  const tokens = await clientAuth.exchangeCodeForToken(code);
+  clientAuth.isTokenExpired(tokens.access_token);
+  clientAuth.timeBeforeExpired(tokens.access_token);
   // Info
-  const info: TrueLayer.IResponse<TrueLayer.IInfo> = await clientData.info(tokens.access_token);
+  const info = await clientData.getInfo(tokens.access_token);
   // Me
-  const me: TrueLayer.IResponse<TrueLayer.IMe> = await clientData.me(tokens.access_token);
+  const me = await clientData.getMe(tokens.access_token);
   // Accounts
-  const accounts: TrueLayer.IResponse<TrueLayer.IAccount> = await clientData.accounts(tokens.access_token);
-  const accountsList: [TrueLayer.IAccount] = accounts.results as [TrueLayer.IAccount];
-  const accountInfo: TrueLayer.IResponse<TrueLayer.IAccount> = await clientData.accountInfo(tokens.access_token, accountsList[0].account_id);
+  const accounts = await clientData.getAccounts(tokens.access_token);
+  const accountsList = accounts.results;
+  const accountInfo = await clientData.getAccountInfo(tokens.access_token, accountsList[0].account_id);
   // Transactions
-  const transactions: TrueLayer.IResponse<TrueLayer.ITransaction> = await clientData.transactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+  const transactions = await clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
   // Balance
-  const balance: TrueLayer.IResponse<TrueLayer.IBalance> = await clientData.balance(tokens.access_token, accountsList[0].account_id);
+  const balance = await clientData.getBalance(tokens.access_token, accountsList[0].account_id);
 
   /* tslint:disable:no-console */
   console.log("Info " + JSON.stringify(info));
@@ -58,7 +69,8 @@ app.post("/truelayer-redirect", async (req, res) => {
   console.log("balance " + JSON.stringify(balance));
 
   res.set("Content-Type", "text/plain");
-  res.send(`You sent: ${JSON.stringify(tokens.access_token)} to Express`);
+  res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
+            Refresh Token:  ${JSON.stringify(tokens.refresh_token)}`);
 });
 
 app.listen(5000, () => {

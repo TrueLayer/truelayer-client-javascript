@@ -72,7 +72,7 @@ export default class Data {
      * @param accessToken
      * @returns {Promise<IResponse<IMe>>}
      */
-    public async me(accessToken: string): Promise<IResponse<IMe>> {
+    public async getMe(accessToken: string): Promise<IResponse<IMe>> {
         return this.callAPI<IMe>(accessToken, `${C.API_HOST}/data/v1/me`);
     }
 
@@ -82,7 +82,7 @@ export default class Data {
      * @param {string} accessToken
      * @returns {Promise<IResponse<IInfo>>}
      */
-    public async info(accessToken: string): Promise<IResponse<IInfo>> {
+    public async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
         return this.callAPI<IInfo>(accessToken, `${C.API_HOST}/data/v1/info`);
     }
 
@@ -92,7 +92,7 @@ export default class Data {
      * @param accessToken
      * @returns {Promise<IResponse<IAccount>>}
      */
-    public async accounts(accessToken: string): Promise<IResponse<IAccount>> {
+    public async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
         return this.callAPI<IAccount>(accessToken, `${C.API_HOST}/data/v1/accounts`);
     }
 
@@ -103,7 +103,7 @@ export default class Data {
      * @param accountId
      * @returns {Promise<IResponse<IAccount>>}
      */
-    public async accountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
+    public async getAccountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
         return this.callAPI<IAccount>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}`);
     }
 
@@ -114,7 +114,7 @@ export default class Data {
      * @param accountId
      * @returns {Promise<IResponse<ITransaction>>}
      */
-    public async transactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+    public async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
        if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
            throw Error("Error");
        }
@@ -134,7 +134,7 @@ export default class Data {
      * @param accountId
      * @returns {Promise<IResponse<IBalance>>}
      */
-    public async balance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
+    public async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
         return this.callAPI<IBalance>(accessToken, `${C.API_HOST}/data/v1/accounts/${accountId}/balance`);
     }
 }

@@ -5,7 +5,7 @@ import Auth from "./src/auth";
 
 // Module exports
 export { default as IOptions } from "./src/interfaces/IOptions";
-export { default as IAccessTokens } from "./src/interfaces/IAccessTokens";
+export { default as ITokens } from "./src/interfaces/ITokens";
 export { default as IResponse } from "./src/interfaces/IResponse";
 
 // Endpoint interface exports
