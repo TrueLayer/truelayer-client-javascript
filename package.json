@@ -25,8 +25,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "yarn run clean && tsc -p .",
+    "build": "npm run clean && tsc -p .",
     "lint": "tslint --fix --format verbose *.ts",
-    "test": "yarn run build && ava --verbose dist/test/**/*spec.js"
+    "test": "npm run build && ava --verbose './dist/test/**/*spec.js'"
   }
 }

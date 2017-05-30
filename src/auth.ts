@@ -19,20 +19,28 @@ export default class Auth {
      *
      * @param {string} scope
      * @param {string} nonce
-     * @param {boolean} [mock=C.MOCK]
+     * @param {boolean} mock
      * @param {string} [state]
      * @returns {string}
      */
-    public getAuthUrl(scope: string, nonce: string, mock: boolean = C.MOCK, state?: string): string {
-        return `https://${C.AUTH_HOST}/?` +
+    public getAuthUrl(scope: string, nonce: string, mock?: boolean, state?: string): string {
+        let authUrl: string = `https://${C.AUTH_HOST}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
             `redirect_uri=${this.options.redirect_uri}&` +
             `scope=${scope}&` +
-            `nonce=${nonce}&` +
-            `state=${state}&` +
-            `enable_mock=${mock}`;
+            `nonce=${nonce}`;
+
+        if ( typeof state !== "undefined" ) {
+            authUrl = authUrl + `&state=${state}`;
+        }
+
+        if ( typeof mock !== "undefined") {
+            authUrl = authUrl + `&enable_mock=${mock}`;
+        }
+
+        return authUrl;
     }
 
     /**
