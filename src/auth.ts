@@ -7,6 +7,7 @@ import C from "./constants";
 
 // External imports
 import * as request from "request-promise";
+import * as validURL from "valid-url";
 import * as decode from "jwt-decode";
 
 export default class Auth {
@@ -22,13 +23,18 @@ export default class Auth {
     /**
      * Builds a correctly formatted authentication url
      *
+     * @param {string} redirectURI
      * @param {string} scope
      * @param {string} nonce
-     * @param {boolean} [mock=C.MOCK]
+     * @param {boolean} enableMock
      * @param {string} [state]
      * @returns {string}
      */
-    public getAuthUrl(scope: string[], nonce: string, enableMock: boolean = C.MOCK, state?: string): string {
+    public getAuthUrl(redirectURI: string, scope: string[], nonce: string, enableMock: boolean = C.MOCK, state?: string): string {
+        // Check for valid redirect url
+        if (!validURL.isUri(redirectURI)) {
+            throw new Error("Redirect uri provided is invalid");
+        }
         // Check for valid scope values
         for (const grant of scope) {
             if (!this.isValidScope(grant)) {
@@ -38,15 +44,22 @@ export default class Auth {
         }
         // Concatenate scope array
         const concatScope: string = scope.join(" ");
-        return `https://${C.AUTH_HOST}/?` +
+        let authUrl: string = `https://${C.AUTH_HOST}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
-            `redirect_uri=${this.options.redirect_uri}&` +
+            `redirect_uri=${redirectURI}&` +
             `scope=${concatScope}&` +
             `nonce=${nonce}&` +
             `state=${state}&` +
             `enable_mock=${enableMock}`;
+        if ( typeof state !== "undefined" ) {
+            authUrl = authUrl + `&state=${state}`;
+        }
+        if ( typeof enableMock !== "undefined") {
+            authUrl = authUrl + `&enable_mock=${enableMock}`;
+        }
+        return authUrl;
     }
 
     /**
@@ -70,10 +83,15 @@ export default class Auth {
     /**
      * Exchanges an auth code for an access token
      *
+     * @param {string} redirectURI
      * @param {string} code
      * @returns {Promise<IAccessTokens>}
      */
-    public async exchangeCodeForToken(code: string): Promise<ITokens> {
+    public async exchangeCodeForToken(redirectURI: string, code: string) {
+        if (!validURL.isUri(redirectURI)) {
+            throw new Error("Redirect uri provided is invalid");
+        }
+
         const requestOptions: request.Options = {
             uri: `https://${C.AUTH_HOST}/connect/token`,
             method: "POST",
@@ -84,7 +102,7 @@ export default class Auth {
                 grant_type: "authorization_code",
                 client_id: this.options.client_id,
                 client_secret: this.options.client_secret,
-                redirect_uri: this.options.redirect_uri,
+                redirect_uri: redirectURI,
                 code
             }
         };

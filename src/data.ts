@@ -1,6 +1,4 @@
-// Imports
-import * as request from "request-promise";
-import * as moment from "moment";
+// Internal imports
 import IResponse from "./interfaces/IResponse";
 import IOptions from "./interfaces/IOptions";
 import C from "./constants";
@@ -11,6 +9,10 @@ import IAccount from "./model/account";
 import IBalance from "./model/balance";
 import IInfo from "./model/info";
 import IMe from "./model/me";
+
+// External imports
+import * as request from "request-promise";
+import * as moment from "moment";
 
 export default class Data {
 

@@ -12,8 +12,7 @@ const redirectUri: string = "http://localhost:5000/truelayer-redirect";
 // Build 'options' to pass to APIClient
 const options: TrueLayer.IOptions = {
     client_id: clientId,
-    client_secret: clientSecret,
-    redirect_uri: redirectUri
+    client_secret: clientSecret
 };
 
 // Setup the client with dummy options
