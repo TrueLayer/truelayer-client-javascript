@@ -10,8 +10,7 @@ const redirect_uri: string = process.env.redirect_uri;
 // Build 'options' to pass to APIClient
 const options: TrueLayer.IOptions = {
     client_id,
-    client_secret,
-    redirect_uri
+    client_secret
 };
 
 const client = new TrueLayer.V1.ApiClient(options);
@@ -23,7 +22,8 @@ const app = Express();
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-  const authURL = clientAuth.getAuthUrl("offline_access info accounts transactions balance", "abc", true);
+    // TODO can it access a different uri?
+  const authURL = clientAuth.getAuthUrl(redirect_uri, "offline_access info accounts transactions balance", "abc", true);
   res.redirect(authURL);
 });
 
@@ -35,7 +35,7 @@ app.use(Parser.urlencoded({
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
-  const tokens: TrueLayer.IAccessTokens = await clientAuth.exchangeCodeForToken(code);
+  const tokens: TrueLayer.IAccessTokens = await clientAuth.exchangeCodeForToken("http://what_happes?", code);
   // Info
   const info: TrueLayer.IResponse<TrueLayer.IInfo> = await clientData.info(tokens.access_token);
   // Me

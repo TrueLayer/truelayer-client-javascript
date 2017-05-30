@@ -1,4 +1,5 @@
 import * as request from "request-promise";
+import * as validURL from "valid-url";
 import IExchangeResponse from "./interfaces/IExchangeResponse";
 import IAccessTokens from "./interfaces/IAccessTokens";
 import IOptions from "./interfaces/IOptions";
@@ -17,18 +18,23 @@ export default class Auth {
     /**
      * Builds a correctly formatted authentication url
      *
+     * @param {string} redirectURI
      * @param {string} scope
      * @param {string} nonce
-     * @param {boolean} mock
+     * @param {boolean} enableMock
      * @param {string} [state]
      * @returns {string}
      */
-    public getAuthUrl(scope: string, nonce: string, mock?: boolean, state?: string): string {
+    public getAuthUrl(redirectURI: string, scope: string, nonce: string, enableMock?: boolean, state?: string): string {
+        if (!validURL.isUri(redirectURI)) {
+            throw new Error("Redirect uri provided is invalid");
+        }
+
         let authUrl: string = `https://${C.AUTH_HOST}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
-            `redirect_uri=${this.options.redirect_uri}&` +
+            `redirect_uri=${redirectURI}&` +
             `scope=${scope}&` +
             `nonce=${nonce}`;
 
@@ -36,8 +42,8 @@ export default class Auth {
             authUrl = authUrl + `&state=${state}`;
         }
 
-        if ( typeof mock !== "undefined") {
-            authUrl = authUrl + `&enable_mock=${mock}`;
+        if ( typeof enableMock !== "undefined") {
+            authUrl = authUrl + `&enable_mock=${enableMock}`;
         }
 
         return authUrl;
@@ -46,10 +52,15 @@ export default class Auth {
     /**
      * Exchanges an auth code for an access token
      *
+     * @param {string} redirectURI
      * @param {string} code
      * @returns {Promise<IAccessTokens>}
      */
-    public async exchangeCodeForToken(code: string): Promise<IAccessTokens> {
+    public async exchangeCodeForToken(redirectURI: string, code: string) {
+        if (!validURL.isUri(redirectURI)) {
+            throw new Error("Redirect uri provided is invalid");
+        }
+
         const requestOptions: request.Options = {
             uri: `https://${C.AUTH_HOST}/connect/token`,
             method: "POST",
@@ -60,7 +71,7 @@ export default class Auth {
                 grant_type: "authorization_code",
                 client_id: this.options.client_id,
                 client_secret: this.options.client_secret,
-                redirect_uri: this.options.redirect_uri,
+                redirect_uri: redirectURI,
                 code
             }
         };

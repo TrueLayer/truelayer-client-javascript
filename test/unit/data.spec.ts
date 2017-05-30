@@ -4,8 +4,7 @@ import * as TrueLayer from "../../index";
 // Build 'options' to pass to APIClient
 const options: TrueLayer.IOptions = {
     client_id: "client_id",
-    client_secret: "client_secret",
-    redirect_uri: "redirect_uri"
+    client_secret: "client_secret"
 };
 
 const client = new TrueLayer.V1.ApiClient(options);

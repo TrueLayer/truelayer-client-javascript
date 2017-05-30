@@ -4,8 +4,7 @@ import * as TrueLayer from "../../index";
 // Build 'options' to pass to APIClient
 const options: TrueLayer.IOptions = {
     client_id: "client_id",
-    client_secret: "client_secret",
-    redirect_uri: "redirect_uri"
+    client_secret: "client_secret"
 };
 
 const clientAuth = new TrueLayer.V1.ApiClient(options).auth;
@@ -13,8 +12,8 @@ const clientAuth = new TrueLayer.V1.ApiClient(options).auth;
 test("Get authentication URL", (t) => {
     t.plan(1);
 
-    const response = clientAuth.getAuthUrl("scope", "nonce", false, "state");
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=redirect_uri&scope=scope&nonce=nonce&state=state&enable_mock=false";
+    const response = clientAuth.getAuthUrl("http://url", "scope", "nonce", false, "state");
+    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=scope&nonce=nonce&state=state&enable_mock=false";
 
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
@@ -22,10 +21,24 @@ test("Get authentication URL", (t) => {
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
 
-    const response = clientAuth.getAuthUrl("", "");
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=redirect_uri&scope=&nonce=";
+    const response = clientAuth.getAuthUrl("http://url", "", "");
+    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=&nonce=";
 
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
+});
+
+test("Get authentication URL - invalid url", (t) => {
+    const error = t.throws(() => {
+        clientAuth.getAuthUrl("url", "", "");
+    });
+
+    t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
+});
+
+test("Exchange code for token - invalid url", async (t) => {
+    const error = await t.throws(clientAuth.exchangeCodeForToken("url", "code"));
+
+    t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 
 // test("Exchange code for token", (t) => {
