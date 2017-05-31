@@ -32,7 +32,7 @@ const app = Express();
 // Redirect to the auth server
 app.get("/", (req, res) => {
 // TODO: can it access a different uri?
-  const authURL = clientAuth.getAuthUrl(redirect_uri, scope, "abc", true);
+  const authURL = clientAuth.getAuthUrl(redirect_uri, scope, "abc", undefined, true);
   res.redirect(authURL);
 });
 

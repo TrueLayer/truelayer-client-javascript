@@ -1,6 +1,9 @@
 import test from "ava";
 import * as TrueLayer from "./../../index";
 
+if (process.env.access_token) {
+} else {
+}
 // Get access token from environment variable
 const access_token: string = process.env.access_token;
 

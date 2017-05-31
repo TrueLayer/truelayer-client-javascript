@@ -24,13 +24,13 @@ export default class Auth {
      * Builds a correctly formatted authentication url
      *
      * @param {string} redirectURI
-     * @param {string} scope
+     * @param {string[]} scope
      * @param {string} nonce
-     * @param {boolean} enableMock
      * @param {string} [state]
+     * @param {boolean} [enableMock]
      * @returns {string}
      */
-    public getAuthUrl(redirectURI: string, scope: string[], nonce: string, enableMock: boolean = C.MOCK, state?: string): string {
+    public getAuthUrl(redirectURI: string, scope: string[], nonce: string, state?: string, enableMock?: boolean): string {
         // Check for valid redirect url
         if (!validURL.isUri(redirectURI)) {
             throw new Error("Redirect uri provided is invalid");
@@ -38,11 +38,9 @@ export default class Auth {
         // Check for valid scope values
         for (const grant of scope) {
             if (!this.isValidScope(grant)) {
-                // TODO: Better error throw
-                throw Error("Error");
+                throw Error("Error");   // TODO: Better error throw
             }
         }
-        // Concatenate scope array
         const concatScope: string = scope.join(" ");
         let authUrl: string = `https://${C.AUTH_HOST}/?` +
             `response_type=code&` +
@@ -51,13 +49,13 @@ export default class Auth {
             `redirect_uri=${redirectURI}&` +
             `scope=${concatScope}&` +
             `nonce=${nonce}&` +
-            `state=${state}&` +
-            `enable_mock=${enableMock}`;
+            `state=${state}`;
+
         if ( typeof state !== "undefined" ) {
-            authUrl = authUrl + `&state=${state}`;
+            authUrl += `&state=${state}`;
         }
         if ( typeof enableMock !== "undefined") {
-            authUrl = authUrl + `&enable_mock=${enableMock}`;
+            authUrl += `&enable_mock=${enableMock}`;
         }
         return authUrl;
     }
