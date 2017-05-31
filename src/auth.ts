@@ -83,9 +83,9 @@ export default class Auth {
      *
      * @param {string} redirectURI
      * @param {string} code
-     * @returns {Promise<IAccessTokens>}
+     * @returns {Promise<ITokens>}
      */
-    public async exchangeCodeForToken(redirectURI: string, code: string) {
+    public async exchangeCodeForToken(redirectURI: string, code: string): Promise<ITokens> {
         if (!validURL.isUri(redirectURI)) {
             throw new Error("Redirect uri provided is invalid");
         }

@@ -29,6 +29,21 @@ const clientData = client.data;
 // Create Express instance
 const app = Express();
 
+/**
+ * Wrapper function that deals with try/catch blocks
+ * @param f - TrueLayer endpoint method
+ * @returns {()=>Promise<TrueLayer.IResponse<T>|any>}
+ */
+function endpointWrapper<T>(f: Promise<TrueLayer.IResponse<T>>) {
+    return async () => {
+        try {
+            return await f;
+        } catch (error) {
+            return error;
+        }
+    };
+}
+
 // Redirect to the auth server
 app.get("/", (req, res) => {
 // TODO: can it access a different uri?
@@ -44,29 +59,31 @@ app.use(Parser.urlencoded({
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
   const code: string = req.body.code;
-  const tokens = await clientAuth.exchangeCodeForToken("http://what_happes?", code);
+  const tokens = await clientAuth.exchangeCodeForToken(redirect_uri, code);
   clientAuth.isTokenExpired(tokens.access_token);
   clientAuth.timeBeforeExpired(tokens.access_token);
+
   // Info
-  const info = await clientData.getInfo(tokens.access_token);
-  // Me
-  const me = await clientData.getMe(tokens.access_token);
+  const info = await endpointWrapper(clientData.getInfo(tokens.access_token))();
+  // Me - Error
+  const me = await endpointWrapper(clientData.getMe("bananas"))();
   // Accounts
-  const accounts = await clientData.getAccounts(tokens.access_token);
-  const accountsList = accounts.results;
-  const accountInfo = await clientData.getAccountInfo(tokens.access_token, accountsList[0].account_id);
+  const accounts = await endpointWrapper(clientData.getAccounts(tokens.access_token))();
+  const accountsList = JSON.parse(accounts).results;
+  // Account info - Error
+  const accountInfo = await endpointWrapper(clientData.getAccountInfo(tokens.access_token, "banana"))();
   // Transactions
-  const transactions = await clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+  const transactions = await endpointWrapper(clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30"))();
   // Balance
-  const balance = await clientData.getBalance(tokens.access_token, accountsList[0].account_id);
+  const balance = await endpointWrapper(clientData.getBalance(tokens.access_token, accountsList[0].account_id))();
 
   /* tslint:disable:no-console */
-  console.log("Info " + JSON.stringify(info));
-  console.log("Me " + JSON.stringify(me));
-  console.log("Accounts " + JSON.stringify(accounts));
-  console.log("Account info " + JSON.stringify(accountInfo));
-  console.log("transactions " + JSON.stringify(transactions));
-  console.log("balance " + JSON.stringify(balance));
+  console.log("Info " + info);
+  console.log("Me ERROR" + me);
+  console.log("Accounts " + accounts);
+  console.log("Account info ERROR" + accountInfo);
+  console.log("transactions " + transactions);
+  console.log("balance " + balance);
 
   res.set("Content-Type", "text/plain");
   res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
