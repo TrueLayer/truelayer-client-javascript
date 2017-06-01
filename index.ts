@@ -1,34 +1,31 @@
 // Imports
-import IOptions from "./src/interfaces/IOptions";
-import Data from "./src/data";
-import Auth from "./src/auth";
+import IOptions from "./src/v1/interfaces/auth/IOptions";
+import Data from "./src/v1/data";
+import Auth from "./src/v1/auth";
 
 // Module exports
-export { default as IOptions } from "./src/interfaces/IOptions";
-export { default as ITokens } from "./src/interfaces/ITokens";
-export { default as IResponse } from "./src/interfaces/IResponse";
+export { default as IResponse } from "./src/v1/interfaces/data/IResponse";
+export { default as IOptions } from "./src/v1/interfaces/auth/IOptions";
+export { default as ITokens } from "./src/v1/interfaces/auth/ITokens";
 
 // Endpoint interface exports
-export { default as IAccount } from "./src/model/account";
-export { default as IBalance } from "./src/model/balance";
-export { default as IInfo } from "./src/model/info";
-export { default as IMe } from "./src/model/me";
-export { default as ITransaction } from "./src/model/transaction";
+export { default as ITransaction } from "./src/v1/interfaces/data/ITransaction";
+export { default as IAccount } from "./src/v1/interfaces/data/IAccount";
+export { default as IBalance } from "./src/v1/interfaces/data/IBalance";
+export { default as IInfo } from "./src/v1/interfaces/data/IInfo";
+export { default as IMe } from "./src/v1/interfaces/data/IMe";
 
 export namespace V1 {
     export class ApiClient {
 
-        // Private
-        private options: IOptions;
         // Pulbic
         public auth: Auth;
         public data: Data;
 
         // Constructor
         constructor(options: IOptions) {
-            this.options = options;
-            this.auth = new Auth(this.options);
-            this.data = new Data(this.options);
+            this.auth = new Auth(options);
+            this.data = new Data();
         }
     }
 }

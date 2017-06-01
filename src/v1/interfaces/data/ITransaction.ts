@@ -1,4 +1,4 @@
-import IBalance from "./balance";
+import IBalance from "./IBalance";
 
 interface ITransaction {
     timestamp: string;

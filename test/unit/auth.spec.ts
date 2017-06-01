@@ -18,21 +18,24 @@ const scope: string[] = [
 
 const clientAuth = new TrueLayer.V1.ApiClient(options).auth;
 
-test("Get authentication URL", (t) => {
+test("Get authentication URL - without mock enabled", (t) => {
     t.plan(1);
+    const actual = clientAuth.getAuthUrl("http://url", scope, "nonce", "state", false);
+    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state";
+    t.is(actual, expected, "Authentication url does not have the expected value");
+});
 
-    const response = clientAuth.getAuthUrl("http://url", scope, "nonce", "state", false);
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=scope&nonce=nonce&state=state&enable_mock=false";
-
-    t.is(response, expectedUrl, "Authentication url does not have the expected value");
+test("Get authentication URL - with mock enabled", (t) => {
+    t.plan(1);
+    const actual = clientAuth.getAuthUrl("http://url", scope, "nonce", "state", true);
+    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state&enable_mock=true";
+    t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
-
     const response = clientAuth.getAuthUrl("http://url", scope, "nouce");
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=&nonce=";
-
+    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nouce";
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 
@@ -40,13 +43,11 @@ test("Get authentication URL - invalid url", (t) => {
     const error = t.throws(() => {
         clientAuth.getAuthUrl("url", scope, "nouce");
     });
-
     t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 
 test("Exchange code for token - invalid url", async (t) => {
     const error = await t.throws(clientAuth.exchangeCodeForToken("url", "code"));
-
     t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 

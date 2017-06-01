@@ -46,50 +46,49 @@ function endpointWrapper<T>(f: Promise<TrueLayer.IResponse<T>>) {
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-// TODO: can it access a different uri?
-  const authURL = clientAuth.getAuthUrl(redirect_uri, scope, "abc", undefined, true);
-  res.redirect(authURL);
+    // TODO: can it access a different uri?
+    const authURL = clientAuth.getAuthUrl(redirect_uri, scope, "nouce", undefined, true);
+    res.redirect(authURL);
 });
 
 // Body parser setup
 app.use(Parser.urlencoded({
-  extended: true
+    extended: true
 }));
 
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
-  const code: string = req.body.code;
-  const tokens = await clientAuth.exchangeCodeForToken(redirect_uri, code);
-  clientAuth.isTokenExpired(tokens.access_token);
-  clientAuth.timeBeforeExpired(tokens.access_token);
+    const code: string = req.body.code;
+    const tokens = await clientAuth.exchangeCodeForToken(redirect_uri, code);
+    clientAuth.isTokenExpired(tokens.access_token);
+    clientAuth.timeBeforeExpired(tokens.access_token);
 
-  // Info
-  const info = await endpointWrapper(clientData.getInfo(tokens.access_token))();
-  // Me - Error
-  const me = await endpointWrapper(clientData.getMe("bananas"))();
-  // Accounts
-  const accounts = await endpointWrapper(clientData.getAccounts(tokens.access_token))();
-  const accountsList = JSON.parse(accounts).results;
-  // Account info - Error
-  const accountInfo = await endpointWrapper(clientData.getAccountInfo(tokens.access_token, "banana"))();
-  // Transactions
-  const transactions = await endpointWrapper(clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30"))();
-  // Balance
-  const balance = await endpointWrapper(clientData.getBalance(tokens.access_token, accountsList[0].account_id))();
+    // Info
+    const info = await clientData.getInfo(tokens.access_token);
+    // Me
+    const me = await clientData.getMe(tokens.access_token);
+    // Accounts
+    const accounts = await clientData.getAccounts(tokens.access_token);
+    const accountsList = accounts.results;
+    const accountInfo = await clientData.getAccountInfo(tokens.access_token, accountsList[0].account_id);
+    // Transactions
+    const transactions = await clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+    // Balance
+    const balance = await clientData.getBalance(tokens.access_token, accountsList[0].account_id);
 
-  /* tslint:disable:no-console */
-  console.log("Info " + info);
-  console.log("Me ERROR" + me);
-  console.log("Accounts " + accounts);
-  console.log("Account info ERROR" + accountInfo);
-  console.log("transactions " + transactions);
-  console.log("balance " + balance);
+    /* tslint:disable:no-console */
+    console.log("Info " + JSON.stringify(info));
+    console.log("Me " + JSON.stringify(me));
+    console.log("Accounts " + JSON.stringify(accounts));
+    console.log("Account info " + JSON.stringify(accountInfo));
+    console.log("transactions " + JSON.stringify(transactions));
+    console.log("balance " + JSON.stringify(balance));
 
-  res.set("Content-Type", "text/plain");
-  res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
+    res.set("Content-Type", "text/plain");
+    res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
             Refresh Token:  ${JSON.stringify(tokens.refresh_token)}`);
 });
 
 app.listen(5000, () => {
-  // console.log("Example app listening on port 5000...");
+    // console.log("Example app listening on port 5000...");
 });

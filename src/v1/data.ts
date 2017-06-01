@@ -1,15 +1,15 @@
 // Internal imports
-import IResponse from "./interfaces/IResponse";
-import IOptions from "./interfaces/IOptions";
 import { TruelayerErrors } from "./errors";
+import IResponse from "./interfaces/data/IResponse";
+import IOptions from "./interfaces/auth/IOptions";
 import C from "./constants";
 
 // Endpoint interfaces
-import ITransaction from "./model/transaction";
-import IAccount from "./model/account";
-import IBalance from "./model/balance";
-import IInfo from "./model/info";
-import IMe from "./model/me";
+import ITransaction from "./interfaces/data/ITransaction";
+import IAccount from "./interfaces/data/IAccount";
+import IBalance from "./interfaces/data/IBalance";
+import IInfo from "./interfaces/data/IInfo";
+import IMe from "./interfaces/data/IMe";
 
 // External imports
 import * as request from "request-promise";
@@ -17,25 +17,16 @@ import * as moment from "moment";
 
 export default class Data {
 
-    // Private
-    private readonly options: IOptions;
-
-    // Constructor
-    constructor(options: IOptions) {
-        this.options = options;
-    }
-
     /**
      * Generic API calling function
      *
-     * @private
      * @template T
      * @param {string} accessToken
      * @param {string} path
      * @param {object} [qs]
      * @returns {Promise<IResponse<T>>}
      */
-    private async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
+    public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
         return await request(requestOptions);
     }
@@ -48,7 +39,7 @@ export default class Data {
      * @param {object} [qs]
      * @returns {request.Options}
      */
-    private buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
+    public buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
         const requestOptions: request.Options = {
             uri: path,
             method: "GET",

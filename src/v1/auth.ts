@@ -1,8 +1,8 @@
 // Internal imports
-import IAuthResponse from "./interfaces/IAuthResponse";
-import IOptions from "./interfaces/IOptions";
-import ITokens from "./interfaces/ITokens";
-import IJWT from "./interfaces/IJWT";
+import IAuthResponse from "./interfaces/auth/IAuthResponse";
+import IOptions from "./interfaces/auth/IOptions";
+import ITokens from "./interfaces/auth/ITokens";
+import IJWT from "./interfaces/auth/IJWT";
 import C from "./constants";
 
 // External imports
@@ -48,13 +48,12 @@ export default class Auth {
             `client_id=${this.options.client_id}&` +
             `redirect_uri=${redirectURI}&` +
             `scope=${concatScope}&` +
-            `nonce=${nonce}&` +
-            `state=${state}`;
+            `nonce=${nonce}`;
 
-        if ( typeof state !== "undefined" ) {
+        if (typeof state !== "undefined") {
             authUrl += `&state=${state}`;
         }
-        if ( typeof enableMock !== "undefined") {
+        if (typeof enableMock !== "undefined" && enableMock) {
             authUrl += `&enable_mock=${enableMock}`;
         }
         return authUrl;
