@@ -18,58 +18,57 @@ if (process.env.access_token) {
 
     // Setup the client with dummy options
     const client = new TrueLayer.V1.ApiClient(options);
-    const clientData = client.data;
 
     test("Get from /me returns success", async (t) => {
         t.plan(1);
-        const response = await clientData.getMe(access_token);
+        const response = await client.data.getMe(access_token);
         t.true(response.success);
     });
 
     test("Get from /info returns success", async (t) => {
         t.plan(1);
-        const response = await clientData.getInfo(access_token);
+        const response = await client.data.getInfo(access_token);
         t.true(response.success);
     });
 
     test("Get from /accounts returns success", async (t) => {
         t.plan(1);
-        const response = await clientData.getAccounts(access_token);
+        const response = await client.data.getAccounts(access_token);
         t.true(response.success);
     });
 
     test("Get from /acccounts returns success for each result account", async (t) => {
-        const resp = await clientData.getAccounts(access_token);
+        const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
         t.plan(assertions);
 
         for (const account of accounts) {
-            const response = await clientData.getAccountInfo(access_token, account.account_id);
+            const response = await client.data.getAccountInfo(access_token, account.account_id);
             t.true(response.success);
         }
     });
 
     test("Get from /accounts/{id}/transactions returns success for each result account", async (t) => {
-        const resp = await clientData.getAccounts(access_token);
+        const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
         t.plan(assertions);
 
         for (const account of accounts) {
-            const response = await clientData.getTransactions(access_token, account.account_id, "2017-04-20", "2017-04-30");
+            const response = await client.data.getTransactions(access_token, account.account_id, "2017-04-20", "2017-04-30");
             t.true(response.success);
         }
     });
 
     test("Get from /accounts/{id}/balance returns success for each result account", async (t) => {
-        const resp = await clientData.getAccounts(access_token);
+        const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
         t.plan(assertions);
 
         for (const account of accounts) {
-            const response = await clientData.getBalance(access_token, account.account_id);
+            const response = await client.data.getBalance(access_token, account.account_id);
             t.true(response.success);
         }
     });

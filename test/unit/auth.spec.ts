@@ -51,6 +51,9 @@ test("Exchange code for token - invalid url", async (t) => {
     t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 
+// TODO: test case for: clientAuth.isTokenExpired(tokens.access_token);
+// TODO: test case for: clientAuth.timeBeforeExpired(tokens.access_token);
+
 // test("Exchange code for token", (t) => {
 //     t.plan(1);
 //

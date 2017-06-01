@@ -36,7 +36,7 @@ export default class Fixtures {
     };
 
     // Expected /Me json response
-    public readonly meResponse: object = JSON.parse(
+    public readonly meResponse: string = JSON.parse(
         `{
             "success": true,
                 "results": [
@@ -49,7 +49,7 @@ export default class Fixtures {
         }`);
 
     // Expected /Info json response string
-    public readonly infoResponse: object = JSON.parse(
+    public readonly infoResponse: string = JSON.parse(
         `{
             "success": true,
             "results": [
@@ -76,7 +76,7 @@ export default class Fixtures {
         }`);
 
     // Expected /Accounts json response string
-    public readonly accountsResponse: object = JSON.parse(
+    public readonly accountsResponse: string = JSON.parse(
         `{
             "success": true,
                 "results": [
@@ -108,7 +108,7 @@ export default class Fixtures {
         }`);
 
     // Expected /Accounts/{id} json response
-    public readonly accountResponse: object = JSON.parse(
+    public readonly accountResponse: string = JSON.parse(
         `{
             "success": true,
                 "results": [
@@ -128,7 +128,7 @@ export default class Fixtures {
         }`);
 
     // Expected /Balance json response
-    public readonly balanceResponse: object = JSON.parse(
+    public readonly balanceResponse: string = JSON.parse(
         `{
             "success": true,
                 "results": [
@@ -138,7 +138,7 @@ export default class Fixtures {
                         "current": 1161.2,
                         "update_timestamp": "2017-02 - 07T17: 33:30.001222Z"
                     }
-          )     ]
+               ]
         }`);
 
     // Expected /Transactions json response

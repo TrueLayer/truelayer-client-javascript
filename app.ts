@@ -22,9 +22,8 @@ const scope: string[] = [
     "balance"
 ];
 
+// Create TrueLayer client instance
 const client = new TrueLayer.V1.ApiClient(options);
-const clientAuth = client.auth;
-const clientData = client.data;
 
 // Create Express instance
 const app = Express();
@@ -47,7 +46,7 @@ function endpointWrapper<T>(f: Promise<TrueLayer.IResponse<T>>) {
 // Redirect to the auth server
 app.get("/", (req, res) => {
     // TODO: can it access a different uri?
-    const authURL = clientAuth.getAuthUrl(redirect_uri, scope, "nouce", undefined, true);
+    const authURL = client.auth.getAuthUrl(redirect_uri, scope, "nouce", undefined, true);
     res.redirect(authURL);
 });
 
@@ -59,30 +58,29 @@ app.use(Parser.urlencoded({
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
     const code: string = req.body.code;
-    const tokens = await clientAuth.exchangeCodeForToken(redirect_uri, code);
-    clientAuth.isTokenExpired(tokens.access_token);
-    clientAuth.timeBeforeExpired(tokens.access_token);
+    const tokens = await client.auth.exchangeCodeForToken(redirect_uri, code);
 
     // Info
-    const info = await clientData.getInfo(tokens.access_token);
-    // Me
-    const me = await clientData.getMe(tokens.access_token);
+    const info = await endpointWrapper(client.data.getInfo(tokens.access_token))();
+    // Me - Error
+    const me = await endpointWrapper(client.data.getMe("bananas"))();
     // Accounts
-    const accounts = await clientData.getAccounts(tokens.access_token);
-    const accountsList = accounts.results;
-    const accountInfo = await clientData.getAccountInfo(tokens.access_token, accountsList[0].account_id);
+    const accounts = await endpointWrapper(client.data.getAccounts(tokens.access_token))();
+    const accountsList = JSON.parse(accounts).results;
+    // Account info - Error
+    const accountInfo = await endpointWrapper(client.data.getAccountInfo(tokens.access_token, "banana"))();
     // Transactions
-    const transactions = await clientData.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+    const transactions = await endpointWrapper(client.data.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30"))();
     // Balance
-    const balance = await clientData.getBalance(tokens.access_token, accountsList[0].account_id);
+    const balance = await endpointWrapper(client.data.getBalance(tokens.access_token, accountsList[0].account_id))();    /* tslint:disable:no-console */
 
     /* tslint:disable:no-console */
-    console.log("Info " + JSON.stringify(info));
-    console.log("Me " + JSON.stringify(me));
-    console.log("Accounts " + JSON.stringify(accounts));
-    console.log("Account info " + JSON.stringify(accountInfo));
-    console.log("transactions " + JSON.stringify(transactions));
-    console.log("balance " + JSON.stringify(balance));
+    console.log("Info " + info);
+    console.log("Me ERROR" + me);
+    console.log("Accounts " + accounts);
+    console.log("Account info ERROR" + accountInfo);
+    console.log("transactions " + transactions);
+    console.log("balance " + balance);
 
     res.set("Content-Type", "text/plain");
     res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
@@ -90,5 +88,5 @@ app.post("/truelayer-redirect", async (req, res) => {
 });
 
 app.listen(5000, () => {
-    // console.log("Example app listening on port 5000...");
+    console.log("Example app listening on port 5000...");
 });

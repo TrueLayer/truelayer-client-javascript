@@ -28,8 +28,9 @@ export default class Data {
      */
     public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
-        return await request(requestOptions);
+        return await request.get(requestOptions);
     }
+
     /**
      * Build Request options
      *
