@@ -1,7 +1,7 @@
 export interface IResponse<T> {
     success: boolean;
     error?: IError;
-    results: [T];
+    results: T[];
 }
 
 export interface IError {
