@@ -1,6 +1,6 @@
 // Internal imports
+import Constants from "./../../src/v1/constants";
 import Data from "./../../src/v1/data";
-import C from "./../../src/v1/constants";
 import Fixtures from "./fixtures";
 
 // Endpoint interface exports
@@ -27,7 +27,7 @@ const mock = sinon.sandbox.create();
 
 test("buildRequestOptions() - returns well formed request options - required params", async (t) => {
     t.plan(1);
-    const actual = await data.buildRequestOptions(fixtures.accessToken, `${C.API_HOST}/data/v1/info`);
+    const actual = await data.buildRequestOptions(fixtures.accessToken, `${Constants.API_HOST}/data/v1/info`);
     const expected = fixtures.requestOptions;
     t.deepEqual(actual, expected, "Incorrect response object.");
 });
@@ -38,7 +38,7 @@ test("buildRequestOptions() - returns well formed request options - all params",
         to: "2017-04-30"
     };
     t.plan(1);
-    const actual = await data.buildRequestOptions(fixtures.accessToken, `${C.API_HOST}/data/v1/info`, qs);
+    const actual = await data.buildRequestOptions(fixtures.accessToken, `${Constants.API_HOST}/data/v1/info`, qs);
     const expected = fixtures.requestOptionsQs;
     t.deepEqual(actual, expected, "Incorrect response object.");
 });

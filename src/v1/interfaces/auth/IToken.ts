@@ -1,6 +1,6 @@
-interface ITokens {
+interface IToken {
     access_token: string;
     refresh_token: string;
 }
 
-export default ITokens;
+export default IToken;

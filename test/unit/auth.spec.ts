@@ -1,5 +1,14 @@
-import test from "ava";
+// Internal imports
 import * as TrueLayer from "../../index";
+import IAuthResponse from "./../../src/v1/interfaces/auth/IAuthResponse";
+import IToken from "./../../src/v1/interfaces/auth/IToken";
+import Constants from "./../../src/v1/constants";
+import Fixtures from "./fixtures";
+
+// External import
+import * as request from "request-promise";
+import * as sinon from "sinon";
+import test from "ava";
 
 // Build 'options' to pass to APIClient
 const options: TrueLayer.IOptions = {
@@ -16,69 +25,77 @@ const scope: string[] = [
     "balance"
 ];
 
-const clientAuth = new TrueLayer.V1.ApiClient(options).auth;
+const client = new TrueLayer.V1.ApiClient(options);
+
+let fixtures: Fixtures;
+
+test.before((t) => {
+    fixtures = new Fixtures();
+});
 
 test("Get authentication URL - without mock enabled", (t) => {
     t.plan(1);
-    const actual = clientAuth.getAuthUrl("http://url", scope, "nonce", "state", false);
+    const actual = client.auth.getAuthUrl("http://url", scope, "nonce", "state", false);
     const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - with mock enabled", (t) => {
     t.plan(1);
-    const actual = clientAuth.getAuthUrl("http://url", scope, "nonce", "state", true);
+    const actual = client.auth.getAuthUrl("http://url", scope, "nonce", "state", true);
     const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state&enable_mock=true";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
-    const response = clientAuth.getAuthUrl("http://url", scope, "nouce");
+    const response = client.auth.getAuthUrl("http://url", scope, "nouce");
     const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nouce";
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - invalid url", (t) => {
+    t.plan(2);
     const error = t.throws(() => {
-        clientAuth.getAuthUrl("url", scope, "nouce");
+        client.auth.getAuthUrl("url", scope, "nouce");
     });
     t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 
 test("Exchange code for token - invalid url", async (t) => {
-    const error = await t.throws(clientAuth.exchangeCodeForToken("url", "code"));
+    t.plan(2);
+    const error = await t.throws(client.auth.exchangeCodeForToken("url", "code"));
     t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
 });
 
-// TODO: test case for: clientAuth.isTokenExpired(tokens.access_token);
-// TODO: test case for: clientAuth.timeBeforeExpired(tokens.access_token);
+test("isTokenExpired returns true on expired token", async (t) => {
+    t.plan(1);
+    const expired = client.auth.isTokenExpired(fixtures.accessToken);
+    t.true(expired);
+});
 
-// test("Exchange code for token", (t) => {
-//     t.plan(1);
-//
-//     const request = nock("https://auth.truelayer.com", {
-//         reqHeaders: {
-//             "Content-Type": "application/x-www-form-urlencoded"
-//             }
-//         })
-//         .post("/connect/token", {
-//             grant_type: "authorization_code",
-//             client_id: this.options.client_id,
-//             client_secret: this.options.client_secret,
-//             redirect_uri: this.options.redirect_uri,
-//             code: "code"
-//         })
-//         .reply(200, {
-//             access_token: "access_token",
-//             refresh_token: "refresh_token"
-//         });
-//
-//     const response: Promise<TrueLayer.IAccessTokens> = clientAuth.exchangeCodeForToken("code");
-//     const expectedResponse: TrueLayer.IAccessTokens = {
-//         access_token: "access_token",
-//         refresh_token: "refresh_token"
-//     };
-//
-//     // t.deepEqual(response, expectedResponse, "Access token not as expected");
-// });
+if (process.env.access_token) {
+    // Get access token from environment variable
+    const access_token: string = process.env.access_token;
+    test("isTokenExpired return false on fresh token", async (t) => {
+        t.plan(1);
+        const expired = client.auth.isTokenExpired(access_token);
+        t.false(expired, "You need to provide a working access token that hasn't gone beyond it's hour expiration");
+    });
+}
+
+test("Exchange code for token", async (t) => {
+    t.plan(2);
+    const requestOptions: request.Options = {
+        uri: `https://${Constants.AUTH_HOST}/connect/token`,
+        method: "POST"
+    };
+    sinon.stub(request, "get").returns(fixtures.authResponse);
+    const expected: IToken = {
+        access_token: "test_access_token",
+        refresh_token: "test_refresh_token"
+    };
+    const actual = await client.auth.exchangeCodeForToken("https://test.com", "dummy_code");
+    t.deepEqual(actual.access_token, expected.access_token, "Access token not as expected");
+    t.deepEqual(actual.refresh_token, expected.refresh_token, "Refresh token not as expected");
+});

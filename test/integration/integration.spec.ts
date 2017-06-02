@@ -1,4 +1,5 @@
 import * as TrueLayer from "./../../index";
+import * as moment from "moment";
 import test from "ava";
 
 if (process.env.access_token) {
@@ -54,9 +55,10 @@ if (process.env.access_token) {
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
         t.plan(assertions);
-
+        const from: string = moment().subtract(1, "month").format("YYYY-MM-DD");
+        const to: string = moment().format("YYYY-MM-DD");
         for (const account of accounts) {
-            const response = await client.data.getTransactions(access_token, account.account_id, "2017-04-20", "2017-04-30");
+            const response = await client.data.getTransactions(access_token, account.account_id, from, to);
             t.true(response.success);
         }
     });

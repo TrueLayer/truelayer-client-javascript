@@ -1,9 +1,9 @@
 // Internal imports
 import IAuthResponse from "./interfaces/auth/IAuthResponse";
 import IOptions from "./interfaces/auth/IOptions";
-import ITokens from "./interfaces/auth/ITokens";
+import IToken from "./interfaces/auth/IToken";
 import IJWT from "./interfaces/auth/IJWT";
-import C from "./constants";
+import Constants from "./constants";
 
 // External imports
 import * as request from "request-promise";
@@ -42,7 +42,7 @@ export default class Auth {
             }
         }
         const concatScope: string = scope.join(" ");
-        let authUrl: string = `https://${C.AUTH_HOST}/?` +
+        let authUrl: string = `https://${Constants.AUTH_HOST}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
@@ -50,10 +50,10 @@ export default class Auth {
             `scope=${concatScope}&` +
             `nonce=${nonce}`;
 
-        if (typeof state !== "undefined") {
+        if (!!state) {
             authUrl += `&state=${state}`;
         }
-        if (typeof enableMock !== "undefined" && enableMock) {
+        if (!!enableMock && enableMock) {
             authUrl += `&enable_mock=${enableMock}`;
         }
         return authUrl;
@@ -82,15 +82,15 @@ export default class Auth {
      *
      * @param {string} redirectURI
      * @param {string} code
-     * @returns {Promise<ITokens>}
+     * @returns {Promise<IToken>}
      */
-    public async exchangeCodeForToken(redirectURI: string, code: string): Promise<ITokens> {
+    public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
         if (!validURL.isUri(redirectURI)) {
             throw new Error("Redirect uri provided is invalid");
         }
 
         const requestOptions: request.Options = {
-            uri: `https://${C.AUTH_HOST}/connect/token`,
+            uri: `https://${Constants.AUTH_HOST}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -105,7 +105,7 @@ export default class Auth {
         };
 
         try {
-            const response: string = await request(requestOptions);
+            const response: string = await request.get(requestOptions);
             const parsedResponse: IAuthResponse = JSON.parse(response);
             return {
                 access_token: parsedResponse.access_token,
@@ -122,9 +122,9 @@ export default class Auth {
      * @param {string} refreshToken
      * @returns {Promise<IAccessTokens>}
      */
-    public async refreshAccessToken(refreshToken: string): Promise<ITokens> {
+    public async refreshAccessToken(refreshToken: string): Promise<IToken> {
         const requestOptions: request.Options = {
-            uri: `https://${C.AUTH_HOST}/connect/token`,
+            uri: `https://${Constants.AUTH_HOST}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -172,7 +172,7 @@ export default class Auth {
      * @param {string} accessToken
      * @returns {number}
      */
-    public timeBeforeExpired(accessToken: string): number {
+    public getTimeUntilExpired(accessToken: string): number {
         const decoded: IJWT = decode(accessToken);
         const expiry: number = decoded.exp;
         const now: number = Math.round(new Date().getTime() / 1000);

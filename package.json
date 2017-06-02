@@ -1,5 +1,5 @@
 {
-  "name": "typescript-sample-client",
+  "name": "truelayer-client-javascript",
   "version": "1.0.0",
   "description": "Typescript client library for Truelayer public api (oauth2)",
   "main": "dist/index.js",
@@ -7,8 +7,6 @@
   "author": "Jarvis Prestidge <jarvis@truelayer.com> & Raluca Lehadus <raluca@truelayer.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/body-parser": "^1.16.3",
-    "@types/express": "^4.0.35",
     "@types/jwt-decode": "^1.4.28",
     "@types/node": "^7.0.21",
     "@types/request-promise": "^4.1.33",
@@ -18,11 +16,10 @@
     "sinon": "^2.3.2",
     "tslint": "^5.3.2",
     "tslint-eslint-rules": "^4.1.0",
-    "typescript": "^2.3.3"
+    "typescript": "^2.3.3",
+    "yarn": "^0.24.5"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "express": "^4.15.3",
     "jwt-decode": "^2.2.0",
     "moment": "^2.18.1",
     "request": "^2.81.0",

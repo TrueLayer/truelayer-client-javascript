@@ -1,4 +1,4 @@
-import C from "./../../src/v1/constants";
+import Constants from "./../../src/v1/constants";
 
 export default class Fixtures {
 
@@ -15,7 +15,7 @@ export default class Fixtures {
 
     // Expected object response string for buildRequestOptions() with required params
     public readonly requestOptions: object = {
-        uri: `${C.API_HOST}/data/v1/info`,
+        uri: `${Constants.API_HOST}/data/v1/info`,
         method: "GET",
         headers: {
             Authorization: "Bearer " + this.accessToken
@@ -24,7 +24,7 @@ export default class Fixtures {
 
     // Expected object response string for buildRequestOptions() with required params
     public readonly requestOptionsQs: object = {
-        uri: `${C.API_HOST}/data/v1/info`,
+        uri: `${Constants.API_HOST}/data/v1/info`,
         method: "GET",
         headers: {
             Authorization: "Bearer " + this.accessToken
@@ -34,6 +34,15 @@ export default class Fixtures {
             to: "2017-04-30"
         }
     };
+
+    // Expected /Me json response
+    public readonly authResponse: string =
+        `{
+            "access_token": "test_access_token",
+            "expires_in": 3600,
+            "token_type": "Bearer",
+            "refresh_token": "test_refresh_token"
+        }`;
 
     // Expected /Me json response
     public readonly meResponse: string =
