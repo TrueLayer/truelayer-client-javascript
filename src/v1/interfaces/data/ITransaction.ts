@@ -1,6 +1,6 @@
-import IBalance from "./IBalance";
+import { IBalance } from "./IBalance";
 
-interface ITransaction {
+export interface ITransaction {
     timestamp: string;
     description: string;
     transaction_type: string;
@@ -9,5 +9,3 @@ interface ITransaction {
     balance: IBalance;
     meta: object;
 }
-
-export default ITransaction;

@@ -1,4 +1,4 @@
-interface IJWT {
+export interface IJWT {
     nbf: number;
     exp: number;
     iss: string;
@@ -12,5 +12,3 @@ interface IJWT {
     scope: [ "info" | "accounts" | "transactions" | "balance" | "offline_access" ];
     amr: [ string ];
 }
-
-export default IJWT;

@@ -1,15 +1,15 @@
-import Constants from "./../../src/v1/constants";
-import Data from "./../../src/v1/data";
-import Fixtures from "./fixtures";
-import IResponse from "./../../src/v1/interfaces/data/IResponse";
-import ITransaction from "./../../src/v1/interfaces/data/ITransaction";
-import IAccount from "./../../src/v1/interfaces/data/IAccount";
-import IBalance from "./../../src/v1/interfaces/data/IBalance";
-import IInfo from "./../../src/v1/interfaces/data/IInfo";
-import IMe from "./../../src/v1/interfaces/data/IMe";
+import { Constants } from "./../../src/v1/constants";
+import { Data } from "./../../src/v1/data";
+import { Fixtures } from "./fixtures";
+import { IResponse } from "./../../src/v1/interfaces/data/IResponse";
+import { ITransaction } from "./../../src/v1/interfaces/data/ITransaction";
+import { IAccount } from "./../../src/v1/interfaces/data/IAccount";
+import { IBalance } from "./../../src/v1/interfaces/data/IBalance";
+import { IInfo } from "./../../src/v1/interfaces/data/IInfo";
+import { IMe } from "./../../src/v1/interfaces/data/IMe";
 import * as request from "request-promise";
 import * as sinon from "sinon";
-import test from "ava";
+import { test } from "ava";
 
 // Instantiate to access fixtures
 const fixtures = new Fixtures();

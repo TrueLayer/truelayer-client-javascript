@@ -1,4 +1,4 @@
-interface IInfo {
+export interface IInfo {
     full_name: string;
     update_timestamp?: string;
     date_of_birth?: string;
@@ -7,12 +7,10 @@ interface IInfo {
     phones?: [string];
 }
 
-interface IAddressInfo {
+export interface IAddressInfo {
     address?: string;
     city?: string;
     state?: string;
     zip?: string;
     country?: string;
 }
-
-export default IInfo;

@@ -1,6 +1,6 @@
-import Constants from "./../../src/v1/constants";
+import { Constants } from "./../../src/v1/constants";
 
-export default class Fixtures {
+export class Fixtures {
 
     public readonly accessToken: string =
     `eyJhbGciOiJSUzI1NiIsImtpZCI6IjE0NTk4OUIwNTdDOUMzMzg0MDc4MDBBOEJBNkNCOUZFQjMzRTk1MTAiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJGRm1Kc0ZmSnd6` +

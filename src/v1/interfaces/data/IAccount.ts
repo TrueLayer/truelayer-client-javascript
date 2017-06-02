@@ -1,4 +1,4 @@
-interface IAccount {
+export interface IAccount {
     update_timestamp: string;
     account_id: string;
     account_type: string;
@@ -8,11 +8,9 @@ interface IAccount {
     account_number: IAccountNumber;
 }
 
-interface IAccountNumber {
+export interface IAccountNumber {
     iban: string;
     swift_bic: string;
     number: string;
     sort_code: string;
 }
-
-export default IAccount;

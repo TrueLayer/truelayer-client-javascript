@@ -1,12 +1,12 @@
-import test from "ava";
+import { test } from "ava";
 import * as TrueLayer from "../../index";
-import IAuthResponse from "./../../src/v1/interfaces/auth/IAuthResponse";
-import IToken from "./../../src/v1/interfaces/auth/IToken";
-import Constants from "./../../src/v1/constants";
-import Fixtures from "./fixtures";
+import { IAuthResponse } from "./../../src/v1/interfaces/auth/IAuthResponse";
+import { IToken } from "./../../src/v1/interfaces/auth/IToken";
+import { Constants } from "./../../src/v1/constants";
+import { Fixtures } from "./fixtures";
 import * as request from "request-promise";
 import * as sinon from "sinon";
-import IOptions from "../../src/v1/interfaces/auth/IOptions";
+import { IOptions } from "../../src/v1/interfaces/auth/IOptions";
 
 // Build 'options' to pass to Client
 const options: IOptions = {

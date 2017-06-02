@@ -1,16 +1,16 @@
 import { TruelayerErrors } from "./errors";
-import IResponse from "./interfaces/data/IResponse";
-import IOptions from "./interfaces/auth/IOptions";
-import Constants from "./constants";
-import ITransaction from "./interfaces/data/ITransaction";
-import IAccount from "./interfaces/data/IAccount";
-import IBalance from "./interfaces/data/IBalance";
-import IInfo from "./interfaces/data/IInfo";
-import IMe from "./interfaces/data/IMe";
+import { IResponse } from "./interfaces/data/IResponse";
+import { IOptions } from "./interfaces/auth/IOptions";
+import { Constants } from "./constants";
+import { ITransaction } from "./interfaces/data/ITransaction";
+import { IAccount } from "./interfaces/data/IAccount";
+import { IBalance } from "./interfaces/data/IBalance";
+import { IInfo } from "./interfaces/data/IInfo";
+import { IMe } from "./interfaces/data/IMe";
 import * as request from "request-promise";
 import * as moment from "moment";
 
-export default class Data {
+export class Data {
 
     /**
      * Generic API calling function

@@ -1,7 +1,7 @@
-import test from "ava";
+import { test } from "ava";
 import * as TrueLayer from "./../../index";
 import * as moment from "moment";
-import IOptions from "../../src/v1/interfaces/auth/IOptions";
+import { IOptions } from "../../src/v1/interfaces/auth/IOptions";
 
 if (process.env.access_token) {
     // Get access token from environment variable
