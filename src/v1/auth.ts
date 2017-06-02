@@ -1,11 +1,8 @@
-// Internal imports
 import IAuthResponse from "./interfaces/auth/IAuthResponse";
 import IOptions from "./interfaces/auth/IOptions";
 import IToken from "./interfaces/auth/IToken";
 import IJWT from "./interfaces/auth/IJWT";
 import Constants from "./constants";
-
-// External imports
 import * as request from "request-promise";
 import * as validURL from "valid-url";
 import * as decode from "jwt-decode";

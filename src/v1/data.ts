@@ -1,4 +1,3 @@
-// Internal imports
 import { TruelayerErrors } from "./errors";
 import IResponse from "./interfaces/data/IResponse";
 import IOptions from "./interfaces/auth/IOptions";
@@ -8,8 +7,6 @@ import IAccount from "./interfaces/data/IAccount";
 import IBalance from "./interfaces/data/IBalance";
 import IInfo from "./interfaces/data/IInfo";
 import IMe from "./interfaces/data/IMe";
-
-// External imports
 import * as request from "request-promise";
 import * as moment from "moment";
 
@@ -26,7 +23,16 @@ export default class Data {
      */
     public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
-        return await request.get(requestOptions);
+        // console.log("CALL: " + JSON.stringify(requestOptions));
+        try {
+            const response: string = await request.get(requestOptions);
+            // console.log("response" );
+            const parsedResponse: IResponse<T> = JSON.parse(response);
+            // console.log(parsedResponse);
+            return parsedResponse;
+        } catch (error) {
+            throw TruelayerErrors.DataError.transformApiError(error);
+        }
     }
 
     /**
@@ -53,33 +59,13 @@ export default class Data {
     }
 
     /**
-     * Wrapper function to deal with try/catch blocks and handle errors
-     * @param f - callAPI function to required API p
-     * @returns {()=>Promise<IResponse<T>|string|any>}
-     */
-    private endpointWrapper<T>(f: Promise<IResponse<T>>) {
-        return async () => {
-            try {
-                return await f;
-            } catch (error) {
-                if (error.statusCode !== 200) {
-                    return JSON.stringify(TruelayerErrors.HTTPError.mapHTTPErrorCodes(error));
-                } else {
-                    return error;
-                }
-            }
-        };
-    }
-
-    /**
      * Call to /me API.
      *
      * @param accessToken
      * @returns {Promise<IResponse<IMe>>}
      */
-    public async getMe(accessToken: string): Promise<IResponse<IMe>> {
-        const details = this.callAPI<IMe>(accessToken, `${Constants.API_HOST}/data/v1/me`);
-        return await this.endpointWrapper(details)();
+    public async getMe(accessToken: string) {
+         return await this.callAPI<IMe>(accessToken, `${Constants.API_HOST}/data/v1/me`);
     }
 
     /**
@@ -89,8 +75,7 @@ export default class Data {
      * @returns {Promise<IResponse<IInfo>>}
      */
     public async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
-        const info = this.callAPI<IInfo>(accessToken, `${Constants.API_HOST}/data/v1/info`);
-        return await this.endpointWrapper(info)();
+        return await this.callAPI<IInfo>(accessToken, `${Constants.API_HOST}/data/v1/info`);
     }
 
     /**
@@ -100,8 +85,7 @@ export default class Data {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
-        const accounts = this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts`);
-        return await this.endpointWrapper(accounts)();
+        return await this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts`);
     }
 
     /**
@@ -112,8 +96,7 @@ export default class Data {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public async getAccountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
-        const accountInfo = this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
-        return await this.endpointWrapper(accountInfo)();
+        return await this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
     }
 
     /**
@@ -138,8 +121,7 @@ export default class Data {
             to
         };
 
-       const transactions = this.callAPI<ITransaction>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
-       return await this.endpointWrapper(transactions)();
+       return await this.callAPI<ITransaction>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**
@@ -150,7 +132,6 @@ export default class Data {
      * @returns {Promise<IResponse<IBalance>>}
      */
     public async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
-        const balance = this.callAPI<IBalance>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/balance`);
-        return await this.endpointWrapper(balance)();
+        return await this.callAPI<IBalance>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/balance`);
     }
 }

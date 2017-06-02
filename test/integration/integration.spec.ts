@@ -1,6 +1,6 @@
+import test from "ava";
 import * as TrueLayer from "./../../index";
 import * as moment from "moment";
-import test from "ava";
 
 if (process.env.access_token) {
     // Get access token from environment variable
@@ -11,14 +11,15 @@ if (process.env.access_token) {
     const clientSecret: string = "secret";
     const redirectUri: string = "http://localhost:5000/truelayer-redirect";
 
-    // Build 'options' to pass to APIClient
-    const options: TrueLayer.IOptions = {
+// Build 'options' to pass to APIClient
+    const options: TrueLayer.V1.IOptions = {
         client_id: clientId,
         client_secret: clientSecret
     };
 
     // Setup the client with dummy options
-    const client = new TrueLayer.V1.ApiClient(options);
+    const client = new TrueLayer.V1.Client(options);
+    const clientData = client.data;
 
     test("Get from /me returns success", async (t) => {
         t.plan(1);

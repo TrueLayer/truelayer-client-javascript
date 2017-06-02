@@ -1,17 +1,14 @@
-// Internal imports
+import test from "ava";
 import * as TrueLayer from "../../index";
 import IAuthResponse from "./../../src/v1/interfaces/auth/IAuthResponse";
 import IToken from "./../../src/v1/interfaces/auth/IToken";
 import Constants from "./../../src/v1/constants";
 import Fixtures from "./fixtures";
-
-// External import
 import * as request from "request-promise";
 import * as sinon from "sinon";
-import test from "ava";
 
-// Build 'options' to pass to APIClient
-const options: TrueLayer.IOptions = {
+// Build 'options' to pass to Client
+const options: TrueLayer.V1.IOptions = {
     client_id: "client_id",
     client_secret: "client_secret"
 };
@@ -25,7 +22,7 @@ const scope: string[] = [
     "balance"
 ];
 
-const client = new TrueLayer.V1.ApiClient(options);
+const client = new TrueLayer.V1.Client(options);
 
 let fixtures: Fixtures;
 
