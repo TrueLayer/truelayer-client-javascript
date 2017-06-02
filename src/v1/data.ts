@@ -1,4 +1,4 @@
-import { TruelayerErrors } from "./errors";
+import { ApiError } from "./errors";
 import { IResponse } from "./interfaces/data/IResponse";
 import { IOptions } from "./interfaces/auth/IOptions";
 import { Constants } from "./constants";
@@ -31,7 +31,8 @@ export class Data {
             // console.log(parsedResponse);
             return parsedResponse;
         } catch (error) {
-            throw TruelayerErrors.DataError.transformApiError(error);
+            // throw ApiError.DataError.transformApiError(error);
+            throw new ApiError("something");
         }
     }
 
@@ -108,13 +109,13 @@ export class Data {
      */
     // TODO: this throw should probably be a return
     public async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
-       if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
-           throw new TruelayerErrors.InvalidInputError("Invalid `from` date provided");
-       }
+    //    if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
+    //     //    throw new TruelayerErrors.InvalidInputError("Invalid `from` date provided");
+    //    }
 
-       if (!moment(to, moment.ISO_8601).isValid()) {
-            throw new TruelayerErrors.InvalidInputError("Invalid `to` date provided");
-        }
+    //    if (!moment(to, moment.ISO_8601).isValid()) {
+    //         throw new TruelayerErrors.InvalidInputError("Invalid `to` date provided");
+    //     }
 
        const qs = {
             from,
