@@ -6,9 +6,10 @@ import Constants from "./../../src/v1/constants";
 import Fixtures from "./fixtures";
 import * as request from "request-promise";
 import * as sinon from "sinon";
+import IOptions from "../../src/v1/interfaces/auth/IOptions";
 
 // Build 'options' to pass to Client
-const options: TrueLayer.V1.IOptions = {
+const options: IOptions = {
     client_id: "client_id",
     client_secret: "client_secret"
 };

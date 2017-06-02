@@ -1,6 +1,7 @@
 import test from "ava";
 import * as TrueLayer from "./../../index";
 import * as moment from "moment";
+import IOptions from "../../src/v1/interfaces/auth/IOptions";
 
 if (process.env.access_token) {
     // Get access token from environment variable
@@ -12,7 +13,7 @@ if (process.env.access_token) {
     const redirectUri: string = "http://localhost:5000/truelayer-redirect";
 
 // Build 'options' to pass to APIClient
-    const options: TrueLayer.V1.IOptions = {
+    const options: IOptions = {
         client_id: clientId,
         client_secret: clientSecret
     };
