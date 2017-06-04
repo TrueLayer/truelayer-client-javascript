@@ -1,8 +1,6 @@
 import { test } from "ava";
 import * as TrueLayer from "../../index";
-import { IAuthResponse } from "./../../src/v1/interfaces/auth/IAuthResponse";
-import { IToken } from "./../../src/v1/interfaces/auth/IToken";
-import { Constants } from "./../../src/v1/constants";
+import { IToken } from "../../src/v1/interfaces/auth/IToken";
 import { Fixtures } from "./fixtures";
 import * as request from "request-promise";
 import * as sinon from "sinon";
@@ -84,10 +82,6 @@ if (process.env.access_token) {
 
 test("Exchange code for token", async (t) => {
     t.plan(2);
-    const requestOptions: request.Options = {
-        uri: `https://${Constants.AUTH_HOST}/connect/token`,
-        method: "POST"
-    };
     sinon.stub(request, "get").returns(fixtures.authResponse);
     const expected: IToken = {
         access_token: "test_access_token",
