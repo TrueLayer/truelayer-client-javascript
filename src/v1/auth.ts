@@ -34,7 +34,7 @@ export class Auth {
         }
         // Check for valid scope values
         for (const grant of scope) {
-            if (!this.isValidScope(grant)) {
+            if (!Auth.isValidScope(grant)) {
                 throw Error("Error");   // TODO: Better error throw
             }
         }
@@ -50,8 +50,8 @@ export class Auth {
         if (!!state) {
             authUrl += `&state=${state}`;
         }
-        if (!!enableMock && enableMock) {
-            authUrl += `&enable_mock=${enableMock}`;
+        if (enableMock) {
+            authUrl += `&enable_mock=true`;
         }
         return authUrl;
     }
@@ -63,14 +63,18 @@ export class Auth {
      * @param {string} grant
      * @returns {boolean}
      */
-    private isValidScope(grant: string): boolean {
+    private static isValidScope(grant: string): boolean {
         switch (grant) {
             case "offline_access":
             case "info":
             case "accounts":
             case "transactions":
-            case "balance": { return true; }
-            default: { return false; }
+            case "balance": {
+                return true;
+            }
+            default: {
+                return false;
+            }
         }
     }
 
@@ -117,7 +121,7 @@ export class Auth {
      * Exchanges a refresh token for a fresh access token
      *
      * @param {string} refreshToken
-     * @returns {Promise<IAccessTokens>}
+     * @returns {Promise<IToken>}
      */
     public async refreshAccessToken(refreshToken: string): Promise<IToken> {
         const requestOptions: request.Options = {
