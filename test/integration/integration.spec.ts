@@ -7,40 +7,31 @@ if (process.env.access_token) {
     // Get access token from environment variable
     const access_token: string = process.env.access_token;
 
-    // Dummy values
-    const clientId: string = "test";
-    const clientSecret: string = "secret";
-    const redirectUri: string = "http://localhost:5000/truelayer-redirect";
-
-// Build 'options' to pass to APIClient
-    const options: IOptions = {
-        client_id: clientId,
-        client_secret: clientSecret
-    };
-
     // Setup the client with dummy options
-    const client = new TrueLayer.V1.Client(options);
-    const clientData = client.data;
+    const client = new TrueLayer.V1.Client({
+        client_id: "INVALID",
+        client_secret: "INVALID"
+    });
 
-    test("Get from /me returns success", async (t) => {
+    test.serial("Get /me returns success", async (t) => {
         t.plan(1);
         const response = await client.data.getMe(access_token);
         t.true(response.success);
     });
 
-    test("Get from /info returns success", async (t) => {
+    test.serial("Get /info returns success", async (t) => {
         t.plan(1);
         const response = await client.data.getInfo(access_token);
         t.true(response.success);
     });
 
-    test("Get from /accounts returns success", async (t) => {
+    test.serial("Get /accounts returns success", async (t) => {
         t.plan(1);
         const response = await client.data.getAccounts(access_token);
         t.true(response.success);
     });
 
-    test("Get from /acccounts returns success for each result account", async (t) => {
+    test.serial("Get /accounts returns success for each result account", async (t) => {
         const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
@@ -52,7 +43,7 @@ if (process.env.access_token) {
         }
     });
 
-    test("Get from /accounts/{id}/transactions returns success for each result account", async (t) => {
+    test.serial("Get /accounts/{id}/transactions returns success for each account", async (t) => {
         const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
@@ -65,7 +56,7 @@ if (process.env.access_token) {
         }
     });
 
-    test("Get from /accounts/{id}/balance returns success for each result account", async (t) => {
+    test.serial("Get /accounts/{id}/balance returns success for each account", async (t) => {
         const resp = await client.data.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
         const assertions: number = accounts.length;
@@ -79,5 +70,5 @@ if (process.env.access_token) {
 
 } else {
     // tslint:disable-next-line:no-console
-    console.log("No 'access_token' environment varialbe set. Skipping integration tests...\n");
+    console.log("No 'access_token' environment variable set. Skipping integration tests...\n");
 }
