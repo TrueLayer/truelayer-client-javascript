@@ -1,6 +1,5 @@
 import { ApiError } from "./errors";
 import { IResponse } from "./interfaces/data/IResponse";
-import { IOptions } from "./interfaces/auth/IOptions";
 import { Constants } from "./constants";
 import { ITransaction } from "./interfaces/data/ITransaction";
 import { IAccount } from "./interfaces/data/IAccount";
@@ -96,7 +95,7 @@ export class Data {
      * @param accountId
      * @returns {Promise<IResponse<IAccount>>}
      */
-    public async getAccountInfo(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
+    public async getAccount(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
         return await this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
     }
 

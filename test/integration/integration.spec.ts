@@ -47,7 +47,7 @@ if (process.env.access_token) {
         t.plan(assertions);
 
         for (const account of accounts) {
-            const response = await client.data.getAccountInfo(access_token, account.account_id);
+            const response = await client.data.getAccount(access_token, account.account_id);
             t.true(response.success);
         }
     });
