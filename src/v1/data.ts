@@ -22,16 +22,12 @@ export class Data {
      */
     public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
-        // console.log("CALL: " + JSON.stringify(requestOptions));
         try {
-            const response: string = await request.get(requestOptions);
-            // console.log("response" );
+            const response: string = await request(requestOptions);
             const parsedResponse: IResponse<T> = JSON.parse(response);
-            // console.log(parsedResponse);
             return parsedResponse;
         } catch (error) {
-            // throw ApiError.DataError.transformApiError(error);
-            throw new ApiError("something");
+            throw new ApiError(error);
         }
     }
 
@@ -106,16 +102,7 @@ export class Data {
      * @param accountId
      * @returns {Promise<IResponse<ITransaction>>}
      */
-    // TODO: this throw should probably be a return
     public async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
-    //    if (!moment(from, moment.ISO_8601).isValid() || !moment(to, moment.ISO_8601).isValid()) {
-    //     //    throw new TruelayerErrors.InvalidInputError("Invalid `from` date provided");
-    //    }
-
-    //    if (!moment(to, moment.ISO_8601).isValid()) {
-    //         throw new TruelayerErrors.InvalidInputError("Invalid `to` date provided");
-    //     }
-
        const qs = {
             from,
             to

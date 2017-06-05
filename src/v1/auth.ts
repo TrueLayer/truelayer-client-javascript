@@ -4,8 +4,8 @@ import { IToken } from "./interfaces/auth/IToken";
 import { IJWT } from "./interfaces/auth/IJWT";
 import { Constants } from "./constants";
 import * as request from "request-promise";
-import * as validURL from "valid-url";
 import * as decode from "jwt-decode";
+import { ApiError } from "./errors";
 
 export class Auth {
 
@@ -28,16 +28,6 @@ export class Auth {
      * @returns {string}
      */
     public getAuthUrl(redirectURI: string, scope: string[], nonce: string, state?: string, enableMock?: boolean): string {
-        // Check for valid redirect url
-        if (!validURL.isUri(redirectURI)) {
-            throw new Error("Redirect uri provided is invalid");
-        }
-        // Check for valid scope values
-        for (const grant of scope) {
-            if (!Auth.isValidScope(grant)) {
-                throw Error("Error");   // TODO: Better error throw
-            }
-        }
         const concatScope: string = scope.join(" ");
         let authUrl: string = `https://${Constants.AUTH_HOST}/?` +
             `response_type=code&` +
@@ -86,10 +76,6 @@ export class Auth {
      * @returns {Promise<IToken>}
      */
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
-        if (!validURL.isUri(redirectURI)) {
-            throw new Error("Redirect uri provided is invalid");
-        }
-
         const requestOptions: request.Options = {
             uri: `https://${Constants.AUTH_HOST}/connect/token`,
             method: "POST",
@@ -106,14 +92,14 @@ export class Auth {
         };
 
         try {
-            const response: string = await request.get(requestOptions);
+            const response: string = await request(requestOptions);
             const parsedResponse: IAuthResponse = JSON.parse(response);
             return {
                 access_token: parsedResponse.access_token,
                 refresh_token: parsedResponse.refresh_token
             };
-        } catch (e) {
-            return e;
+        } catch (error) {
+            throw new ApiError(error);
         }
     }
 
@@ -145,8 +131,8 @@ export class Auth {
                 access_token: parsedResponse.access_token,
                 refresh_token: parsedResponse.refresh_token
             };
-        } catch (e) {
-            return e;
+        } catch (error) {
+            throw new ApiError(error);
         }
     }
 
