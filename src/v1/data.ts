@@ -23,7 +23,7 @@ export class Data {
     public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
         try {
-            const response: string = await request(requestOptions);
+            const response: string = await request.get(requestOptions);
             const parsedResponse: IResponse<T> = JSON.parse(response);
             return parsedResponse;
         } catch (error) {

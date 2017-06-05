@@ -88,7 +88,7 @@ app.post("/truelayer-redirect", async (req, res) => {
 
         // Transactions
         try {
-            const transactions = await client.data.getTransactions(tokens.access_token, accountId, "2000-04-20", "2017-04-30");
+            const transactions = await client.data.getTransactions(tokens.access_token, accountId, "2017-04-20", "2017-04-30");
             console.log("Call to /transactions API " + JSON.stringify(transactions));
         } catch (error) {
             console.log("Error on /transactions " + error);

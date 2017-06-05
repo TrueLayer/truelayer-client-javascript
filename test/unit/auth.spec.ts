@@ -50,20 +50,6 @@ test("Get authentication URL - no optional params provided", (t) => {
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 
-test("Get authentication URL - invalid url", (t) => {
-    t.plan(2);
-    const error = t.throws(() => {
-        client.auth.getAuthUrl("url", scope, "nouce");
-    });
-    t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
-});
-
-test("Exchange code for token - invalid url", async (t) => {
-    t.plan(2);
-    const error = await t.throws(client.auth.exchangeCodeForToken("url", "code"));
-    t.is(error.message, "Redirect uri provided is invalid", "Authentication url passed validation");
-});
-
 test("isTokenExpired returns true on expired token", async (t) => {
     t.plan(1);
     const expired = client.auth.isTokenExpired(fixtures.accessToken);
