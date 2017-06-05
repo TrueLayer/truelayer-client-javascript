@@ -82,7 +82,7 @@ if (process.env.access_token) {
 
 test("Exchange code for token", async (t) => {
     t.plan(2);
-    sinon.stub(request, "get").returns(fixtures.authResponse);
+    sinon.stub(request, "post").returns(fixtures.authResponse);
     const expected: IToken = {
         access_token: "test_access_token",
         refresh_token: "test_refresh_token"

@@ -78,7 +78,6 @@ export class Auth {
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
         const requestOptions: request.Options = {
             uri: `https://${Constants.AUTH_HOST}/connect/token`,
-            method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -92,7 +91,7 @@ export class Auth {
         };
 
         try {
-            const response: string = await request(requestOptions);
+            const response: string = await request.post(requestOptions);
             const parsedResponse: IAuthResponse = JSON.parse(response);
             return {
                 access_token: parsedResponse.access_token,

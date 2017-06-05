@@ -43,7 +43,6 @@ export class Data {
     public buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
         const requestOptions: request.Options = {
             uri: path,
-            method: "GET",
             headers: {
                 Authorization: "Bearer " + accessToken
             }
