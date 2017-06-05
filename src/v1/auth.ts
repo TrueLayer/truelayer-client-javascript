@@ -106,14 +106,14 @@ export class Auth {
         };
 
         try {
-            const response: string = await request.get(requestOptions);
+            const response: string = await request(requestOptions);
             const parsedResponse: IAuthResponse = JSON.parse(response);
             return {
                 access_token: parsedResponse.access_token,
                 refresh_token: parsedResponse.refresh_token
             };
         } catch (e) {
-            return e;
+            throw e;
         }
     }
 

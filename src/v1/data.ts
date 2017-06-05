@@ -22,9 +22,8 @@ export class Data {
      */
     public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
-        // console.log("CALL: " + JSON.stringify(requestOptions));
         try {
-            const response: string = await request.get(requestOptions);
+            const response: string = await request(requestOptions);
             // console.log("response" );
             const parsedResponse: IResponse<T> = JSON.parse(response);
             // console.log(parsedResponse);
