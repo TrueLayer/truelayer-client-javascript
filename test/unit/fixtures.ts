@@ -22,7 +22,6 @@ export class Fixtures {
     // Expected object response string for buildRequestOptions() with required params
     public readonly requestOptions: object = {
         uri: `${Constants.API_HOST}/data/v1/info`,
-        method: "GET",
         headers: {
             Authorization: "Bearer " + this.accessToken
         }
@@ -31,7 +30,6 @@ export class Fixtures {
     // Expected object response string for buildRequestOptions() with required params
     public readonly requestOptionsQs: object = {
         uri: `${Constants.API_HOST}/data/v1/info`,
-        method: "GET",
         headers: {
             Authorization: "Bearer " + this.accessToken
         },
