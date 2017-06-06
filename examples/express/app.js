@@ -1,36 +1,31 @@
-const TrueLayer = require("./../..");
+const { AuthAPIClient, DataAPIClient } = require("./../..");
 const Express = require("express");
 const Parser = require("body-parser");
+const envalid = require("envalid");
+const { str, url } = envalid;
 
-// Get environment varibles
-const client_id = process.env.client_id;
-const client_secret = process.env.client_secret;
-const redirect_uri = process.env.redirect_uri;
-
-// Build 'options' to pass to APIClient
-const options = {
-    client_id,
-    client_secret
-};
-
-// Create an array of scopes
-const scope = [
-    "offline_access",
-    "info",
-    "accounts",
-    "transactions",
-    "balance"
-];
+// Get environment variables
+const env = envalid.cleanEnv(process.env, {
+    CLIENT_ID: str(),
+    CLIENT_SECRET: str(),
+    REDIRECT_URI: url({ default: "http://localhost:5000/truelayer-redirect" })
+});
 
 // Create TrueLayer client instance
-const client = new TrueLayer.V1.Client(options);
+const authClient = new AuthAPIClient({
+    client_id: env.CLIENT_ID,
+    client_secret: env.CLIENT_SECRET
+});
+
+// Create an array of scopes
+const scopes = ["offline_access", "info", "accounts", "transactions", "balance"];
 
 // Create Express instance
 const app = Express();
 
 // Redirect to the auth server
 app.get("/", (req, res) => {
-    const authURL = client.auth.getAuthUrl(redirect_uri, scope, "nouce", state = "", true);
+    const authURL = authClient.getAuthUrl(env.REDIRECT_URI, scopes, "nonce", state = "foo", true);
     res.redirect(authURL);
 });
 
@@ -40,21 +35,21 @@ app.use(Parser.urlencoded({ extended: true }));
 // Receiving post request
 app.post("/truelayer-redirect", async (req, res) => {
     const code = req.body.code;
-    const tokens = await client.auth.exchangeCodeForToken(redirect_uri, code);
+    const tokens = await authClient.exchangeCodeForToken(env.REDIRECT_URI, code);
 
     // Info
-    const info = await client.data.getInfo(tokens.access_token);
+    const info = await DataAPIClient.getInfo(tokens.access_token);
     // Me - Error
-    const me = await client.data.getMe(tokens.access_token);
+    const me = await DataAPIClient.getMe(tokens.access_token);
     // Accounts
-    const accounts = await client.data.getAccounts(tokens.access_token);
+    const accounts = await DataAPIClient.getAccounts(tokens.access_token);
     const accountsList = accounts.results;
     // Account info - Error
-    const accountInfo = await client.data.getAccount(tokens.access_token, accountsList[0].account_id);
+    const accountInfo = await DataAPIClient.getAccount(tokens.access_token, accountsList[0].account_id);
     // Transactions
-    const transactions = await client.data.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+    const transactions = await DataAPIClient.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
     // Balance
-    const balance = await client.data.getBalance(tokens.access_token, accountsList[0].account_id);
+    const balance = await DataAPIClient.getBalance(tokens.access_token, accountsList[0].account_id);
 
     console.log("Info: " + JSON.stringify(info));
     console.log("Me: " + JSON.stringify(me));
