@@ -62,7 +62,7 @@ if (process.env.access_token) {
     test("isTokenExpired return false on fresh token", async (t) => {
         t.plan(1);
         const expired = client.auth.isTokenExpired(access_token);
-        t.false(expired, "You need to provide a working access token that hasn't gone beyond it's hour expiration");
+        t.false(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
     });
 }
 
