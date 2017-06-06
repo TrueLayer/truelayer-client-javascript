@@ -7,8 +7,10 @@ import { IBalance } from "./interfaces/data/IBalance";
 import { IInfo } from "./interfaces/data/IInfo";
 import { IMe } from "./interfaces/data/IMe";
 import * as request from "request-promise";
-import * as moment from "moment";
 
+/**
+ * Class responsible for calling to the Data endpoints
+ */
 export class DataAPIClient {
 
     /**

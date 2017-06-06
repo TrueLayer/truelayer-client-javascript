@@ -33,21 +33,21 @@ test.before((t) => {
 test("Get authentication URL - without mock enabled", (t) => {
     t.plan(1);
     const actual = client.getAuthUrl("http://url", scope, "nonce", "state", false);
-    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state";
+    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access%20info%20accounts%20transactions%20balance&nonce=nonce&state=state";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - with mock enabled", (t) => {
     t.plan(1);
     const actual = client.getAuthUrl("http://url", scope, "nonce", "state", true);
-    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state&enable_mock=true";
+    const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access%20info%20accounts%20transactions%20balance&nonce=nonce&state=state&enable_mock=true";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
     const response = client.getAuthUrl("http://url", scope, "nouce");
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nouce";
+    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access%20info%20accounts%20transactions%20balance&nonce=nouce";
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 

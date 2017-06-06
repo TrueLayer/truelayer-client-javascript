@@ -1,3 +1,7 @@
+/**
+ * Response format returned by the /balance endpoint
+ */
+
 export interface IBalance {
     currency: string;
     available: number;

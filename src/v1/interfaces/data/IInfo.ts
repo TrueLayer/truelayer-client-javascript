@@ -1,3 +1,7 @@
+/**
+ * Response format returned by the /info endpoint
+ */
+
 export interface IInfo {
     full_name: string;
     update_timestamp?: string;
@@ -7,6 +11,9 @@ export interface IInfo {
     phones?: [string];
 }
 
+/**
+ * Properties defined on an address field
+ */
 export interface IAddressInfo {
     address?: string;
     city?: string;
