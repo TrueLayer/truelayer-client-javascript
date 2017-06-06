@@ -2,12 +2,12 @@ import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
 import { IOptions } from "./interfaces/auth/IOptions";
 import { IToken } from "./interfaces/auth/IToken";
 import { IJWT } from "./interfaces/auth/IJWT";
-import { Constants } from "./constants";
+import { Constants } from "./Constants";
 import * as request from "request-promise";
 import * as decode from "jwt-decode";
-import { ApiError } from "./errors";
+import { ApiError } from "./APIError";
 
-export class Auth {
+export class AuthAPIClient {
 
     // Private
     private readonly options: IOptions;
@@ -37,6 +37,7 @@ export class Auth {
             `scope=${concatScope}&` +
             `nonce=${nonce}`;
 
+        // TODO: check if we need to URL encode this
         if (!!state) {
             authUrl += `&state=${state}`;
         }
@@ -53,6 +54,7 @@ export class Auth {
      * @param {string} grant
      * @returns {boolean}
      */
+    // TODO: check if this is used or remove
     private static isValidScope(grant: string): boolean {
         switch (grant) {
             case "offline_access":
@@ -141,28 +143,11 @@ export class Auth {
      * @param {string} accessToken
      * @returns {boolean}
      */
-    public isTokenExpired(accessToken: string): boolean {
+    public static isTokenExpired(accessToken: string): boolean {
         const decoded: IJWT = decode(accessToken);
         const expiry: number = decoded.exp;
+        // TODO: use moment instead for date manipulation
         const now: number = Math.round(new Date().getTime() / 1000);
-        if (now - expiry > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return now - expiry > 0;
     }
-
-    /**
-     * Returns the time left before the JWT expires in milliseconds
-     *
-     * @param {string} accessToken
-     * @returns {number}
-     */
-    public getTimeUntilExpired(accessToken: string): number {
-        const decoded: IJWT = decode(accessToken);
-        const expiry: number = decoded.exp;
-        const now: number = Math.round(new Date().getTime() / 1000);
-        return Math.abs(now - expiry);
-    }
-
 }

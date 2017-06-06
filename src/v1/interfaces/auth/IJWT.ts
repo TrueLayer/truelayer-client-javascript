@@ -3,6 +3,7 @@ export interface IJWT {
     exp: number;
     iss: string;
     aud: [ string, string ];
+    // TODO: this should be a string
     client_id: [ string, string ];
     sub: string;
     auth_time: number;

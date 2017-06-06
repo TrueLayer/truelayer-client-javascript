@@ -1,4 +1,4 @@
-import { Constants } from "../../src/v1/constants";
+import { Constants } from "../../src/v1/Constants";
 import { IMe } from "../../src/v1/interfaces/data/IMe";
 import { IResponse } from "../../src/v1/interfaces/data/IResponse";
 import { IInfo } from "../../src/v1/interfaces/data/IInfo";

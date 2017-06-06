@@ -5,6 +5,7 @@ import { Fixtures } from "./fixtures";
 import * as request from "request-promise";
 import * as sinon from "sinon";
 import { IOptions } from "../../src/v1/interfaces/auth/IOptions";
+import { AuthAPIClient } from "../../src/v1/AuthAPIClient";
 
 // Build 'options' to pass to Client
 const options: IOptions = {
@@ -52,7 +53,7 @@ test("Get authentication URL - no optional params provided", (t) => {
 
 test("isTokenExpired returns true on expired token", async (t) => {
     t.plan(1);
-    const expired = client.auth.isTokenExpired(fixtures.accessToken);
+    const expired = AuthAPIClient.isTokenExpired(fixtures.accessToken);
     t.true(expired);
 });
 
@@ -61,7 +62,7 @@ if (process.env.access_token) {
     const access_token: string = process.env.access_token;
     test("isTokenExpired return false on fresh token", async (t) => {
         t.plan(1);
-        const expired = client.auth.isTokenExpired(access_token);
+        const expired = AuthAPIClient.isTokenExpired(access_token);
         t.false(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
     });
 }

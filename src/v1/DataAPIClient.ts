@@ -1,6 +1,6 @@
-import { ApiError } from "./errors";
+import { ApiError } from "./APIError";
 import { IResponse } from "./interfaces/data/IResponse";
-import { Constants } from "./constants";
+import { Constants } from "./Constants";
 import { ITransaction } from "./interfaces/data/ITransaction";
 import { IAccount } from "./interfaces/data/IAccount";
 import { IBalance } from "./interfaces/data/IBalance";
@@ -9,7 +9,7 @@ import { IMe } from "./interfaces/data/IMe";
 import * as request from "request-promise";
 import * as moment from "moment";
 
-export class Data {
+export class DataAPIClient {
 
     /**
      * Generic API calling function
@@ -20,8 +20,8 @@ export class Data {
      * @param {object} [qs]
      * @returns {Promise<IResponse<T>>}
      */
-    public async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
-        const requestOptions: request.Options = this.buildRequestOptions(accessToken, path, qs);
+    public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
+        const requestOptions: request.Options = DataAPIClient.buildRequestOptions(accessToken, path, qs);
         try {
             const response: string = await request.get(requestOptions);
             const parsedResponse: IResponse<T> = JSON.parse(response);
@@ -40,7 +40,7 @@ export class Data {
      * @param {object} [qs]
      * @returns {request.Options}
      */
-    public buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
+    public static buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
         const requestOptions: request.Options = {
             uri: path,
             headers: {
@@ -59,8 +59,8 @@ export class Data {
      * @param accessToken
      * @returns {Promise<IResponse<IMe>>}
      */
-    public async getMe(accessToken: string) {
-         return await this.callAPI<IMe>(accessToken, `${Constants.API_HOST}/data/v1/me`);
+    public static async getMe(accessToken: string) {
+         return await DataAPIClient.callAPI<IMe>(accessToken, `${Constants.API_HOST}/data/v1/me`);
     }
 
     /**
@@ -69,8 +69,8 @@ export class Data {
      * @param {string} accessToken
      * @returns {Promise<IResponse<IInfo>>}
      */
-    public async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
-        return await this.callAPI<IInfo>(accessToken, `${Constants.API_HOST}/data/v1/info`);
+    public static async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
+        return await DataAPIClient.callAPI<IInfo>(accessToken, `${Constants.API_HOST}/data/v1/info`);
     }
 
     /**
@@ -79,8 +79,8 @@ export class Data {
      * @param accessToken
      * @returns {Promise<IResponse<IAccount>>}
      */
-    public async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
-        return await this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts`);
+    public static async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
+        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts`);
     }
 
     /**
@@ -90,8 +90,8 @@ export class Data {
      * @param accountId
      * @returns {Promise<IResponse<IAccount>>}
      */
-    public async getAccount(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
-        return await this.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
+    public static async getAccount(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
+        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
     }
 
     /**
@@ -99,15 +99,17 @@ export class Data {
      *
      * @param accessToken
      * @param accountId
+     * @param from
+     * @param to
      * @returns {Promise<IResponse<ITransaction>>}
      */
-    public async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+    public static async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
        const qs = {
             from,
             to
         };
 
-       return await this.callAPI<ITransaction>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
+       return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**
@@ -117,7 +119,7 @@ export class Data {
      * @param accountId
      * @returns {Promise<IResponse<IBalance>>}
      */
-    public async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
-        return await this.callAPI<IBalance>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/balance`);
+    public static async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
+        return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/balance`);
     }
 }

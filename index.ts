@@ -1,5 +1,5 @@
-import { Data } from "./src/v1/data";
-import { Auth } from "./src/v1/auth";
+import { DataAPIClient } from "./src/v1/DataAPIClient";
+import { AuthAPIClient } from "./src/v1/AuthAPIClient";
 import { IOptions } from "./src/v1/interfaces/auth/IOptions";
 export { IResponse } from "./src/v1/interfaces/data/IResponse";
 export { IOptions } from "./src/v1/interfaces/auth/IOptions";
@@ -12,7 +12,7 @@ export { IMe } from "./src/v1/interfaces/data/IMe";
 
 /**
  * TrueLayer Client
- * Contains methods for the authentication mechanism via `auth` and calls to Data APIs via `data`
+ * Contains methods for the authentication mechanism via `auth` and calls to DataAPIClient APIs via `data`
  */
 export namespace V1 {
 
@@ -20,22 +20,22 @@ export namespace V1 {
 
         /**
          * Authentication features
-         * @type {Auth}
+         * @type {AuthAPIClient}
          */
-        public auth: Auth;
+        public auth: AuthAPIClient;
         /**
-         * Data API access features
-         * @type {Data}
+         * DataAPIClient API access features
+         * @type {DataAPIClient}
          */
-        public data: Data;
+        public data: DataAPIClient;
 
         /**
          * Creates an instance of ApiClient.
          * @param {IOptions} options
          */
         constructor(options: IOptions) {
-            this.auth = new Auth(options);
-            this.data = new Data();
+            this.auth = new AuthAPIClient(options);
+            this.data = new DataAPIClient();
         }
     }
 }
