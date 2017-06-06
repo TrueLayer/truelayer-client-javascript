@@ -1,0 +1,16 @@
+{
+  "name": "truelayer-example",
+  "version": "1.0.0",
+  "description": "Sample node web app showcasing the TrueLayer client npm module",
+  "main": "index.js",
+  "repository": "git@github.com:TrueLayer/truelayer-example.git",
+  "author": "Jarvis Prestidge <jarvis@truelayer.com> & Raluca Lehadus <raluca@truelayer.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

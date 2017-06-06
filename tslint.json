@@ -1,0 +1,41 @@
+{
+  "extends": "tslint:latest",
+  "rulesDirectory": [
+      "node_modules/tslint-eslint-rules/dist/rules"
+  ],
+  "rules": {
+    "max-classes-per-file": [ false ],
+    "prefer-for-of": false,
+    "max-line-length": [ false ],
+    "member-ordering": [ false ],
+    "no-empty": false,
+    "no-namespace": false,
+    "no-string-literal": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "one-line": [ false ],
+    "ordered-imports": [ false ],
+    "trailing-comma": [ false ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-operator",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-type"
+    ],
+    "jsdoc-format": true,
+    "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
+    // eslint rules
+    "block-spacing": true,
+    "object-curly-spacing": true,
+    "brace-style": [
+      true,
+      "1tbs"
+    ],
+    "no-multi-spaces": true,
+    "handle-callback-err": true,
+    "no-sparse-arrays": true
+  }
+}

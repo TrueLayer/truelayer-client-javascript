@@ -1,0 +1,40 @@
+
+Feedback:
+    ☐ split client code from application
+    ☐ good readme file
+    ☐ jsdoc documentation
+    ☐ tests
+
+Demo app:
+    ☐ single page application: Angular/React
+    ☐ code for demo app in the Readme file
+    ☐ if html rendered, it should be fast.
+    ☐ the sample code should be js in the readme
+
+Documentation:
+    ☐ jsdoc
+    ☐ good readme file including sample code. sample code should reflect that you need to refresh the token when you use it
+
+Code changes:
+    ✔ app.ts:11 redirect_uri should be passed on as input to getAuthorizationURL and not on IOptions. @done (31/05/2017, 15:34:00)
+    ✔ app.ts:26 scopes should be an array of strigs and input should be validated @done (30/05/2017, 18:03:07)
+    ✔ src/auth.ts:27 enable_mock instead of mock as input parameter @done (30/05/2017, 18:03:10)
+    ✔ IAccessTokens: IToken instead of IAccessTokens @done (30/05/2017, 18:03:11)
+    ✔ methods should be called getInfo, getAccounts instead of info, accounts etc. @done (30/05/2017, 18:03:14)
+    ✔ isTokenExpired method. use jwt decoding library @done (30/05/2017, 18:03:15)
+    ✔ app.js const X: [] type infered from method, no need for it; document that part of the code @done (31/05/2017, 16:20:00)
+
+    Error Handling:
+        ☐ src/data.ts:42 remove try/catch; throw exception if error code is not 200. return truelayer v1 api exception with error code and message
+        ☐ handle invalid token error in all methods.
+        ☐ validation of dates in transactions should return sensible error or leave it to server.
+
+Project structure:
+    ✔ interfaces directory should be split under auth and data directories @done (31/05/2017, 15:48:14)
+    ✔ the project structure should support versioning. put the code under V1 directory @done (31/05/2017, 15:57:28)
+    ✔ no .idea and .vscode folders committed @done (31/05/2017, 16:00:52)
+    ✔ add `npm start` to package.json @done (31/05/2017, 16:00:33)
+
+Tests:
+    ☐ sinon used for moking.
+    ☐ tests for: parsing json as expected, error cases.
