@@ -33,7 +33,7 @@ if (process.env.access_token) {
         t.is(error.message, "Unauthorized");
     });
 
-    test.only("Get /accounts returns success", async (t) => {
+    test.serial("Get /accounts returns success", async (t) => {
         t.plan(1);
         const response = await DataAPIClient.getAccounts(access_token);
         t.true(response.success);

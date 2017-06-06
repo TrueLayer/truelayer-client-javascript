@@ -22,7 +22,7 @@ const scope: string[] = [
     "balance"
 ];
 
-const client = new TrueLayer.V1.Client(options);
+const client = new TrueLayer.AuthAPIClient(options);
 
 let fixtures: Fixtures;
 
@@ -32,21 +32,21 @@ test.before((t) => {
 
 test("Get authentication URL - without mock enabled", (t) => {
     t.plan(1);
-    const actual = client.auth.getAuthUrl("http://url", scope, "nonce", "state", false);
+    const actual = client.getAuthUrl("http://url", scope, "nonce", "state", false);
     const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - with mock enabled", (t) => {
     t.plan(1);
-    const actual = client.auth.getAuthUrl("http://url", scope, "nonce", "state", true);
+    const actual = client.getAuthUrl("http://url", scope, "nonce", "state", true);
     const expected: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nonce&state=state&enable_mock=true";
     t.is(actual, expected, "Authentication url does not have the expected value");
 });
 
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
-    const response = client.auth.getAuthUrl("http://url", scope, "nouce");
+    const response = client.getAuthUrl("http://url", scope, "nouce");
     const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access info accounts transactions balance&nonce=nouce";
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
@@ -74,7 +74,7 @@ test("Exchange code for token", async (t) => {
         access_token: "test_access_token",
         refresh_token: "test_refresh_token"
     };
-    const actual = await client.auth.exchangeCodeForToken("https://test.com", "dummy_code");
+    const actual = await client.exchangeCodeForToken("https://test.com", "dummy_code");
     t.deepEqual(actual.access_token, expected.access_token, "Access token not as expected");
     t.deepEqual(actual.refresh_token, expected.refresh_token, "Refresh token not as expected");
 });
