@@ -1,17 +1,25 @@
 require('marko/node-require');
-const TrueLayer = require("./../..");
+const {AuthAPIClient, DataAPIClient} = require("./../..");
 const Koa = require('koa');
 const app = new Koa();
 const router = require('koa-router')();
 const koaBody = require('koa-body')();
+const envalid = require("envalid");
+const {str, url} = envalid;
 
-// Get environment varibles
-const client_id = process.env.client_id;
-const client_secret = process.env.client_secret;
-const redirect_uri = process.env.redirect_uri;
+// Get environment variables
+
+const env = envalid.cleanEnv(process.env, {
+    CLIENT_ID: str(),
+    CLIENT_SECRET: str(),
+    REDIRECT_URI: url({default: "http://localhost:5000/truelayer-redirect"})
+});
 
 // Create TrueLayer client instance
-const client = new TrueLayer.V1.Client({ client_id, client_secret });
+const authClient = new AuthAPIClient({
+    client_id: env.CLIENT_ID,
+    client_secret: env.CLIENT_SECRET
+});
 
 // Create an array of scopes
 const scopes = ["offline_access", "info", "accounts", "transactions", "balance"];
@@ -24,16 +32,16 @@ router.get("/", async (ctx) => {
 });
 
 router.get("/auth", async (ctx) => {
-    const authURL = client.auth.getAuthUrl(redirect_uri, scopes, "nouce", state = "", true);
+    const authURL = authClient.getAuthUrl(env.REDIRECT_URI, scopes, "nonce", state = "foo", true);
     ctx.redirect(authURL);
 });
 
 router.post("/truelayer-redirect", koaBody, async (ctx) => {
     const code = ctx.request.body.code;
-    const tokens = await client.auth.exchangeCodeForToken(redirect_uri, code);
-    const info = await client.data.getInfo(tokens.access_token);
+    const tokens = await authClient.exchangeCodeForToken(env.REDIRECT_URI, code);
+    const info = await DataAPIClient.getInfo(tokens.access_token);
     ctx.type = "text/html";
-    ctx.body =  JSON.stringify(info);
+    ctx.body = JSON.stringify(info);
 });
 
 app.use(router.routes());
