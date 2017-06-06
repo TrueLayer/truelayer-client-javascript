@@ -1,0 +1,18 @@
+{
+  "name": "koa-marko-webapp",
+  "version": "1.0.0",
+  "description": "Example TrueLayer client implementation using koa and marko",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marko-js-samples/marko-starter-demo"
+  },
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-body": "^2.1.0",
+    "koa-router": "^7.2.0",
+    "marko": "^4.2.4"
+  },
+  "scripts": {}
+}
