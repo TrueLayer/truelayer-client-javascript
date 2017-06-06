@@ -1,4 +1,4 @@
-const TrueLayer = require("./..");
+const TrueLayer = require("./../..");
 const Express = require("express");
 const Parser = require("body-parser");
 
@@ -43,18 +43,18 @@ app.post("/truelayer-redirect", async (req, res) => {
     const tokens = await client.auth.exchangeCodeForToken(redirect_uri, code);
 
     // Info
-    const info = await Data.getInfo(tokens.access_token);
+    const info = await client.data.getInfo(tokens.access_token);
     // Me - Error
-    const me = await Data.getMe(tokens.access_token);
+    const me = await client.data.getMe(tokens.access_token);
     // Accounts
-    const accounts = await Data.getAccounts(tokens.access_token);
+    const accounts = await client.data.getAccounts(tokens.access_token);
     const accountsList = accounts.results;
     // Account info - Error
-    const accountInfo = await Data.getAccount(tokens.access_token, accountsList[0].account_id);
+    const accountInfo = await client.data.getAccount(tokens.access_token, accountsList[0].account_id);
     // Transactions
-    const transactions = await Data.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+    const transactions = await client.data.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
     // Balance
-    const balance = await Data.getBalance(tokens.access_token, accountsList[0].account_id);
+    const balance = await client.data.getBalance(tokens.access_token, accountsList[0].account_id);
 
     console.log("Info: " + JSON.stringify(info));
     console.log("Me: " + JSON.stringify(me));
