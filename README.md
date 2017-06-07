@@ -1,8 +1,8 @@
-#TrueLayer
+# TrueLayer
 TrueLayer allows financial applications to connect securely with their customer’s bank data. TrueLayer provides a unified interface between multiple financial institutions and third party applications over a common RESTful API. 
 For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com. 
 
-#TrueLayer client library - Javascript 
+# TrueLayer client library - Javascript 
 
 This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs.
 
