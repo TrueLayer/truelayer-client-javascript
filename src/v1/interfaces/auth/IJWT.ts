@@ -12,7 +12,7 @@ export interface IJWT {
     idp: string;
     connector_id: string;
     credentials_key: string;
-    scope: [ Scope ];
+    scope: Scope[];
     amr: [ string ];
 }
 

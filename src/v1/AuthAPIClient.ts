@@ -40,7 +40,7 @@ export class AuthAPIClient {
         }
 
         const concatScope: string = scope.join(" ");
-        let authUrl: string = `${Constants.AUTH_HOST}/?` +
+        let authUrl: string = `${Constants.AUTH_URL}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
@@ -88,7 +88,7 @@ export class AuthAPIClient {
      */
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
         const requestOptions: request.Options = {
-            uri: `${Constants.AUTH_HOST}/connect/token`,
+            uri: `${Constants.AUTH_URL}/connect/token`,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -121,7 +121,7 @@ export class AuthAPIClient {
      */
     public async refreshAccessToken(refreshToken: string): Promise<IToken> {
         const requestOptions: request.Options = {
-            uri: `${Constants.AUTH_HOST}/connect/token`,
+            uri: `${Constants.AUTH_URL}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
