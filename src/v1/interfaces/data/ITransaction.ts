@@ -1,3 +1,6 @@
+/**
+ * Response format as returned by the /transactions endpoint
+ */
 export interface ITransaction {
     timestamp: string;
     description: string;

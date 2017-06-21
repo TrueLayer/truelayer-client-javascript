@@ -7,8 +7,10 @@ import { IBalance } from "./interfaces/data/IBalance";
 import { IInfo } from "./interfaces/data/IInfo";
 import { IMe } from "./interfaces/data/IMe";
 import * as request from "request-promise";
-import * as moment from "moment";
 
+/**
+ * Class responsible for calling to the Data endpoints
+ */
 export class DataAPIClient {
 
     /**
@@ -60,7 +62,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<IMe>>}
      */
     public static async getMe(accessToken: string) {
-         return await DataAPIClient.callAPI<IMe>(accessToken, `${Constants.API_HOST}/data/v1/me`);
+         return await DataAPIClient.callAPI<IMe>(accessToken, `${Constants.API_URL}/data/v1/me`);
     }
 
     /**
@@ -70,7 +72,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<IInfo>>}
      */
     public static async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
-        return await DataAPIClient.callAPI<IInfo>(accessToken, `${Constants.API_HOST}/data/v1/info`);
+        return await DataAPIClient.callAPI<IInfo>(accessToken, `${Constants.API_URL}/data/v1/info`);
     }
 
     /**
@@ -80,7 +82,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public static async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
-        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts`);
+        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_URL}/data/v1/accounts`);
     }
 
     /**
@@ -91,7 +93,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<IAccount>>}
      */
     public static async getAccount(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
-        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}`);
+        return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}`);
     }
 
     /**
@@ -109,7 +111,7 @@ export class DataAPIClient {
             to
         };
 
-       return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/transactions`, qs);
+       return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**
@@ -120,6 +122,6 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<IBalance>>}
      */
     public static async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
-        return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_HOST}/data/v1/accounts/${accountId}/balance`);
+        return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/balance`);
     }
 }

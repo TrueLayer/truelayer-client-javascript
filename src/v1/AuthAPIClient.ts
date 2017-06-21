@@ -6,7 +6,11 @@ import { Constants } from "./Constants";
 import * as request from "request-promise";
 import * as decode from "jwt-decode";
 import { ApiError } from "./APIError";
+import * as moment from "moment";
 
+/**
+ * This class is responsible for performing the authentication steps
+ */
 export class AuthAPIClient {
 
     // Private
@@ -28,8 +32,15 @@ export class AuthAPIClient {
      * @returns {string}
      */
     public getAuthUrl(redirectURI: string, scope: string[], nonce: string, state?: string, enableMock?: boolean): string {
+        // Check for valid scope values
+        for (const grant of scope) {
+            if (!AuthAPIClient.isValidScope(grant)) {
+                throw new Error(`Provided scope is not valid: ${grant}`);
+            }
+        }
+
         const concatScope: string = scope.join(" ");
-        let authUrl: string = `https://${Constants.AUTH_HOST}/?` +
+        let authUrl: string = `${Constants.AUTH_URL}/?` +
             `response_type=code&` +
             `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
@@ -37,14 +48,13 @@ export class AuthAPIClient {
             `scope=${concatScope}&` +
             `nonce=${nonce}`;
 
-        // TODO: check if we need to URL encode this
         if (!!state) {
             authUrl += `&state=${state}`;
         }
         if (enableMock) {
             authUrl += `&enable_mock=true`;
         }
-        return authUrl;
+        return encodeURI(authUrl);
     }
 
     /**
@@ -54,7 +64,6 @@ export class AuthAPIClient {
      * @param {string} grant
      * @returns {boolean}
      */
-    // TODO: check if this is used or remove
     private static isValidScope(grant: string): boolean {
         switch (grant) {
             case "offline_access":
@@ -79,7 +88,7 @@ export class AuthAPIClient {
      */
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
         const requestOptions: request.Options = {
-            uri: `https://${Constants.AUTH_HOST}/connect/token`,
+            uri: `${Constants.AUTH_URL}/connect/token`,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
@@ -112,7 +121,7 @@ export class AuthAPIClient {
      */
     public async refreshAccessToken(refreshToken: string): Promise<IToken> {
         const requestOptions: request.Options = {
-            uri: `https://${Constants.AUTH_HOST}/connect/token`,
+            uri: `${Constants.AUTH_URL}/connect/token`,
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -146,8 +155,7 @@ export class AuthAPIClient {
     public static isTokenExpired(accessToken: string): boolean {
         const decoded: IJWT = decode(accessToken);
         const expiry: number = decoded.exp;
-        // TODO: use moment instead for date manipulation
-        const now: number = Math.round(new Date().getTime() / 1000);
+        const now: number = moment().utc().unix();
         return now - expiry > 0;
     }
 }

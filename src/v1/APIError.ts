@@ -1,6 +1,6 @@
 import { RequestError, StatusCodeError } from "request-promise/errors";
 /**
- * Error class for mapping expected HTTP errors
+ * Error class for handling errors
  */
 export class ApiError extends Error {
 
