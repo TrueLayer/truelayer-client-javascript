@@ -9,5 +9,8 @@
     "body-parser": "^1.17.2",
     "envalid": "^3.0.0",
     "express": "^4.15.3"
+  },
+  "scripts": {
+    "start": "node app.js"
   }
 }

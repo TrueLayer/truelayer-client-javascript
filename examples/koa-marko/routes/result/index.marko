@@ -1,0 +1,39 @@
+<!doctype html>
+html lang="en"
+    head
+        meta charset="UTF-8"
+        title -- Truelayer | Demo
+    body
+        h1 -- ${input.name}
+        if(input.me)
+            h2 -- /Me
+            ul
+                li for(name, value in input.me.results[0])
+                    -- <b>${name}</b>: ${value}
+        if(input.info)
+            h2 -- /Info
+            ul
+                li for(name, value in input.info.results[0])
+                    if(name === "addresses")
+                        -- <b>addresses</b>
+                        ul
+                            li for(type, address in value[0])
+                                -- <b>${type}</b>: ${address}
+                    else
+                        -- <b>${name}</b>: ${value}
+        if(input.accounts)
+            h2 -- /Accounts
+            ul
+                li for(name, value in input.accounts.results[0])
+                    if(name === "account_number")
+                        -- <b>account_number</b>
+                        ul
+                            li for(acc, num in value)
+                                -- <b>${acc}</b>: ${num}
+                    else
+                        -- <b>${name}</b>: ${value}
+        if(input.balance)
+            h2 -- /Balance
+            ul
+                li for(name, value in input.balance.results[0])
+                    -- <b>${name}</b>: ${value}

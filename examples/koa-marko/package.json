@@ -13,7 +13,15 @@
     "koa": "^2.2.0",
     "koa-body": "^2.1.0",
     "koa-router": "^7.2.0",
+    "koa-session": "^5.1.0",
+    "koa-static": "^3.0.0",
+    "lasso": "^2.11.12",
+    "lasso-marko": "^2.3.0",
     "marko": "^4.2.4"
   },
-  "scripts": {}
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc -p .",
+    "start": "node server.js"
+  }
 }

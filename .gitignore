@@ -51,7 +51,7 @@ deploy/credentials/*-key.pem
 deploy/deployment.yaml/coverage
 
 # vs code config
-.vscode/launch.json
+.vscode
 
 #webstorm
 .idea/
@@ -65,3 +65,6 @@ TODOs.org
 # k8s deployment templates
 deploy/development/*.yaml
 deploy/releases/*.yaml
+
+# any .task todo files
+**/*.tasks

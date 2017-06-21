@@ -1,7 +1,11 @@
-.git/
-node_modules/
-dist/
-.cache/
+.git
+.cache
+
+# dirs
+node_modules
+dist
+public
+
 *.log
 *.bak.js
 *.bak
