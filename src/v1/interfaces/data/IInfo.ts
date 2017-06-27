@@ -34,7 +34,7 @@ export interface IInfo {
 }
 
 /**
- * Properties of an address - for use in IInfo
+ * Properties of an address
  *
  * @interface IAddressInfo
  */

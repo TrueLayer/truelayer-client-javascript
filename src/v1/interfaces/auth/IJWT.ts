@@ -1,23 +1,27 @@
 /**
- * Format of JWT token
+ * Structure of JWT (JSON Web Token)
+ * Docs: https://jwt.io/
+ *
+ * @interface IJWT
  */
 export interface IJWT {
-    nbf: number;
-    exp: number;
-    iss: string;
+    amr: [ string ];
     aud: [ string, string ];
-    client_id: string;
-    sub: string;
     auth_time: number;
-    idp: string;
+    client_id: string;
     connector_id: string;
     credentials_key: string;
+    exp: number;
+    idp: string;
+    iss: string;
+    nbf: number;
     scope: Scope[];
-    amr: [ string ];
+    sub: string;
 }
 
 /**
- * @type: Scope
  * List of possible values for `scope` for the authentication URL
+ *
+ * @type: Scope
  */
 export type Scope = "info" | "accounts" | "transactions" | "balance" | "offline_access";

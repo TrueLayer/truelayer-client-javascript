@@ -1,10 +1,10 @@
-export { DataAPIClient } from "./src/v1/DataAPIClient";
 export { AuthAPIClient } from "./src/v1/AuthAPIClient";
-export { IOptions } from "./src/v1/interfaces/auth/IOptions";
-export { IResponse } from "./src/v1/interfaces/data/IResponse";
-export { IToken } from "./src/v1/interfaces/auth/IToken";
-export { ITransaction } from "./src/v1/interfaces/data/ITransaction";
+export { DataAPIClient } from "./src/v1/DataAPIClient";
 export { IAccount } from "./src/v1/interfaces/data/IAccount";
 export { IBalance } from "./src/v1/interfaces/data/IBalance";
 export { IInfo } from "./src/v1/interfaces/data/IInfo";
 export { IMe } from "./src/v1/interfaces/data/IMe";
+export { IOptions } from "./src/v1/interfaces/auth/IOptions";
+export { IResponse } from "./src/v1/interfaces/data/IResponse";
+export { ITokenResponse } from "./src/v1/interfaces/auth/ITokenResponse";
+export { ITransaction } from "./src/v1/interfaces/data/ITransaction";

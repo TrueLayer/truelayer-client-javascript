@@ -1,12 +1,12 @@
-import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
-import { IOptions } from "./interfaces/auth/IOptions";
-import { IToken } from "./interfaces/auth/IToken";
-import { IJWT } from "./interfaces/auth/IJWT";
-import { Constants } from "./Constants";
-import * as request from "request-promise";
-import * as decode from "jwt-decode";
 import { ApiError } from "./APIError";
+import { Constants } from "./Constants";
+import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
+import { IJWT } from "./interfaces/auth/IJWT";
+import { IOptions } from "./interfaces/auth/IOptions";
+import { ITokenResponse } from "./interfaces/auth/ITokenResponse";
+import * as decode from "jwt-decode";
 import * as moment from "moment";
+import * as request from "request-promise";
 
 /**
  * This class is responsible for performing the authentication steps
@@ -86,7 +86,7 @@ export class AuthAPIClient {
      * @param {string} code
      * @returns {Promise<IToken>}
      */
-    public async exchangeCodeForToken(redirectURI: string, code: string): Promise<IToken> {
+    public async exchangeCodeForToken(redirectURI: string, code: string): Promise<ITokenResponse> {
         const requestOptions: request.Options = {
             uri: `${Constants.AUTH_URL}/connect/token`,
             headers: {
@@ -119,7 +119,7 @@ export class AuthAPIClient {
      * @param {string} refreshToken
      * @returns {Promise<IToken>}
      */
-    public async refreshAccessToken(refreshToken: string): Promise<IToken> {
+    public async refreshAccessToken(refreshToken: string): Promise<ITokenResponse> {
         const requestOptions: request.Options = {
             uri: `${Constants.AUTH_URL}/connect/token`,
             method: "POST",

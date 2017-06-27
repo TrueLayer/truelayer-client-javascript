@@ -38,7 +38,7 @@ export interface IAccount {
 }
 
 /**
- * Account identifiers (for use with /account endpoint)
+ * Account identifiers
  *
  * @interface IAccount
  */

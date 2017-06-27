@@ -1,11 +1,11 @@
-import { test } from "ava";
-import * as TrueLayer from "../../index";
-import { IToken } from "../../src/v1/interfaces/auth/IToken";
+import { AuthAPIClient } from "../../src/v1/AuthAPIClient";
 import { Fixtures } from "./fixtures";
+import { IOptions } from "../../src/v1/interfaces/auth/IOptions";
+import { ITokenResponse } from "../../src/v1/interfaces/auth/ITokenResponse";
+import { test } from "ava";
 import * as request from "request-promise";
 import * as sinon from "sinon";
-import { IOptions } from "../../src/v1/interfaces/auth/IOptions";
-import { AuthAPIClient } from "../../src/v1/AuthAPIClient";
+import * as TrueLayer from "../../index";
 
 // Build 'options' to pass to Client
 const options: IOptions = {
@@ -70,7 +70,7 @@ if (process.env.access_token) {
 test("Exchange code for token", async (t) => {
     t.plan(2);
     sinon.stub(request, "post").returns(fixtures.authResponse);
-    const expected: IToken = {
+    const expected: ITokenTuple = {
         access_token: "test_access_token",
         refresh_token: "test_refresh_token"
     };
