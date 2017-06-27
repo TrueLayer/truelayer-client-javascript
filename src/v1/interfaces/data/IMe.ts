@@ -1,9 +1,20 @@
 /**
- * Response format returned by the /me endpoint
+ * Access token metadata - for use with /me endpoint
+ * Docs: http://docs.truelayer.com/#retrieve-access_token-metadata
+ *
+ * @interface IMe
  */
-
 export interface IMe {
-    provider_id: string;
-    credentials_id: string;
+    /**
+     * Your unique client identifier
+     */
     client_id: string;
+    /**
+     * Unique identifier of the set of credentials
+     */
+    credentials_id: string;
+    /**
+     * Unique identifier of the Provider
+     */
+    provider_id: string;
 }
