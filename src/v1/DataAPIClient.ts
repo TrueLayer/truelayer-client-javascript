@@ -1,11 +1,14 @@
 import { ApiError } from "./APIError";
-import { IResponse } from "./interfaces/data/IResponse";
 import { Constants } from "./Constants";
-import { ITransaction } from "./interfaces/data/ITransaction";
 import { IAccount } from "./interfaces/data/IAccount";
 import { IBalance } from "./interfaces/data/IBalance";
 import { IInfo } from "./interfaces/data/IInfo";
+import { IJWT } from "./interfaces/auth/IJWT";
 import { IMe } from "./interfaces/data/IMe";
+import { IResponse } from "./interfaces/data/IResponse";
+import { ITransaction } from "./interfaces/data/ITransaction";
+import * as decode from "jwt-decode";
+import * as moment from "moment";
 import * as request from "request-promise";
 
 /**
@@ -23,6 +26,10 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<T>>}
      */
     public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
+        // Check accessToken isn't expired before making server call
+        if (DataAPIClient.isTokenExpired(accessToken)) {
+            throw new ApiError(new Error("Access token has expired"));
+        }
         const requestOptions: request.Options = DataAPIClient.buildRequestOptions(accessToken, path, qs);
         try {
             const response: string = await request.get(requestOptions);
@@ -123,5 +130,18 @@ export class DataAPIClient {
      */
     public static async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
         return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/balance`);
+    }
+
+    /**
+     * Returns whether the token has expired or not
+     *
+     * @param {string} accessToken
+     * @returns {boolean}
+     */
+    public static isTokenExpired(accessToken: string): boolean {
+        const decoded: IJWT = decode(accessToken);
+        const expiry: number = decoded.exp;
+        const now: number = moment().utc().unix();
+        return now - expiry > 0;
     }
 }

@@ -1,24 +1,38 @@
 import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
-import { IJWT } from "./interfaces/auth/IJWT";
 import { IOptions } from "./interfaces/auth/IOptions";
 import { ITokenResponse } from "./interfaces/auth/ITokenResponse";
-import * as decode from "jwt-decode";
 import * as moment from "moment";
 import * as request from "request-promise";
 
 /**
  * This class is responsible for performing the authentication steps
+ *
+ * @export
+ * @class AuthAPIClient
  */
 export class AuthAPIClient {
 
-    // Private
     private readonly options: IOptions;
 
-    // Constructor
-    constructor(options: IOptions) {
-        this.options = options;
+    /**
+     * Creates an instance of AuthAPIClient.
+     * If no constructor options are passed then look for environment variables by default.
+     *
+     * @param {IOptions} options
+     */
+    constructor(options?: IOptions) {
+        if (options) {
+            this.options = options;
+        } else if (process.env.CLIENT_ID || process.env.CLIENT_SECRET) {
+            this.options = {
+                client_id: process.env.CLIENT_ID,
+                client_secret: process.env.CLIENT_SECRET
+            };
+        } else {
+            throw new Error("Need to pass client_id and client_secret or set as environment variables");
+        }
     }
 
     /**
@@ -70,12 +84,10 @@ export class AuthAPIClient {
             case "info":
             case "accounts":
             case "transactions":
-            case "balance": {
+            case "balance":
                 return true;
-            }
-            default: {
+            default:
                 return false;
-            }
         }
     }
 
@@ -144,18 +156,5 @@ export class AuthAPIClient {
         } catch (error) {
             throw new ApiError(error);
         }
-    }
-
-    /**
-     * Returns whether the token has expired or not
-     *
-     * @param {string} accessToken
-     * @returns {boolean}
-     */
-    public static isTokenExpired(accessToken: string): boolean {
-        const decoded: IJWT = decode(accessToken);
-        const expiry: number = decoded.exp;
-        const now: number = moment().utc().unix();
-        return now - expiry > 0;
     }
 }

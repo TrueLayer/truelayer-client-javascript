@@ -11,6 +11,23 @@ const fixtures = new Fixtures();
 // Instantiate to access fixtures
 const data = new DataAPIClient();
 
+// isTokenExpired tests
+test("isTokenExpired returns true on expired token", async (t) => {
+    t.plan(1);
+    const expired = DataAPIClient.isTokenExpired(fixtures.accessToken);
+    t.true(expired);
+});
+
+if (process.env.access_token) {
+    // Get access token from environment variable
+    const access_token: string = process.env.access_token;
+    test("isTokenExpired return false on fresh token", async (t) => {
+        t.plan(1);
+        const expired = DataAPIClient.isTokenExpired(access_token);
+        t.false(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
+    });
+}
+
 // Create sinon instance
 const mock = sinon.sandbox.create();
 

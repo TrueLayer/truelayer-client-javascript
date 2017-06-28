@@ -51,26 +51,10 @@ test("Get authentication URL - no optional params provided", (t) => {
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 
-test("isTokenExpired returns true on expired token", async (t) => {
-    t.plan(1);
-    const expired = AuthAPIClient.isTokenExpired(fixtures.accessToken);
-    t.true(expired);
-});
-
-if (process.env.access_token) {
-    // Get access token from environment variable
-    const access_token: string = process.env.access_token;
-    test("isTokenExpired return false on fresh token", async (t) => {
-        t.plan(1);
-        const expired = AuthAPIClient.isTokenExpired(access_token);
-        t.false(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
-    });
-}
-
 test("Exchange code for token", async (t) => {
     t.plan(2);
     sinon.stub(request, "post").returns(fixtures.authResponse);
-    const expected: ITokenTuple = {
+    const expected: ITokenResponse = {
         access_token: "test_access_token",
         refresh_token: "test_refresh_token"
     };
