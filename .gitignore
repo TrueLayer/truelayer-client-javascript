@@ -68,3 +68,6 @@ deploy/releases/*.yaml
 
 # any .task todo files
 **/*.tasks
+
+# .cache directories
+**/.cache
