@@ -1,0 +1,38 @@
+<!doctype html>
+html lang="en"
+    head
+        // Required meta tags
+        meta charset="UTF-8"
+        meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        title include(input.title)
+        // Bootstrap
+        link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+        // Lasso - css
+        lasso-head
+    body
+        // Global header
+        div#header.jumbotron.jumbotron-fluid
+            h1.display-1.font-weight-bold -- PiggyBank
+            p.my-3 -- Definitely <em>not</em> a fictional financial planning app
+
+        // Body import
+        include(input.body)
+
+        // Bootstrap
+        script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        // Lasso - js
+        lasso-body
+
+style {
+
+    #header {
+        background-color: #444;
+        text-align: center;
+        color: #fff;
+        margin: 0px;
+    }
+
+}

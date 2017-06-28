@@ -1,10 +1,9 @@
-.git
-.cache
-
-# dirs
-node_modules
-dist
-public
+**/.git
+**/.cache
+**/static
+**/node_modules
+**/dist
+**/public
 
 *.log
 *.bak.js

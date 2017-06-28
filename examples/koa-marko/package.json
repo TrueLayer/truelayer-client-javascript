@@ -20,8 +20,7 @@
     "marko": "^4.2.4"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "npm run clean && tsc -p .",
-    "start": "node server.js"
+    "clean": "rm -rf static .cache",
+    "start": "npm run clean && node server.js"
   }
 }

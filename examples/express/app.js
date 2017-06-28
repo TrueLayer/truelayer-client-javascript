@@ -1,3 +1,4 @@
+// Truelayer clients
 const { AuthAPIClient, DataAPIClient } = require("./../..");
 const Express = require("express");
 const Parser = require("body-parser");
@@ -12,13 +13,10 @@ const env = envalid.cleanEnv(process.env, {
 });
 
 // Create TrueLayer client instance
-const authClient = new AuthAPIClient({
-    client_id: env.CLIENT_ID,
-    client_secret: env.CLIENT_SECRET
-});
+const authClient = new AuthAPIClient(env.CLIENT_ID, env.CLIENT_SECRET);
 
 // Create an array of scopes
-const scopes = ["offline_access", "info", "accounts", "transactions", "balance"];
+const scopes = [ "offline_access", "info", "accounts", "transactions", "balance" ];
 
 // Create Express instance
 const app = Express();
@@ -39,28 +37,28 @@ app.post("/truelayer-redirect", async (req, res) => {
 
     // Info
     const info = await DataAPIClient.getInfo(tokens.access_token);
-    // Me - Error
+    // Me
     const me = await DataAPIClient.getMe(tokens.access_token);
     // Accounts
     const accounts = await DataAPIClient.getAccounts(tokens.access_token);
     const accountsList = accounts.results;
-    // Account info - Error
+    // Account info
     const accountInfo = await DataAPIClient.getAccount(tokens.access_token, accountsList[0].account_id);
     // Transactions
-    const transactions = await DataAPIClient.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-04-20", "2017-04-30");
+    const transactions = await DataAPIClient.getTransactions(tokens.access_token, accountsList[0].account_id, "2017-01-20", "2017-04-30");
     // Balance
     const balance = await DataAPIClient.getBalance(tokens.access_token, accountsList[0].account_id);
 
-    console.log("Info: " + JSON.stringify(info));
-    console.log("Me: " + JSON.stringify(me));
-    console.log("Accounts: " + JSON.stringify(accounts));
-    console.log("Account: " + JSON.stringify(accountInfo));
-    console.log("Transactions: " + JSON.stringify(transactions));
-    console.log("Balance: " + JSON.stringify(balance));
-
     res.set("Content-Type", "text/plain");
-    res.send(`Access Token:   ${JSON.stringify(tokens.access_token)}
-            Refresh Token:  ${JSON.stringify(tokens.refresh_token)}`);
+    res.send(
+        "Access Token: " + JSON.stringify(tokens.access_token, null, 2) + "\n\n" +
+        "Refresh Token: " + JSON.stringify(tokens.refresh_token, null, 2) + "\n\n" +
+        "Info: " + JSON.stringify(info, null, 2) + "\n\n" +
+        "Me: " + JSON.stringify(me, null, 2) + "\n\n" +
+        "Accounts: " + JSON.stringify(accounts, null, 2) + "\n\n" +
+        "Account: " + JSON.stringify(accountInfo, null, 2) + "\n\n" +
+        "Transactions: " + JSON.stringify(transactions, null, 2) + "\n\n" +
+        "Balance: " + JSON.stringify(balance, null, 2));
 });
 
 app.listen(5000, () => {
