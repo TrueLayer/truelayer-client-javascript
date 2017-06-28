@@ -7,7 +7,7 @@ import * as moment from "moment";
 import * as request from "request-promise";
 
 /**
- * This class is responsible for performing the authentication steps
+ * This class is responsible for performing authentication with TrueLayer
  *
  * @export
  * @class AuthAPIClient
@@ -96,7 +96,7 @@ export class AuthAPIClient {
      *
      * @param {string} redirectURI
      * @param {string} code
-     * @returns {Promise<IToken>}
+     * @returns {Promise<ITokenResponse>}
      */
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<ITokenResponse> {
         const requestOptions: request.Options = {
@@ -129,7 +129,7 @@ export class AuthAPIClient {
      * Exchanges a refresh token for a fresh access token
      *
      * @param {string} refreshToken
-     * @returns {Promise<IToken>}
+     * @returns {Promise<ITokenResponse>}
      */
     public async refreshAccessToken(refreshToken: string): Promise<ITokenResponse> {
         const requestOptions: request.Options = {
