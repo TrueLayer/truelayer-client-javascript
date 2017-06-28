@@ -63,7 +63,7 @@ app.post("/truelayer-redirect", async (req, res) => {
 });
 ```
 
-# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples)
+# Examples
 
 Two sample applications have been created and are available to run from the `./examples` folder.
 In order to run the examples, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
@@ -74,9 +74,9 @@ $ export CLIENT_ID="<client>"
 $ export CLIENT_SECRET="<secret>"
 ```
 
-## [Express](https://expressjs.com/)
+### [Express](https://expressjs.com/)
 
-This simple example stands up a bare-bones express server that takes a user through the authentication flow and hits the data API endpoints, streaming the results to a page. Run it from the command line:
+This simple example stands up a bare-bones express server that takes a user through the authentication flow and hits the data API endpoints, streaming the results to a page.
 
 ```bash
 $ cd examples/express
@@ -87,7 +87,7 @@ $ npm start
 
 Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
 
-## [Koa](http://koajs.com/)-[Marko](http://markojs.com)
+### [Koa](http://koajs.com/)-[Marko](http://markojs.com)
 
 Koa is a next-generation web framework designed by the team behind Express, which aims to be a smaller, more expressive foundation for web applications and APIs.
 
@@ -138,7 +138,7 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 This client library comprises of two pieces of functionality represented by separate classes:
 
-### 1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)
+#### 1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)
 * This is responsible for providing methods that allow developers to perform customer authentication and client authorization.
 * The following methods are provided in AuthAPIClient:
     * `getAuthUrl` - builds a correctly formatted authentication url used for redirection to the authentication server.
@@ -146,7 +146,7 @@ This client library comprises of two pieces of functionality represented by sepa
     * `refreshAccessToken` - refreshes the access token using the refresh token. Access tokens expire after a set period of time (default 1h). 
     * `isTokenExpired` - checks whether the current access token is still valid.
 
-### 2. Data APIs - [DataAPIClient](./src/v1/DataAPIClient.ts)
+#### 2. Data APIs - [DataAPIClient](./src/v1/DataAPIClient.ts)
 * Once the authentication is successful, methods are provided for calling the various API endpoints for obtaining information regarding the authenticated bank account such as : accounts, balance, transactions etc.
 * The following methods are provided in DataAPIClient:
     * `getMe` - call to the */me* endpoint
