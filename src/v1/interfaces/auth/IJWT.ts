@@ -1,15 +1,23 @@
+/**
+ * Format of JWT token
+ */
 export interface IJWT {
     nbf: number;
     exp: number;
     iss: string;
     aud: [ string, string ];
-    // TODO: this should be a string
-    client_id: [ string, string ];
+    client_id: string;
     sub: string;
     auth_time: number;
     idp: string;
     connector_id: string;
     credentials_key: string;
-    scope: [ "info" | "accounts" | "transactions" | "balance" | "offline_access" ];
+    scope: Scope[];
     amr: [ string ];
 }
+
+/**
+ * @type: Scope
+ * List of possible values for `scope` for the authentication URL
+ */
+export type Scope = "info" | "accounts" | "transactions" | "balance" | "offline_access";

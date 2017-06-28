@@ -1,3 +1,7 @@
+/**
+ * Properties contained by an account listed by the /account endpoint
+ */
+
 export interface IAccount {
     update_timestamp: string;
     account_id: string;

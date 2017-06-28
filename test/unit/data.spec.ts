@@ -20,7 +20,7 @@ test.afterEach((t) => {
 
 test("buildRequestOptions() - returns well formed request options - required params", async (t) => {
     t.plan(1);
-    const actual = await DataAPIClient.buildRequestOptions(fixtures.accessToken, `${Constants.API_HOST}/data/v1/info`);
+    const actual = await DataAPIClient.buildRequestOptions(fixtures.accessToken, `${Constants.API_URL}/data/v1/info`);
     const expected = fixtures.requestOptions;
     t.deepEqual(actual, expected, "Incorrect response object.");
 });
@@ -31,7 +31,7 @@ test("buildRequestOptions() - returns well formed request options - all params",
         to: "2017-04-30"
     };
     t.plan(1);
-    const actual = await DataAPIClient.buildRequestOptions(fixtures.accessToken, `${Constants.API_HOST}/data/v1/info`, qs);
+    const actual = await DataAPIClient.buildRequestOptions(fixtures.accessToken, `${Constants.API_URL}/data/v1/info`, qs);
     const expected = fixtures.requestOptionsQs;
     t.deepEqual(actual, expected, "Incorrect response object.");
 });

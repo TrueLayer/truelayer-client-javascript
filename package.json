@@ -20,6 +20,7 @@
     "yarn": "^0.24.5"
   },
   "dependencies": {
+    "envalid": "^3.0.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.18.1",
     "request": "^2.81.0",
