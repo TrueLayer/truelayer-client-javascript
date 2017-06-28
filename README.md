@@ -19,7 +19,10 @@ For more information and for obtaining a new TrueLayer developer account, visit 
 
 This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
 
-The truelayer-client-javascript library can be used from either JavaScript (Node.js) or TypeScript.
+This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. 
+Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
+
+The truelayer-client-javascript library can be used from either JavaScript (Node.js) or TypeScript. 
 
 # Installation
 
@@ -136,6 +139,34 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 # [Project structure](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1)
 
+# Authentication and tokens
+*Note: The code snippets below are extracted from the above Express example.*
+* The first step in authentication is to redirect the application to the TrueLayer Authentication Server. 
+
+    ```javascript
+        const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", state = "", true);
+        res.redirect(authURL);
+    ```
+* Upon successful redirect, a one-time code is generated when the HTTP POST is performed to the redirect_uri provided by the client.
+
+    ```javascript
+    app.post("/truelayer-redirect", async (req, res) => {
+        const code = req.body.code;
+        ...
+        })
+    ```
+* After the code is obtained, this can be exchanged for an access token.
+    ```javascript
+    const tokens = await client.exchangeCodeForToken(env.REDIRECT_URI, code);
+    ``` 
+* The authorization server will respond with:
+    * *access token* - short-lived JWT token (default 1h) used to access data on behalf of the customer
+    * *refresh token* - long-lived code used to obtain a new access token
+
+* Use `isValidToken` to check whether an access token is still valid.
+* In the case that the `access_token` has expired, ```refreshAccessToken``` can be used for refreshing the token. This will return new values for both the access_token and refresh_token (old refresh_token no longer valid).
+
+# Project structure
 This client library comprises of two pieces of functionality represented by separate classes:
 
 #### 1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)

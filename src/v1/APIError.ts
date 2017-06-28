@@ -33,7 +33,7 @@ export class ApiError extends Error {
             case 404:
                 return ApiError.constructErrorMessage("not_found", "Not Found");
             default:
-                return ApiError.constructErrorMessage("internal_server_error", "Internal server error");
+                return ApiError.constructErrorMessage("internal_error", "Internal error");
         }
     }
 
