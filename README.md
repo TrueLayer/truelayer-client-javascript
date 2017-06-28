@@ -1,13 +1,13 @@
 
 <p align="center">
 	<a href="https://truelayer.com">
-		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg">
+		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg" />
     </a>
-	</br>
+	<br>
 	<a href="https://doxdox.org/truelayer/truelayer-client-javascript">
-		<img src="https://doxdox.org/images/badge-flat.svg">
+		<img src="https://doxdox.org/images/badge-flat.svg" />
     </a>
-	</br>
+	<br>
 	<sup><strong>Detailed documentation on client</sup></strong>
 </p>
 
@@ -21,14 +21,14 @@ This is the official Typescript client library that helps with the creation of a
 
 The truelayer-client-javascript library can be used from either JavaScript (Node.js) or TypeScript.
 
-## Installation
+# Installation
 
 ```bash
 $ npm install truelayer-client
 ```
 
-## Example usage
-Below is a simple Javascript express app that uses the TrueLayer API client library. It illustrates the flow of obtaining a JWT access token from the authorization server, before using this token to query the data api `/info` endpoint for the identity information of the user.
+# Usage
+Below is a simple Javascript express app using TrueLayer's API client library. It illustrates the flow of obtaining a JWT access token from the authorization server, before using this token to query the data api `/info` endpoint for identity information of the user.
 
 ```javascript
 const {AuthAPIClient, DataAPIClient} = require("truelayer-client");
@@ -55,7 +55,7 @@ app.post("/truelayer-redirect", async (req, res) => {
     const code = req.body.code;
     const tokens = await client.exchangeCodeForToken(redirect_uri, code);
     
-    // Call to the Data endpoint using the access token obtained. Eg. call to /info endpoint
+    // Call to the Data endpoint using the access token obtained. Eg. /info endpoint
     const info = await DataAPIClient.getInfo(tokens.access_token);
     
     res.set("Content-Type", "text/plain");
@@ -63,32 +63,43 @@ app.post("/truelayer-redirect", async (req, res) => {
 });
 ```
 
+# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples)
+
 Two sample applications have been created and are available to run from the `./examples` folder.
 In order to run the examples, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
 Set the environment variables from the console:
 
 ```bash
 $ export CLIENT_ID="<client>"
-
 $ export CLIENT_SECRET="<secret>"
 ```
 
-* ## Express example
+## [Express](https://expressjs.com/)
 
-This example simply prints to console output from all the methods provided on top of the Authentication APIs and Resource APIs. Run it from the command line:
+This simple example stands up a bare-bones express server that takes a user through the authentication flow and hits the data API endpoints, streaming the results to a page. Run it from the command line:
 
 ```bash
-$ node examples/express/app.js
+$ cd examples/express
+$ npm install
+...
+$ npm start
 ```
 
 Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
 
-* ## Koa-marko example
+## [Koa](http://koajs.com/)-[Marko](http://markojs.com)
 
-In order to run this example, just run from the command line:
+Koa is a next-generation web framework designed by the team behind Express, which aims to be a smaller, more expressive foundation for web applications and APIs.
+
+Marko on the other hand is a lightweight full featured open-source frontend framework with remarkable performance. It is heavily inspired by the work from vue, react and angular.
+
+This demo showcases the flow from client application, to TrueLayer auth dialog and back again in a fictional single page personal finance management application.
 
 ```bash
-$ node examples/koa-marko/server.js
+$ cd examples/koa-marko
+$ npm install
+...
+$ npm start
 ```
 # Authentication and tokens
 
@@ -123,11 +134,11 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 > In the case that the `access_token` has expired, ```refreshAccessToken``` can be used for refreshing the token. This will return new values for both the access_token and refresh_token (old refresh_token no longer valid).
 
-# Project structure
+# [Project structure](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1)
 
 This client library comprises of two pieces of functionality represented by separate classes:
 
-1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)
+### 1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)
 * This is responsible for providing methods that allow developers to perform customer authentication and client authorization.
 * The following methods are provided in AuthAPIClient:
     * `getAuthUrl` - builds a correctly formatted authentication url used for redirection to the authentication server.
@@ -135,7 +146,7 @@ This client library comprises of two pieces of functionality represented by sepa
     * `refreshAccessToken` - refreshes the access token using the refresh token. Access tokens expire after a set period of time (default 1h). 
     * `isTokenExpired` - checks whether the current access token is still valid.
 
-2. Resource APIs - [DataAPIClient](./src/v1/DataAPIClient.ts)
+### 2. Data APIs - [DataAPIClient](./src/v1/DataAPIClient.ts)
 * Once the authentication is successful, methods are provided for calling the various API endpoints for obtaining information regarding the authenticated bank account such as : accounts, balance, transactions etc.
 * The following methods are provided in DataAPIClient:
     * `getMe` - call to the */me* endpoint
@@ -144,6 +155,7 @@ This client library comprises of two pieces of functionality represented by sepa
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
+
 
 # Errors
 Errors are handled using the `APIError` class. The errors returned will have the following format:
@@ -161,7 +173,6 @@ The client library has both integration and unit tests.
 
 ```bash
 $ export access_token=<access_token>
-
 $ npm run test
 ```
 # Contributions

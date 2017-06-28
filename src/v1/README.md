@@ -21,12 +21,12 @@ This class is responsible for performing authentication with TrueLayer
 
 <a name="new_AuthAPIClient_new"></a>
 
-## new AuthAPIClient()
+### new AuthAPIClient()
 This class is responsible for performing the authentication steps
 
 <a name="new_AuthAPIClient_new"></a>
 
-## new AuthAPIClient(options)
+### new AuthAPIClient(options)
 Creates an instance of AuthAPIClient.
 If no constructor options are passed then look for environment variables by default.
 
@@ -37,7 +37,7 @@ If no constructor options are passed then look for environment variables by defa
 
 <a name="AuthAPIClient+getAuthUrl"></a>
 
-## authAPIClient.getAuthUrl(redirectURI, scope, nonce, [state], [enableMock]) ⇒ <code>string</code>
+### authAPIClient.getAuthUrl(redirectURI, scope, nonce, [state], [enableMock]) ⇒ <code>string</code>
 Builds a correctly formatted authentication url
 
 **Kind**: instance method of [<code>AuthAPIClient</code>](#AuthAPIClient)  
@@ -52,7 +52,7 @@ Builds a correctly formatted authentication url
 
 <a name="AuthAPIClient+exchangeCodeForToken"></a>
 
-## authAPIClient.exchangeCodeForToken(redirectURI, code) ⇒ <code>Promise.&lt;IToken&gt;</code>
+### authAPIClient.exchangeCodeForToken(redirectURI, code) ⇒ <code>Promise.&lt;IToken&gt;</code>
 Exchanges an auth code for an access token
 
 **Kind**: instance method of [<code>AuthAPIClient</code>](#AuthAPIClient)  
@@ -64,7 +64,7 @@ Exchanges an auth code for an access token
 
 <a name="AuthAPIClient+refreshAccessToken"></a>
 
-## authAPIClient.refreshAccessToken(refreshToken) ⇒ <code>Promise.&lt;IToken&gt;</code>
+### authAPIClient.refreshAccessToken(refreshToken) ⇒ <code>Promise.&lt;IToken&gt;</code>
 Exchanges a refresh token for a fresh access token
 
 **Kind**: instance method of [<code>AuthAPIClient</code>](#AuthAPIClient)  
@@ -73,8 +73,12 @@ Exchanges a refresh token for a fresh access token
 | --- | --- |
 | refreshToken | <code>string</code> | 
 
-<a name="DataAPIClient"></a>
 
+<br/>
+<br/>
+
+
+<a name="DataAPIClient"></a>
 # DataAPIClient
 Class responsible for calling to the Data endpoints
 
@@ -90,7 +94,7 @@ Class responsible for calling to the Data endpoints
 
 <a name="DataAPIClient.callAPI"></a>
 
-## DataAPIClient.callAPI(accessToken, path, [qs]) ⇒ <code>Promise.&lt;IResponse.&lt;T&gt;&gt;</code>
+### DataAPIClient.callAPI(accessToken, path, [qs]) ⇒ <code>Promise.&lt;IResponse.&lt;T&gt;&gt;</code>
 Generic API calling function
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -104,7 +108,7 @@ Generic API calling function
 
 <a name="DataAPIClient.getMe"></a>
 
-## DataAPIClient.getMe(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IMe&gt;&gt;</code>
+### DataAPIClient.getMe(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IMe&gt;&gt;</code>
 Call to /me API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -115,7 +119,7 @@ Call to /me API.
 
 <a name="DataAPIClient.getInfo"></a>
 
-## DataAPIClient.getInfo(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IInfo&gt;&gt;</code>
+### DataAPIClient.getInfo(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IInfo&gt;&gt;</code>
 Call to /info API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -126,7 +130,7 @@ Call to /info API.
 
 <a name="DataAPIClient.getAccounts"></a>
 
-## DataAPIClient.getAccounts(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
+### DataAPIClient.getAccounts(accessToken) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
 Call to /accounts API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -137,7 +141,7 @@ Call to /accounts API.
 
 <a name="DataAPIClient.getAccount"></a>
 
-## DataAPIClient.getAccount(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
+### DataAPIClient.getAccount(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
 Call to /accounts/account_id API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -149,7 +153,7 @@ Call to /accounts/account_id API.
 
 <a name="DataAPIClient.getTransactions"></a>
 
-## DataAPIClient.getTransactions(accessToken, accountId, from, to) ⇒ <code>Promise.&lt;IResponse.&lt;ITransaction&gt;&gt;</code>
+### DataAPIClient.getTransactions(accessToken, accountId, from, to) ⇒ <code>Promise.&lt;IResponse.&lt;ITransaction&gt;&gt;</code>
 Call to /accounts/account_id/transactions API
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -163,7 +167,7 @@ Call to /accounts/account_id/transactions API
 
 <a name="DataAPIClient.getBalance"></a>
 
-## DataAPIClient.getBalance(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IBalance&gt;&gt;</code>
+### DataAPIClient.getBalance(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IBalance&gt;&gt;</code>
 Call to /accounts/account_id/balance API
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
@@ -175,7 +179,7 @@ Call to /accounts/account_id/balance API
 
 <a name="DataAPIClient.isTokenExpired"></a>
 
-## DataAPIClient.isTokenExpired(accessToken) ⇒ <code>boolean</code>
+### DataAPIClient.isTokenExpired(accessToken) ⇒ <code>boolean</code>
 Returns whether the token has expired or not
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
