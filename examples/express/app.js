@@ -13,10 +13,13 @@ const env = envalid.cleanEnv(process.env, {
 });
 
 // Create TrueLayer client instance
-const authClient = new AuthAPIClient(env.CLIENT_ID, env.CLIENT_SECRET);
+const authClient = new AuthAPIClient({
+    client_id: env.CLIENT_ID, 
+    client_secret: env.CLIENT_SECRET 
+});
 
 // Create an array of scopes
-const scopes = [ "offline_access", "info", "accounts", "transactions", "balance" ];
+const scopes = ["offline_access", "info", "accounts", "transactions", "balance"];
 
 // Create Express instance
 const app = Express();
