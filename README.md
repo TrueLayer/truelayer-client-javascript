@@ -106,7 +106,7 @@ $ npm start
 
 > Note: The code snippets below are extracted from the above Express example.
 
-The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/2/) and can be can achieved via this client in the following 4 steps:
+The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/2/). For more information about precisely  how this customer / client authorization is achieved take a look [here](http://docs.truelayer.com/#authentication). This library serves to streamline this flow for developers and can be summarized in the following steps:
 
 1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
 
@@ -139,15 +139,14 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 This client library comprises of two pieces of functionality represented by separate classes:
 
-#### 1. Authentication - [AuthAPIClient](./src/v1/AuthAPIClient.ts)
+#### 1. Authentication - [AuthAPIClient](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1#authapiclient)
 * This is responsible for providing methods that allow developers to perform customer authentication and client authorization.
 * The following methods are provided in AuthAPIClient:
     * `getAuthUrl` - builds a correctly formatted authentication url used for redirection to the authentication server.
-    * `exhangeCodeForToken` - exchanges an authentication code for an access token
+    * `exchangeCodeForToken` - exchanges an authentication code for an access token
     * `refreshAccessToken` - refreshes the access token using the refresh token. Access tokens expire after a set period of time (default 1h). 
-    * `isTokenExpired` - checks whether the current access token is still valid.
 
-#### 2. Data APIs - [DataAPIClient](./src/v1/DataAPIClient.ts)
+#### 2. Data APIs - [DataAPIClient](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1#DataAPIClient)
 * Once the authentication is successful, methods are provided for calling the various API endpoints for obtaining information regarding the authenticated bank account such as : accounts, balance, transactions etc.
 * The following methods are provided in DataAPIClient:
     * `getMe` - call to the */me* endpoint
@@ -156,6 +155,7 @@ This client library comprises of two pieces of functionality represented by sepa
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
+    * `isTokenExpired` - checks whether the current access token is still valid.
 
 
 # Errors

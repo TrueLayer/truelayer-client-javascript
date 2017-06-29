@@ -113,9 +113,9 @@ Call to /me API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 
-| Param |
-| --- |
-| accessToken | 
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> |
 
 <a name="DataAPIClient.getInfo"></a>
 
@@ -135,9 +135,9 @@ Call to /accounts API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 
-| Param |
-| --- |
-| accessToken | 
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
 
 <a name="DataAPIClient.getAccount"></a>
 
@@ -146,24 +146,26 @@ Call to /accounts/account_id API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 
-| Param |
-| --- |
-| accessToken | 
-| accountId | 
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
+| accountId | <code>string</code> |
 
 <a name="DataAPIClient.getTransactions"></a>
 
 ### DataAPIClient.getTransactions(accessToken, accountId, from, to) ⇒ <code>Promise.&lt;IResponse.&lt;ITransaction&gt;&gt;</code>
 Call to /accounts/account_id/transactions API
 
+Date format expected: YYYY-MM-DD
+
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 
-| Param |
-| --- |
-| accessToken | 
-| accountId | 
-| from | 
-| to | 
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
+| accountId | <code>string</code> |
+| from | <code>string</code> format: YYYY-MM-DD |
+| to | <code>string</code> format: YYYY-MM-DD |
 
 <a name="DataAPIClient.getBalance"></a>
 
@@ -172,10 +174,10 @@ Call to /accounts/account_id/balance API
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 
-| Param |
-| --- |
-| accessToken | 
-| accountId | 
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
+| accountId | <code>string</code> |
 
 <a name="DataAPIClient.isTokenExpired"></a>
 

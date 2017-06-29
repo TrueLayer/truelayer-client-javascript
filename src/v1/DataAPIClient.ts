@@ -106,6 +106,8 @@ export class DataAPIClient {
     /**
      * Call to /accounts/account_id/transactions API
      *
+     * Date format expected: YYYY-MM-DD
+     *
      * @param accessToken
      * @param accountId
      * @param from
