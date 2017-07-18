@@ -27,12 +27,13 @@ export class DataAPIClient {
      */
     public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
         // Check accessToken isn't expired before making server call
-        if (DataAPIClient.isTokenExpired(accessToken)) {
-            throw new ApiError(new Error("Access token has expired"));
+        const isValidToken = DataAPIClient.validateToken(accessToken);
+        if (!isValidToken) {
+            throw new ApiError(new Error("Invalid access token"));
         }
-        const requestOptions: request.Options = DataAPIClient.buildRequestOptions(accessToken, path, qs);
+        const requestOptions = DataAPIClient.buildRequestOptions(accessToken, path, qs);
         try {
-            const response: string = await request.get(requestOptions);
+            const response = await request.get(requestOptions);
             const parsedResponse: IResponse<T> = JSON.parse(response);
             return parsedResponse;
         } catch (error) {
@@ -115,6 +116,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<ITransaction>>}
      */
     public static async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+
        const qs = {
             from,
             to
@@ -140,10 +142,15 @@ export class DataAPIClient {
      * @param {string} accessToken
      * @returns {boolean}
      */
-    public static isTokenExpired(accessToken: string): boolean {
-        const decoded: IJWT = decode(accessToken);
-        const expiry: number = decoded.exp;
-        const now: number = moment().utc().unix();
-        return now - expiry > 0;
+    public static validateToken(accessToken: string): boolean {
+        let decoded: IJWT;
+        try {
+            decoded = decode(accessToken);
+        } catch (error) {
+            return false;
+        }
+        const expiry = decoded.exp;
+        const now = moment().utc().unix();
+        return now - expiry < 0;
     }
 }

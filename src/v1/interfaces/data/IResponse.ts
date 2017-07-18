@@ -7,10 +7,6 @@
  */
 export interface IResponse<T> {
     /**
-     * A boolean value that indicates if the request has been successful or not
-     */
-    success: boolean;
-    /**
      * If an error occurred, this field will be an object with a code and a message fields
      */
     error?: IError;

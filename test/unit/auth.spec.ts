@@ -46,8 +46,8 @@ test("Get authentication URL - with mock enabled", (t) => {
 
 test("Get authentication URL - no optional params provided", (t) => {
     t.plan(1);
-    const response = client.getAuthUrl("http://url", scope, "nouce");
-    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access%20info%20accounts%20transactions%20balance&nonce=nouce";
+    const response = client.getAuthUrl("http://url", scope, "nonce");
+    const expectedUrl: string = "https://auth.truelayer.com/?response_type=code&response_mode=form_post&client_id=client_id&redirect_uri=http://url&scope=offline_access%20info%20accounts%20transactions%20balance&nonce=nonce";
     t.is(response, expectedUrl, "Authentication url does not have the expected value");
 });
 

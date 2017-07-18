@@ -1,4 +1,5 @@
 import { RequestError, StatusCodeError } from "request-promise/errors";
+
 /**
  * Error class for handling errors
  */
@@ -18,7 +19,7 @@ export class ApiError extends Error {
     }
 
     /**
-     * Construct new ApiErrors for generic HTTP error statuses not handled by the APIs
+     * Construct new ApiErrors for generic HTTP error statuses not Handled by the APIs
      * @param httpStatusCode
      * @returns {string}
      */
@@ -44,34 +45,37 @@ export class ApiError extends Error {
      * @returns {string}
      */
     private static getMessage(error: Error) {
-        // check if the response is not a success
+        // Check if the response is not a success
         if (error instanceof StatusCodeError) {
 
-            // check if we have an error body
+            // Check if we have an error body
             if (error.error) {
                 try {
                     const parsedError = JSON.parse(error.error);
 
-                    // check if we have error code and error message properties
+                    // Check if we have error code and error message properties
                     if (!!parsedError.error.code && !!parsedError.error.message) {
                         return ApiError.constructErrorMessage(parsedError.error.code, parsedError.error.message);
                     } else {
-                        // this is an auth error because it only contains error.error which is a string
+                        // This is an auth error because it only contains error.error which is a string
                         return ApiError.constructErrorMessage(parsedError.error, parsedError.error);
                     }
                 } catch (e) {
-                    // error body is not valid. throw a generic error
+                    // Error body is not valid. throw a generic error
                     return ApiError.constructErrorMessage("internal_error", "Internal server error");
                 }
-                // this is a generic HTTP error
+            // This is a generic HTTP error
             } else {
                 return ApiError.genericHTTPResponse(error.statusCode);
             }
 
-            // handle network errors
+        // Handle network errors
         } else if (error instanceof RequestError) {
             return ApiError.constructErrorMessage(error.error.code, "Error on `" + error.error.syscall + "`");
-            // handle any other error
+        // Handle invalid access token
+        } else if (error.message === "Invalid access token") {
+            return ApiError.constructErrorMessage("invalid_access_token", error.message);
+        // Handle any other error
         } else {
             return ApiError.constructErrorMessage("internal_error", "Internal server error");
         }
