@@ -5,16 +5,10 @@
  * @interface IMe
  */
 export interface IMe {
-    /**
-     * Your unique client identifier
-     */
+    /** Your unique client identifier */
     client_id: string;
-    /**
-     * Unique identifier of the set of credentials
-     */
+    /** Unique identifier of the set of credentials */
     credentials_id: string;
-    /**
-     * Unique identifier of the Provider
-     */
+    /** Unique identifier of the Provider */
     provider_id: string;
 }

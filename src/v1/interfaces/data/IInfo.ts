@@ -7,29 +7,18 @@
 export interface IInfo {
     /**
      * Address information
-     *
      * @type {IAddressInfo[]}
      */
     addresses?: IAddressInfo[];
-    /**
-     * Date of birth of the Customer
-     */
+    /** Date of birth of the Customer */
     date_of_birth?: string;
-    /**
-     * Email addresses
-     */
+    /** Email addresses */
     emails?: string[];
-    /**
-     * Full name of the Customer
-     */
+    /** Full name of the Customer */
     full_name: string;
-    /**
-     * Phone numbers
-     */
+    /** Phone numbers */
     phones?: string[];
-    /**
-     * Last time the data has been updated from the provider
-     */
+    /** Last time the data has been updated from the provider */
     update_timestamp?: string;
 }
 
@@ -39,24 +28,14 @@ export interface IInfo {
  * @interface IAddressInfo
  */
 export interface IAddressInfo {
-    /**
-     * Full address of the Customer
-     */
+    /** Full address of the Customer */
     address?: string;
-    /**
-     * City
-     */
+    /** City */
     city?: string;
-    /**
-     * ISO-3166-1 alpha-3 code of the country
-     */
+    /** ISO-3166-1 alpha-3 code of the country */
     country?: string;
-    /**
-     * State
-     */
+    /** State */
     state?: string;
-    /**
-     * Post code
-     */
+    /** Post code */
     zip?: string;
 }

@@ -5,28 +5,16 @@
  * @interface ITransaction
  */
 export interface ITransaction {
-    /**
-     * Amount of the transaction
-     */
+    /** Amount of the transaction */
     amount: number;
-    /**
-     * ISO 4217 alpha-3 currency code
-     */
+    /** ISO 4217 alpha-3 currency code */
     currency: string;
-    /**
-     * Original description of the transaction as reported by the Provider
-     */
+    /** Original description of the transaction as reported by the Provider */
     description: string;
-    /**
-     * A collection of additional Provider specific transaction metadata
-     */
+    /** A collection of additional Provider specific transaction metadata */
     meta: object;
-    /**
-     * Date the transaction was posted on the account
-     */
+    /** Date the transaction was posted on the account */
     timestamp: string;
-    /**
-     * Type of the transaction
-     */
+    /** Type of the transaction */
     transaction_type: string;
 }

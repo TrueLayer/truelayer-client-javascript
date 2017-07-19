@@ -5,20 +5,12 @@
  * @interface IBalance
  */
 export interface IBalance {
-    /**
-     * Available balance
-     */
+    /** Available balance */
     available: number;
-    /**
-     * ISO 4217 alpha-3 currency code
-     */
+    /** ISO 4217 alpha-3 currency code */
     currency: string;
-    /**
-     * Current balance
-     */
+    /** Current balance */
     current: number;
-    /**
-     * Last update time
-     */
+    /** Last update time */
     update_timestamp: string;
 }

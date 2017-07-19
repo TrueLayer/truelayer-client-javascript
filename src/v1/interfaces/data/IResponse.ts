@@ -6,13 +6,9 @@
  * @template T
  */
 export interface IResponse<T> {
-    /**
-     * If an error occurred, this field will be an object with a code and a message fields
-     */
+    /** If an error occurred, this field will be an object with a code and a message fields */
     error?: IError;
-    /**
-     * An array of results objects of type <T>
-     */
+    /** An array of results objects of type <T> */
     results: T[];
 }
 
@@ -22,12 +18,8 @@ export interface IResponse<T> {
  * @interface IError
  */
 export interface IError {
-    /**
-     * The error code and associated HTTP status
-     */
-    code: string;
-    /**
-     * Finer grain detail of the error
-     */
-    message?: string;
+    /** The error code and associated HTTP status */
+    error: string;
+    /** Finer grain detail of the error */
+    error_description: string;
 }

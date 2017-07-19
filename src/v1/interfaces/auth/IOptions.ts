@@ -4,12 +4,8 @@
  * @interface IOptions
  */
 export interface IOptions {
-    /**
-     * Client Identifier
-     */
+    /** Client Identifier */
     client_id: string;
-    /**
-     * Client Secret
-     */
+    /** Client Secret */
     client_secret: string;
 }
