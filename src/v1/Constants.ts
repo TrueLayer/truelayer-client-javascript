@@ -1,3 +1,7 @@
+/**
+ * Project wide constants
+ * @class Constants
+ */
 export class Constants {
     // Constants
     public static readonly AUTH_URL: string = "https://auth.truelayer.com";

@@ -1,21 +1,45 @@
+import { IError } from "./interfaces/data/IResponse";
 import { RequestError, StatusCodeError } from "request-promise/errors";
 
 /**
- * Error class for handling errors
+ * Parent error class extending native errors
+ * @class ApiError
+ * @extends {Error}
  */
-export class ApiError extends Error {
+abstract class ApiError extends Error {
+
+    public error: string = "internal_error";
 
     /**
-     * Construct the error
-     * @param code
-     * @param message
-     * @returns {string}
+     *  Construct error response
+     * @param {string} code
+     * @param {string} description
+     * @returns {IError}
      */
-    private static constructErrorMessage(code: string, message: string) {
+    protected static constructErrorResponse(code: string, description: string): IError {
         return {
-            code,
-            message
+            error: code,
+            error_description: description
         };
+    }
+}
+
+/**
+ * Derived error class to handle data api specific exceptions
+ * @class DataApiError
+ * @extends {ApiError}
+ */
+export class DataApiError extends ApiError {
+
+    /**
+     * Creates an instance of ApiError.
+     * @param {Error} error
+     */
+    constructor(error: Error) {
+        // Super call to Error
+        super(DataApiError.getErrorResponse(error).error_description);
+        // Generate an error response object
+        this.error = DataApiError.getErrorResponse(error).error;
     }
 
     /**
@@ -23,67 +47,97 @@ export class ApiError extends Error {
      * @param httpStatusCode
      * @returns {string}
      */
-    private static genericHTTPResponse(httpStatusCode: number) {
+    private static getResponseFromStatusCode(httpStatusCode: number): IError {
         switch (httpStatusCode) {
-            case 400:
-                return ApiError.constructErrorMessage("bad_request", "Bad request");
-            case 401:
-                return ApiError.constructErrorMessage("unauthorized", "Unauthorized");
-            case 403:
-                return ApiError.constructErrorMessage("forbidden", "Forbidden");
-            case 404:
-                return ApiError.constructErrorMessage("not_found", "Not Found");
-            default:
-                return ApiError.constructErrorMessage("internal_error", "Internal error");
+            case 400: return DataApiError.constructErrorResponse("validation_error", "The supplied parameters are not valid.");
+            case 401: return DataApiError.constructErrorResponse("wrong_credentials", "The credentials entered are incorrect.");
+            case 403: return DataApiError.constructErrorResponse("account_locked", "The account is temporarily locked by the provider.");
+            case 404: return DataApiError.constructErrorResponse("account_not_found", "The requested account cannot be found.");
+            case 410: return DataApiError.constructErrorResponse("wrong_bank", "The selected provider recognizes the user within a different context.");
+            case 500: return DataApiError.constructErrorResponse("internal_server_error", "Internal server error.");
+            case 503: return DataApiError.constructErrorResponse("under_maintenance", "The current provider is unavailable.");
+            default: return DataApiError.constructErrorResponse("internal_error", "Well, this is embarrassing!");
         }
     }
 
     /**
-     * Handle the different types of errors
-     *  eg. StatusCodeErrors (server errors) and RequestErrors (network errors)
-     * @param error
-     * @returns {string}
+     * Construct error response object
+     * @param {Error} error
+     * @returns {IError}
      */
-    private static getMessage(error: Error) {
-        // Check if the response is not a success
-        if (error instanceof StatusCodeError) {
-
-            // Check if we have an error body
-            if (error.error) {
-                try {
-                    const parsedError = JSON.parse(error.error);
-
-                    // Check if we have error code and error message properties
-                    if (!!parsedError.error.code && !!parsedError.error.message) {
-                        return ApiError.constructErrorMessage(parsedError.error.code, parsedError.error.message);
-                    } else {
-                        // This is an auth error because it only contains error.error which is a string
-                        return ApiError.constructErrorMessage(parsedError.error, parsedError.error);
-                    }
-                } catch (e) {
-                    // Error body is not valid. throw a generic error
-                    return ApiError.constructErrorMessage("internal_error", "Internal server error");
+    private static getErrorResponse(error: Error): IError {
+        switch (error.constructor) {
+            // The server responded with a status codes other than 2xx.
+            case StatusCodeError:
+                return DataApiError.getResponseFromStatusCode((error as StatusCodeError).statusCode);
+            // The request failed due to technical reasons.
+            case RequestError:
+                const reqError = (error as RequestError).error;
+                return DataApiError.constructErrorResponse(reqError.code, "Error on `" + reqError.syscall + "`");
+            default:
+                if (error.message === "Invalid access token") {
+                    return DataApiError.constructErrorResponse("invalid_access_token", "Invalid access token.");
                 }
-            // This is a generic HTTP error
-            } else {
-                return ApiError.genericHTTPResponse(error.statusCode);
-            }
+                return DataApiError.constructErrorResponse("internal_error", "Well, this is embarrassing!");
+        }
+    }
+}
 
-        // Handle network errors
-        } else if (error instanceof RequestError) {
-            return ApiError.constructErrorMessage(error.error.code, "Error on `" + error.error.syscall + "`");
-        // Handle invalid access token
-        } else if (error.message === "Invalid access token") {
-            return ApiError.constructErrorMessage("invalid_access_token", error.message);
-        // Handle any other error
-        } else {
-            return ApiError.constructErrorMessage("internal_error", "Internal server error");
+/**
+ * Derived error class to handle auth server specific exceptions
+ * @class DataApiError
+ * @extends {ApiError}
+ */
+export class AuthApiError extends ApiError {
+
+    /**
+     * Creates an instance of ApiError.
+     * @param {Error} error
+     */
+    constructor(error: Error) {
+        // Super call to Error
+        super(AuthApiError.getErrorResponse(error).error_description);
+        // Generate an error response object
+        this.error = AuthApiError.getErrorResponse(error).error;
+    }
+
+    private getMessageFromErrorCode(errorCode: string): string {
+        switch (errorCode) {
+            case "invalid_request": return "The request is missing a required parameter.";
+            case "unauthorized_client": return "The client is not authorized to request an authorization token.";
+            case "invalid_client": return "Client authentication failed.";
+            case "access_denied": return "The resource owner or authorization server denied the request.";
+            case "unsupported_response_type": return "The authorization server does not support obtaining an authorization code using this method.";
+            case "invalid_scope": return "The requested scope is invalid, unknown, or malformed.";
+            case "server_error": return "The server encountered an unexpected condition that prevented it from fulfilling the request.";
+            case "temporarily_unavailable": return "The authorization server is currently unable to handle the request due to a temporary overloading or maintenance.";
+            case "invalid_grant": return "The provided authorization grant or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.";
+            case "unsupported_grant_type": return "The authorization grant type is not supported by the authorization server.";
+            default: return "Unknown authorization error.";
         }
     }
 
-    public readonly code: string = "internal_error";
-    constructor(error: Error) {
-        super(ApiError.getMessage(error).message);
-        this.code = ApiError.getMessage(error).code;
+    /**
+     * Construct error response object
+     * @param {Error} error
+     * @returns {IError}
+     */
+    private static getErrorResponse(error: Error): IError {
+        switch (error.constructor) {
+            // The server responded with a status codes other than 2xx.
+            case StatusCodeError:
+                try {
+                    const parsedError = JSON.parse((error as StatusCodeError).error);
+                    return AuthApiError.constructErrorResponse(parsedError.error, parsedError.error);
+                } catch (e) {
+                    return AuthApiError.constructErrorResponse("server_error", "The server encountered an unexpected condition that prevented it from fulfilling the request");
+                }
+            // The request failed due to technical reasons.
+            case RequestError:
+                const reqError = (error as RequestError).error;
+                return AuthApiError.constructErrorResponse(reqError.code, "Error on `" + reqError.syscall + "`");
+            default:
+                return AuthApiError.constructErrorResponse("server_error", "The server encountered an unexpected condition that prevented it from fulfilling the request");
+        }
     }
 }
