@@ -11,7 +11,7 @@ abstract class ApiError extends Error {
     public error: string = "internal_error";
 
     /**
-     *  Construct error response
+     * Construct error response
      * @param {string} code
      * @param {string} description
      * @returns {IError}
@@ -38,12 +38,12 @@ export class DataApiError extends ApiError {
     constructor(error: Error) {
         // Super call to Error
         super(DataApiError.getErrorResponse(error).error_description);
-        // Generate an error response object
+        // Generate error response object
         this.error = DataApiError.getErrorResponse(error).error;
     }
 
     /**
-     * Construct new ApiErrors for generic HTTP error statuses not Handled by the APIs
+     * Construct data api error response given a http status code.
      * @param httpStatusCode
      * @returns {string}
      */
@@ -67,11 +67,11 @@ export class DataApiError extends ApiError {
      */
     private static getErrorResponse(error: Error): IError {
         switch (error.constructor) {
-            // The server responded with a status codes other than 2xx.
             case StatusCodeError:
+                // The server responded with a status codes other than 2xx.
                 return DataApiError.getResponseFromStatusCode((error as StatusCodeError).statusCode);
-            // The request failed due to technical reasons.
             case RequestError:
+                // The request failed due to technical reasons.
                 const reqError = (error as RequestError).error;
                 return DataApiError.constructErrorResponse(reqError.code, "Error on `" + reqError.syscall + "`");
             default:
@@ -97,10 +97,15 @@ export class AuthApiError extends ApiError {
     constructor(error: Error) {
         // Super call to Error
         super(AuthApiError.getErrorResponse(error).error_description);
-        // Generate an error response object
+        // Generate error response object
         this.error = AuthApiError.getErrorResponse(error).error;
     }
 
+    /**
+     * Returns auth error message given an error code.
+     * @param {string} errorCode
+     * @returns {string}
+     */
     private getMessageFromErrorCode(errorCode: string): string {
         switch (errorCode) {
             case "invalid_request": return "The request is missing a required parameter.";
@@ -124,16 +129,16 @@ export class AuthApiError extends ApiError {
      */
     private static getErrorResponse(error: Error): IError {
         switch (error.constructor) {
-            // The server responded with a status codes other than 2xx.
             case StatusCodeError:
+                // The server responded with a status codes other than 2xx.
                 try {
                     const parsedError = JSON.parse((error as StatusCodeError).error);
                     return AuthApiError.constructErrorResponse(parsedError.error, parsedError.error);
                 } catch (e) {
                     return AuthApiError.constructErrorResponse("server_error", "The server encountered an unexpected condition that prevented it from fulfilling the request");
                 }
-            // The request failed due to technical reasons.
             case RequestError:
+                // The request failed due to technical reasons.
                 const reqError = (error as RequestError).error;
                 return AuthApiError.constructErrorResponse(reqError.code, "Error on `" + reqError.syscall + "`");
             default:

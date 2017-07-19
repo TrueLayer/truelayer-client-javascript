@@ -139,7 +139,7 @@ export class DataAPIClient {
     }
 
     /**
-     * Returns whether the token has expired or not
+     * Returns a boolean indicating whether the token is valid.
      *
      * @param {string} accessToken
      * @returns {boolean}

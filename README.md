@@ -5,9 +5,6 @@
 		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg" />
     </a>
 	<br>
-	<a href="https://doxdox.org/truelayer/truelayer-client-javascript">
-		<img src="https://doxdox.org/images/badge-flat.svg" />
-    </a>
 	<br>
 	<sup><strong>Detailed documentation on client</sup></strong>
 </p>
@@ -16,7 +13,7 @@
 TrueLayer allows financial applications to connect securely with their customer’s bank data. TrueLayer provides a unified interface between multiple financial institutions and third party applications over a common RESTful API. 
 For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com. 
 
-# TrueLayer client library - JavaScript / TypeScript
+# TrueLayer client library (JavaScript / TypeScript)
 
 This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
 
@@ -66,8 +63,8 @@ app.post("/truelayer-redirect", async (req, res) => {
 
 # Examples
 
-Two sample applications have been created and are available to run from the `./examples` folder.
-In order to run the examples, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
+A simple sample application has been created and lives in `./examples`. 
+In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
 Set the environment variables from the console:
 
 ```bash
@@ -88,20 +85,6 @@ $ npm start
 
 Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
 
-### [Koa](http://koajs.com/)-[Marko](http://markojs.com)
-
-Koa is a next-generation web framework designed by the team behind Express, which aims to be a smaller, more expressive foundation for web applications and APIs.
-
-Marko on the other hand is a lightweight full featured open-source frontend framework with remarkable performance. It is heavily inspired by the work from vue, react and angular.
-
-This demo showcases the flow from client application, to TrueLayer auth dialog and back again in a fictional single page personal finance management application.
-
-```bash
-$ cd examples/koa-marko
-$ npm install
-...
-$ npm start
-```
 # Authentication and tokens
 
 > Note: The code snippets below are extracted from the above Express example.
@@ -155,17 +138,25 @@ This client library comprises of two pieces of functionality represented by sepa
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
-    * `isTokenExpired` - checks whether the current access token is still valid.
+    * `validateToken` - checks whether the current access token is still valid.
 
 
 # Errors
-Errors are handled using the `APIError` class. The errors returned will have the following format:
+
+> **Note:** see [here](http://docs.truelayer.com/#api-response-structure) for more information about error response structure and [here](http://docs.truelayer.com/#error-codes) for more error specific information.
+
+Custom error wrapper classes have been used to handle the auth server and data api errors respectively. Errors on the wire have the following format:
+
 ```json
 {
-    "name": "error_name",
-    "message": "error_message"
+    "error": "<error_code>",
+    "error_description": "<error_message>"
 }
 ```
+
+The custom `DataApiError` and `AuthApiError` error objects have 2 parameters which related to these properties:
+* `error`: error code
+* `message`: error description
 
 # Tests
 The client library has both integration and unit tests.
