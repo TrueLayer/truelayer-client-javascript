@@ -66,7 +66,7 @@ app.post("/truelayer-redirect", async (req, res) => {
 
 <br>
 
-# Examples
+# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
 
 A simple sample application has been created and lives in `./examples`. 
 In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
@@ -85,6 +85,7 @@ This simple example stands up a bare-bones express server that takes a user thro
 $ cd examples/express
 $ npm install
 ...
+
 $ npm start
 ```
 
