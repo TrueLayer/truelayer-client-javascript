@@ -26,7 +26,7 @@ export class DataAPIClient {
      * @returns {Promise<IResponse<T>>}
      */
     public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
-        // Check accessToken isn't expired before making server call
+
         const isValidToken = DataAPIClient.validateToken(accessToken);
         if (!isValidToken) {
             throw new DataApiError(new Error("Invalid access token"));
@@ -108,7 +108,6 @@ export class DataAPIClient {
 
     /**
      * Call to /accounts/account_id/transactions API
-     *
      * Date format expected: YYYY-MM-DD
      *
      * @param accessToken

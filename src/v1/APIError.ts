@@ -2,7 +2,8 @@ import { IError } from "./interfaces/data/IResponse";
 import { RequestError, StatusCodeError } from "request-promise/errors";
 
 /**
- * Parent error class extending native errors
+ * Base class extending native errors
+ *
  * @class ApiError
  * @extends {Error}
  */
@@ -12,6 +13,7 @@ abstract class ApiError extends Error {
 
     /**
      * Construct error response
+     *
      * @param {string} code
      * @param {string} description
      * @returns {IError}
@@ -26,6 +28,7 @@ abstract class ApiError extends Error {
 
 /**
  * Derived error class to handle data api specific exceptions
+ *
  * @class DataApiError
  * @extends {ApiError}
  */
@@ -33,6 +36,7 @@ export class DataApiError extends ApiError {
 
     /**
      * Creates an instance of ApiError.
+     *
      * @param {Error} error
      */
     constructor(error: Error) {
@@ -44,6 +48,7 @@ export class DataApiError extends ApiError {
 
     /**
      * Construct data api error response given a http status code.
+     *
      * @param httpStatusCode
      * @returns {string}
      */
@@ -62,6 +67,7 @@ export class DataApiError extends ApiError {
 
     /**
      * Construct error response object
+     *
      * @param {Error} error
      * @returns {IError}
      */
@@ -85,6 +91,7 @@ export class DataApiError extends ApiError {
 
 /**
  * Derived error class to handle auth server specific exceptions
+ *
  * @class DataApiError
  * @extends {ApiError}
  */
@@ -92,6 +99,7 @@ export class AuthApiError extends ApiError {
 
     /**
      * Creates an instance of ApiError.
+     *
      * @param {Error} error
      */
     constructor(error: Error) {
@@ -103,6 +111,7 @@ export class AuthApiError extends ApiError {
 
     /**
      * Returns auth error message given an error code.
+     *
      * @param {string} errorCode
      * @returns {string}
      */
@@ -124,6 +133,7 @@ export class AuthApiError extends ApiError {
 
     /**
      * Construct error response object
+     *
      * @param {Error} error
      * @returns {IError}
      */

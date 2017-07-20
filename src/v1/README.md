@@ -22,7 +22,7 @@ This class is responsible for performing authentication with TrueLayer
 <a name="new_AuthAPIClient_new"></a>
 
 ### new AuthAPIClient()
-This class is responsible for performing the authentication steps
+Class is responsible for performing authentication with TrueLayer
 
 <a name="new_AuthAPIClient_new"></a>
 
@@ -90,7 +90,7 @@ Class responsible for calling to the Data endpoints
     * [.getAccount(accessToken, accountId)](#DataAPIClient.getAccount) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
     * [.getTransactions(accessToken, accountId, from, to)](#DataAPIClient.getTransactions) ⇒ <code>Promise.&lt;IResponse.&lt;ITransaction&gt;&gt;</code>
     * [.getBalance(accessToken, accountId)](#DataAPIClient.getBalance) ⇒ <code>Promise.&lt;IResponse.&lt;IBalance&gt;&gt;</code>
-    * [.isTokenExpired(accessToken)](#DataAPIClient.isTokenExpired) ⇒ <code>boolean</code>
+    * [.validateToken(accessToken)](#DataAPIClient.isTokenExpired) ⇒ <code>boolean</code>
 
 <a name="DataAPIClient.callAPI"></a>
 
@@ -181,7 +181,7 @@ Call to /accounts/account_id/balance API
 
 <a name="DataAPIClient.isTokenExpired"></a>
 
-### DataAPIClient.isTokenExpired(accessToken) ⇒ <code>boolean</code>
+### DataAPIClient.validateToken(accessToken) ⇒ <code>boolean</code>
 Returns whether the token has expired or not
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  

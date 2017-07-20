@@ -5,15 +5,14 @@
 		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg" />
     </a>
 	<br>
-	<br>
-	<sup><strong>Detailed documentation on client</sup></strong>
+	<sup><strong>Javascript / Typescript API Client Library</sup></strong>
 </p>
 
 # [TrueLayer](https://truelayer.com) - [Docs](https://docs.truelayer.com)
 TrueLayer allows financial applications to connect securely with their customer’s bank data. TrueLayer provides a unified interface between multiple financial institutions and third party applications over a common RESTful API. 
 For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com. 
 
-# TrueLayer client library (JavaScript / TypeScript)
+# Client library (JavaScript / TypeScript)
 
 This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
 
