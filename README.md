@@ -4,25 +4,30 @@
 	<a href="https://truelayer.com">
 		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg" />
     </a>
-	<br>
 	<sup><strong>Javascript / Typescript API Client Library</sup></strong>
 </p>
 
 # [TrueLayer](https://truelayer.com) - [Docs](https://docs.truelayer.com)
 TrueLayer allows financial applications to connect securely with their customer’s bank data. TrueLayer provides a unified interface between multiple financial institutions and third party applications over a common RESTful API. 
-For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com. 
+For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com.
+
+<br>
 
 # Client library (JavaScript / TypeScript)
 
-This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
+This is the official client library to help with the creation of financial applications that implement TrueLayer APIs. The library has been written in Typescript for a richer development experience. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
 
-The truelayer-client-javascript library can be used from either JavaScript (Node.js) or TypeScript.
+The client library can be used within a JavaScript (Node.js) or TypeScript environment.
+
+<br>
 
 # Installation
 
 ```bash
 $ npm install truelayer-client
 ```
+
+<br>
 
 # Usage
 Below is a simple Javascript express app using TrueLayer's API client library. It illustrates the flow of obtaining a JWT access token from the authorization server, before using this token to query the data api `/info` endpoint for identity information of the user.
@@ -41,7 +46,7 @@ const client = new AuthAPIClient({
 
 // Generate and redirect to authentication url
 app.get("/", (req, res) => {
-    // Read JSDocs for descriptions for all parameters
+    // Reference JSDocs for descriptions of parameters
     const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "");
     res.redirect(authURL);
 });
@@ -49,8 +54,7 @@ app.get("/", (req, res) => {
 // Receiving POST request
 app.post("/truelayer-redirect", async (req, res) => {
     // Exchange an authentication code for an access token
-    const code = req.body.code;
-    const tokens = await client.exchangeCodeForToken(redirect_uri, code);
+    const tokens = await client.exchangeCodeForToken(redirect_uri, req.body.code);
     
     // Call to the Data endpoint using the access token obtained. Eg. /info endpoint
     const info = await DataAPIClient.getInfo(tokens.access_token);
@@ -59,6 +63,8 @@ app.post("/truelayer-redirect", async (req, res) => {
     res.send(`Access Token: ${JSON.stringify(info, null, 2)}`);
 });
 ```
+
+<br>
 
 # Examples
 
@@ -83,6 +89,8 @@ $ npm start
 ```
 
 Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
+
+<br>
 
 # Authentication and tokens
 
@@ -117,9 +125,11 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 > In the case that the `access_token` has expired, ```refreshAccessToken``` can be used for refreshing the token. This will return new values for both the access_token and refresh_token (old refresh_token no longer valid).
 
+<br>
+
 # [Project structure](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1)
 
-This client library comprises of two pieces of functionality represented by separate classes:
+This client library consists of two core pieces of functionality, each represented by a separate class:
 
 #### 1. Authentication - [AuthAPIClient](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1#authapiclient)
 * This is responsible for providing methods that allow developers to perform customer authentication and client authorization.
@@ -139,6 +149,7 @@ This client library comprises of two pieces of functionality represented by sepa
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
     * `validateToken` - checks whether the current access token is still valid.
 
+<br>
 
 # Errors
 
@@ -157,6 +168,8 @@ The custom `DataApiError` and `AuthApiError` error objects have 2 parameters whi
 * `error`: error code
 * `message`: error description
 
+<br>
+
 # Tests
 The client library has both integration and unit tests.
 
@@ -166,6 +179,9 @@ The client library has both integration and unit tests.
 $ export access_token=<access_token>
 $ npm run test
 ```
+
+<br>
+
 # Contributions
 In order to contribute to the existing code base, please follow these steps: 
 * Fork the repo
