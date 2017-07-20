@@ -8,9 +8,6 @@ import * as sinon from "sinon";
 // Instantiate to access fixtures
 const fixtures = new Fixtures();
 
-// Instantiate to access fixtures
-const data = new DataAPIClient();
-
 // validateToken() tests
 test("validateToken returns false on expired token", async (t) => {
     t.plan(1);

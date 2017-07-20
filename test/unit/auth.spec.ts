@@ -7,7 +7,7 @@ import * as request from "request-promise";
 import * as sinon from "sinon";
 import * as TrueLayer from "../../index";
 
-// Build 'options' to pass to Client
+// Build client options
 const options: IOptions = {
     client_id: "client_id",
     client_secret: "client_secret"
@@ -22,13 +22,11 @@ const scope: string[] = [
     "balance"
 ];
 
+// Create auth client instance
 const client = new TrueLayer.AuthAPIClient(options);
 
-let fixtures: Fixtures;
-
-test.before((t) => {
-    fixtures = new Fixtures();
-});
+// Instantiate to access fixtures
+const fixtures = new Fixtures();
 
 test("Get authentication URL - without mock enabled", (t) => {
     t.plan(1);
