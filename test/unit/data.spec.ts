@@ -41,11 +41,11 @@ test("buildRequestOptions() - returns well formed request options - all params",
     t.deepEqual(actual, expected, "Incorrect response object.");
 });
 
-// Only run the below stubbed tests with a valid access token
-if (process.env.access_token) {
+// Get access token from environment variable
+const access_token: string = process.env.access_token;
 
-    // Retrieve access token
-    const access_token: string = process.env.access_token;
+// Only run the below stubbed tests with a valid access token
+if (DataAPIClient.validateToken(access_token)) {
 
     test("validateToken return false on fresh token", async (t) => {
         t.plan(1);

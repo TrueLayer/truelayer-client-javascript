@@ -4,9 +4,10 @@ import { test } from "ava";
 import * as moment from "moment";
 import * as TrueLayer from "./../../index";
 
-if (process.env.access_token) {
-    // Get access token from environment variable
-    const access_token: string = process.env.access_token;
+// Get access token from environment variable
+const access_token: string = process.env.access_token;
+
+if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /me returns success", async (t) => {
         t.plan(1);
