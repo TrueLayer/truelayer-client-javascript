@@ -1,4 +1,4 @@
-import { DataApiError } from "./APIError";
+import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAccount } from "./interfaces/data/IAccount";
 import { IBalance } from "./interfaces/data/IBalance";
@@ -29,7 +29,7 @@ export class DataAPIClient {
 
         const isValidToken = DataAPIClient.validateToken(accessToken);
         if (!isValidToken) {
-            throw new DataApiError(new Error("Invalid access token"));
+            throw new ApiError(new Error("Invalid access token"));
         }
 
         const requestOptions = DataAPIClient.buildRequestOptions(accessToken, path, qs);
@@ -39,7 +39,7 @@ export class DataAPIClient {
             const parsedResponse: IResponse<T> = JSON.parse(response);
             return parsedResponse;
         } catch (error) {
-            throw new DataApiError(error);
+            throw new ApiError(error);
         }
     }
 

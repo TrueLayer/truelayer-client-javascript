@@ -1,4 +1,4 @@
-import { DataApiError } from "../../src/v1/APIError";
+import { ApiError } from "../../src/v1/APIError";
 import { DataAPIClient } from "../../src/v1/DataAPIClient";
 import { test } from "ava";
 import * as moment from "moment";
@@ -16,7 +16,7 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /me returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getMe("invalid_token"));
+        const error: ApiError = await t.throws(DataAPIClient.getMe("invalid_token"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
@@ -28,7 +28,7 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /info returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getInfo("invalid_token"));
+        const error: ApiError = await t.throws(DataAPIClient.getInfo("invalid_token"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
@@ -40,7 +40,7 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /accounts returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getAccounts("invalid_token"));
+        const error: ApiError = await t.throws(DataAPIClient.getAccounts("invalid_token"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
@@ -57,16 +57,16 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /account returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getAccount("invalid_token", "account"));
+        const error: ApiError = await t.throws(DataAPIClient.getAccount("invalid_token", "account"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
 
     test.serial("Get /account returns error - invalid account", async (t) => {
         t.plan(3);
-        const error: DataApiError = await t.throws(DataAPIClient.getAccount(access_token, "invalid_account"));
+        const error: ApiError = await t.throws(DataAPIClient.getAccount(access_token, "invalid_account"));
         t.is(error.error, "account_not_found");
-        t.is(error.message, "The requested account cannot be found.");
+        t.is(error.message, "account not found");
     });
 
     test.serial("Get /accounts/{id}/transactions returns success for each account", async (t) => {
@@ -83,16 +83,16 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /accounts/{id}/transactions returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getTransactions("invalid_token", "invalid_account", "2017-05-05", "2017-05-07"));
+        const error: ApiError = await t.throws(DataAPIClient.getTransactions("invalid_token", "invalid_account", "2017-05-05", "2017-05-07"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
 
     test.serial("Get /accounts/{id}/transactions returns error - invalid account", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getTransactions(access_token, "invalid_account", "2017-05-05", "2017-05-07"));
+        const error: ApiError = await t.throws(DataAPIClient.getTransactions(access_token, "invalid_account", "2017-05-05", "2017-05-07"));
         t.is(error.error, "account_not_found");
-        t.is(error.message, "The requested account cannot be found.");
+        t.is(error.message, "account not found");
     });
 
     test.serial("Get /accounts/{id}/balance returns success for each account", async (t) => {
@@ -107,16 +107,16 @@ if (DataAPIClient.validateToken(access_token)) {
 
     test.serial("Get /accounts/{id}/balance returns error - invalid token", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getBalance("invalid_token", "invalid_account"));
+        const error: ApiError = await t.throws(DataAPIClient.getBalance("invalid_token", "invalid_account"));
         t.is(error.error, "invalid_access_token");
         t.is(error.message, "Invalid access token.");
     });
 
     test.serial("Get /accounts/{id}/balance returns error - invalid account", async (t) => {
         t.plan(3);
-        const error = await t.throws(DataAPIClient.getBalance(access_token, "invalid_account"));
+        const error: ApiError = await t.throws(DataAPIClient.getBalance(access_token, "invalid_account"));
         t.is(error.error, "account_not_found");
-        t.is(error.message, "The requested account cannot be found.");
+        t.is(error.message, "account not found");
     });
 
 } else {

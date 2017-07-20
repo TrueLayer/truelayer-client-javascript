@@ -1,4 +1,4 @@
-import { AuthApiError } from "./APIError";
+import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
 import { IOptions } from "./interfaces/auth/IOptions";
@@ -121,7 +121,7 @@ export class AuthAPIClient {
                 refresh_token: parsedResponse.refresh_token
             };
         } catch (error) {
-            throw new AuthApiError(error);
+            throw new ApiError(error);
         }
     }
 

@@ -54,7 +54,8 @@ app.get("/", (req, res) => {
 // Receiving POST request
 app.post("/truelayer-redirect", async (req, res) => {
     // Exchange an authentication code for an access token
-    const tokens = await client.exchangeCodeForToken(redirect_uri, req.body.code);
+    const code = req.body.code;
+    const tokens = await client.exchangeCodeForToken(redirect_uri, code);
     
     // Call to the Data endpoint using the access token obtained. Eg. /info endpoint
     const info = await DataAPIClient.getInfo(tokens.access_token);
@@ -66,7 +67,7 @@ app.post("/truelayer-redirect", async (req, res) => {
 
 <br>
 
-# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
+# [Example](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
 
 A simple sample application has been created and lives in `./examples`. 
 In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
@@ -161,11 +162,11 @@ Custom error wrapper classes have been used to handle the auth server and data a
 ```json
 {
     "error": "<error_code>",
-    "error_description": "<error_message>"
+    "error_description": "<error_description>"
 }
 ```
 
-The custom `DataApiError` and `AuthApiError` error objects have 2 parameters which related to these properties:
+The custom `DataApiError` and `AuthApiError` error objects have 2 parameters which relate to these properties:
 * `error`: error code
 * `message`: error description
 
