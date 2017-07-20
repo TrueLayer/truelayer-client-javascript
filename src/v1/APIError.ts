@@ -7,7 +7,7 @@ import { RequestError, StatusCodeError } from "request-promise/errors";
  * @class ApiError
  * @extends {Error}
  */
-abstract class ApiError extends Error {
+export abstract class ApiError extends Error {
 
     public error: string = "internal_error";
 
