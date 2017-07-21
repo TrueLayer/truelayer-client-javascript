@@ -1,13 +1,11 @@
 /**
- * Generic response structure as returned by the Data API
+ * Generic result format as returned by the Data API
  * Docs: http://docs.truelayer.com/#api-response-structure
  *
- * @interface IResponse
+ * @interface IResult
  * @template T
  */
-export interface IResponse<T> {
-    /** If an error occurred, this field will be an object with a code and a message fields */
-    error?: IError;
+export interface IResult<T> {
     /** An array of results objects of type <T> */
     results: T[];
 }

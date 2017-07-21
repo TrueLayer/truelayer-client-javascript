@@ -1,6 +1,6 @@
 import { Constants } from "../../src/v1/Constants";
 import { IMe } from "../../src/v1/interfaces/data/IMe";
-import { IResponse } from "../../src/v1/interfaces/data/IResponse";
+import { IResult } from "../../src/v1/interfaces/data/IResponse";
 import { IInfo } from "../../src/v1/interfaces/data/IInfo";
 import { IAccount } from "../../src/v1/interfaces/data/IAccount";
 import { IBalance } from "../../src/v1/interfaces/data/IBalance";
@@ -50,7 +50,7 @@ export class Fixtures {
         }`;
 
     // Expected /Me json response
-    public readonly meResponse: IResponse<IMe> =
+    public readonly meResponse: IResult<IMe> =
         {
             results: [
                 {
@@ -62,7 +62,7 @@ export class Fixtures {
         };
 
     // Expected /Info json response string
-    public readonly infoResponse: IResponse<IInfo> =
+    public readonly infoResponse: IResult<IInfo> =
         {
             results: [
                 {
@@ -88,7 +88,7 @@ export class Fixtures {
         };
 
     // Expected /Accounts json response string
-    public readonly accountsResponse: IResponse<IAccount> =
+    public readonly accountsResponse: IResult<IAccount> =
         {
             results: [
                 {
@@ -119,7 +119,7 @@ export class Fixtures {
         };
 
     // Expected /Accounts/{id} json response
-    public readonly accountResponse: IResponse<IAccount> =
+    public readonly accountResponse: IResult<IAccount> =
         {
             results: [
                 {
@@ -138,7 +138,7 @@ export class Fixtures {
         };
 
     // Expected /Balance json response
-    public readonly balanceResponse: IResponse<IBalance> =
+    public readonly balanceResponse: IResult<IBalance> =
         {
             results: [
                 {
@@ -151,7 +151,7 @@ export class Fixtures {
         };
 
     // Expected /Transactions json response
-    public readonly transactionsResponse: IResponse<ITransaction> =
+    public readonly transactionsResponse: IResult<ITransaction> =
         {
             results: [
                 {
