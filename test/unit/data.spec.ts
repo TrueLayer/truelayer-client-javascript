@@ -47,7 +47,7 @@ const access_token: string = process.env.access_token;
 // Only run the below stubbed tests with a valid access token
 if (DataAPIClient.validateToken(access_token)) {
 
-    test("validateToken return false on fresh token", async (t) => {
+    test("validateToken returns false on fresh token", async (t) => {
         t.plan(1);
         const expired = DataAPIClient.validateToken(access_token);
         t.true(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
