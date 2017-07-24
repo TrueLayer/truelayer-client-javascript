@@ -20,6 +20,7 @@ Run the App :video_game:
 ```bash
 $ npm install
 ...
+
 $ npm start
 ```
 

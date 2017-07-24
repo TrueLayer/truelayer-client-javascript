@@ -1,37 +1,25 @@
 import { Constants } from "../../src/v1/Constants";
 import { DataAPIClient } from "../../src/v1/DataAPIClient";
 import { Fixtures } from "./fixtures";
+import { test } from "ava";
 import * as request from "request-promise";
 import * as sinon from "sinon";
-import { test } from "ava";
 
 // Instantiate to access fixtures
 const fixtures = new Fixtures();
 
-// Instantiate to access fixtures
-const data = new DataAPIClient();
-
-// isTokenExpired tests
-test("isTokenExpired returns true on expired token", async (t) => {
+// validateToken() tests
+test("validateToken returns false on expired token", async (t) => {
     t.plan(1);
-    const expired = DataAPIClient.isTokenExpired(fixtures.accessToken);
-    t.true(expired);
+    const expired = DataAPIClient.validateToken(fixtures.accessToken);
+    t.false(expired);
 });
-
-if (process.env.access_token) {
-    // Get access token from environment variable
-    const access_token: string = process.env.access_token;
-    test("isTokenExpired return false on fresh token", async (t) => {
-        t.plan(1);
-        const expired = DataAPIClient.isTokenExpired(access_token);
-        t.false(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
-    });
-}
 
 // Create sinon instance
 const mock = sinon.sandbox.create();
 
 test.afterEach((t) => {
+    // After each test restore stubbed methods
     mock.restore();
 });
 
@@ -53,50 +41,63 @@ test("buildRequestOptions() - returns well formed request options - all params",
     t.deepEqual(actual, expected, "Incorrect response object.");
 });
 
-test("stubbed request body for /Me endpoint is correctly parsed", async (t) => {
-    const expected = fixtures.meResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getMe(fixtures.accessToken);
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+// Get access token from environment variable
+const access_token: string = process.env.access_token;
 
-test.serial("stubbed request body for /Info endpoint is correctly parsed", async (t) => {
-    const expected = fixtures.infoResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getInfo(fixtures.accessToken);
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+// Only run the below stubbed tests with a valid access token
+if (DataAPIClient.validateToken(access_token)) {
 
-test.serial("stubbed request body for /Accounts endpoint is correctly parsed", async (t) => {
-    const expected = fixtures.accountsResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getAccounts(fixtures.accessToken);
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+    test("validateToken return false on fresh token", async (t) => {
+        t.plan(1);
+        const expired = DataAPIClient.validateToken(access_token);
+        t.true(expired, "You need to provide a working access token that hasn't gone beyond its one hour expiration");
+    });
 
-test.serial("stubbed request body for /Accounts/{id} endpoint.deepEqual correctly parsed", async (t) => {
-    const expected = fixtures.accountsResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getAccount(fixtures.accessToken, "test_account_id");
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+    test("stubbed request body for /Me endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.meResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getMe(access_token);
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
 
-test.serial("stubbed request body for /Balance endpoint is correctly parsed", async (t) => {
-    const expected = fixtures.balanceResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getBalance(fixtures.accessToken, "test_account_id");
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+    test.serial("stubbed request body for /Info endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.infoResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getInfo(access_token);
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
 
-test.serial("stubbed request body for /Transactions endpoint is correctly parsed", async (t) => {
-    const expected = fixtures.transactionsResponse;
-    mock.stub(request, "get").returns(JSON.stringify(expected));
-    const actual = await DataAPIClient.getTransactions(fixtures.accessToken, "test_account_id", "2017-04-20", "2017-04-30");
-    t.plan(1);
-    return t.deepEqual(actual, expected);
-});
+    test.serial("stubbed request body for /Accounts endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.accountsResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getAccounts(access_token);
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+
+    test.serial("stubbed request body for /Accounts/{id} endpoint.deepEqual correctly parsed", async (t) => {
+        const expected = fixtures.accountsResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getAccount(access_token, "test_account_id");
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+
+    test.serial("stubbed request body for /Balance endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.balanceResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getBalance(access_token, "test_account_id");
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+
+    test.serial("stubbed request body for /Transactions endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.transactionsResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getTransactions(access_token, "test_account_id", "2017-04-20", "2017-04-30");
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+}

@@ -7,7 +7,7 @@ import * as moment from "moment";
 import * as request from "request-promise";
 
 /**
- * This class is responsible for performing authentication with TrueLayer
+ * Class responsible for performing authentication with TrueLayer
  *
  * @export
  * @class AuthAPIClient
@@ -17,15 +17,14 @@ export class AuthAPIClient {
     private readonly options: IOptions;
 
     /**
-     * Creates an instance of AuthAPIClient.
-     * If no constructor options are passed then look for environment variables by default.
+     * Creates an instance of AuthAPIClient - If no constructor options are passed then look for environment variables by default.
      *
      * @param {IOptions} options
      */
     constructor(options?: IOptions) {
         if (options) {
             this.options = options;
-        } else if (process.env.CLIENT_ID || process.env.CLIENT_SECRET) {
+        } else if (process.env.CLIENT_ID && process.env.CLIENT_SECRET) {
             this.options = {
                 client_id: process.env.CLIENT_ID,
                 client_secret: process.env.CLIENT_SECRET
@@ -46,7 +45,7 @@ export class AuthAPIClient {
      * @returns {string}
      */
     public getAuthUrl(redirectURI: string, scope: string[], nonce: string, state?: string, enableMock?: boolean): string {
-        // Check for valid scope values
+
         for (const grant of scope) {
             if (!AuthAPIClient.isValidScope(grant)) {
                 throw new Error(`Provided scope is not valid: ${grant}`);
@@ -99,6 +98,7 @@ export class AuthAPIClient {
      * @returns {Promise<ITokenResponse>}
      */
     public async exchangeCodeForToken(redirectURI: string, code: string): Promise<ITokenResponse> {
+
         const requestOptions: request.Options = {
             uri: `${Constants.AUTH_URL}/connect/token`,
             headers: {
@@ -132,6 +132,7 @@ export class AuthAPIClient {
      * @returns {Promise<ITokenResponse>}
      */
     public async refreshAccessToken(refreshToken: string): Promise<ITokenResponse> {
+
         const requestOptions: request.Options = {
             uri: `${Constants.AUTH_URL}/connect/token`,
             method: "POST",
@@ -154,7 +155,7 @@ export class AuthAPIClient {
                 refresh_token: parsedResponse.refresh_token
             };
         } catch (error) {
-            throw new ApiError(error);
+            throw new AuthAPIClient(error);
         }
     }
 }

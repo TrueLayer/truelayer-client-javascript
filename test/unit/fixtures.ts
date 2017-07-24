@@ -1,6 +1,6 @@
 import { Constants } from "../../src/v1/Constants";
 import { IMe } from "../../src/v1/interfaces/data/IMe";
-import { IResponse } from "../../src/v1/interfaces/data/IResponse";
+import { IResult } from "../../src/v1/interfaces/data/IResponse";
 import { IInfo } from "../../src/v1/interfaces/data/IInfo";
 import { IAccount } from "../../src/v1/interfaces/data/IAccount";
 import { IBalance } from "../../src/v1/interfaces/data/IBalance";
@@ -8,6 +8,7 @@ import { ITransaction } from "../../src/v1/interfaces/data/ITransaction";
 
 export class Fixtures {
 
+    // Expired access token
     public readonly accessToken: string =
         `eyJhbGciOiJSUzI1NiIsImtpZCI6IjE0NTk4OUIwNTdDOUMzMzg0MDc4MDBBOEJBNkNCOUZFQjMzRTk1MTAiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJGRm1Kc0ZmSnd6` +
         `aEFlQUNvdW15NV9yTS1sUkEifQ.eyJuYmYiOjE0OTYyNDgzMzUsImV4cCI6MTQ5NjI1MTkzNSwiaXNzIjoiaHR0cHM6Ly9hdXRoLnRydWVsYXllci5jb20iLCJhd` +
@@ -49,9 +50,8 @@ export class Fixtures {
         }`;
 
     // Expected /Me json response
-    public readonly meResponse: IResponse<IMe> =
+    public readonly meResponse: IResult<IMe> =
         {
-            success: true,
             results: [
                 {
                     client_id: "test",
@@ -62,9 +62,8 @@ export class Fixtures {
         };
 
     // Expected /Info json response string
-    public readonly infoResponse: IResponse<IInfo> =
+    public readonly infoResponse: IResult<IInfo> =
         {
-            success: true,
             results: [
                 {
                     addresses: [
@@ -89,9 +88,8 @@ export class Fixtures {
         };
 
     // Expected /Accounts json response string
-    public readonly accountsResponse: IResponse<IAccount> =
+    public readonly accountsResponse: IResult<IAccount> =
         {
-            success: true,
             results: [
                 {
                     update_timestamp: "2017-02-07T17: 29:24.740802Z",
@@ -121,9 +119,8 @@ export class Fixtures {
         };
 
     // Expected /Accounts/{id} json response
-    public readonly accountResponse: IResponse<IAccount> =
+    public readonly accountResponse: IResult<IAccount> =
         {
-            success: true,
             results: [
                 {
                     update_timestamp: "2017-02 - 07T17: 29:24.740802Z",
@@ -141,9 +138,8 @@ export class Fixtures {
         };
 
     // Expected /Balance json response
-    public readonly balanceResponse: IResponse<IBalance> =
+    public readonly balanceResponse: IResult<IBalance> =
         {
-            success: true,
             results: [
                 {
                     currency: "GBP",
@@ -155,9 +151,8 @@ export class Fixtures {
         };
 
     // Expected /Transactions json response
-    public readonly transactionsResponse: IResponse<ITransaction> =
+    public readonly transactionsResponse: IResult<ITransaction> =
         {
-            success: true,
             results: [
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",

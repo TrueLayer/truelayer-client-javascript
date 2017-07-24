@@ -1,85 +1,86 @@
+import { IError } from "./interfaces/data/IResponse";
 import { RequestError, StatusCodeError } from "request-promise/errors";
+
 /**
- * Error class for handling errors
+ * Base class extending native errors
+ *
+ * @class ApiError
+ * @extends {Error}
  */
 export class ApiError extends Error {
 
+    public error: string = "internal_error";
+
     /**
-     * Construct the error
-     * @param code
-     * @param message
-     * @returns {string}
+     * Creates an instance of ApiError.
+     *
+     * @param {Error} error
      */
-    private static constructErrorMessage(code: string, message: string) {
+    constructor(error: Error) {
+        // Super call to Error
+        super(ApiError.getErrorResponse(error).error_description);
+        // Generate error response object
+        this.error = ApiError.getErrorResponse(error).error;
+    }
+
+    /**
+     * Construct error response
+     *
+     * @param {string} code
+     * @param {string} description
+     * @returns {IError}
+     */
+    // tslint:disable-next-line:variable-name
+    private static constructErrorResponse(error: string, error_description: string): IError {
         return {
-            code,
-            message
+            error,
+            error_description
         };
     }
 
     /**
-     * Construct new ApiErrors for generic HTTP error statuses not handled by the APIs
+     * Construct error response based on generic HTTP status code
+     *
      * @param httpStatusCode
      * @returns {string}
      */
-    private static genericHTTPResponse(httpStatusCode: number) {
+    private static genericHttpResponse(httpStatusCode: number): IError {
         switch (httpStatusCode) {
-            case 400:
-                return ApiError.constructErrorMessage("bad_request", "Bad request");
-            case 401:
-                return ApiError.constructErrorMessage("unauthorized", "Unauthorized");
-            case 403:
-                return ApiError.constructErrorMessage("forbidden", "Forbidden");
-            case 404:
-                return ApiError.constructErrorMessage("not_found", "Not Found");
-            default:
-                return ApiError.constructErrorMessage("internal_error", "Internal error");
+            case 400: return ApiError.constructErrorResponse("bad_request", "Bad request");
+            case 401: return ApiError.constructErrorResponse("unauthorized", "Unauthorized");
+            case 403: return ApiError.constructErrorResponse("forbidden", "Forbidden");
+            case 404: return ApiError.constructErrorResponse("not_found", "Not Found");
+            default: return ApiError.constructErrorResponse("internal_error", "Internal error");
         }
     }
 
     /**
-     * Handle the different types of errors
-     *  eg. StatusCodeErrors (server errors) and RequestErrors (network errors)
-     * @param error
-     * @returns {string}
+     * Construct error response object
+     *
+     * @param {Error} error
+     * @returns {IError}
      */
-    private static getMessage(error: Error) {
-        // check if the response is not a success
-        if (error instanceof StatusCodeError) {
-
-            // check if we have an error body
-            if (error.error) {
+    private static getErrorResponse(error: Error): IError {
+        switch (error.constructor) {
+            case StatusCodeError:
+                // The server responded with a status codes other than 2xx.
                 try {
-                    const parsedError = JSON.parse(error.error);
-
-                    // check if we have error code and error message properties
-                    if (!!parsedError.error.code && !!parsedError.error.message) {
-                        return ApiError.constructErrorMessage(parsedError.error.code, parsedError.error.message);
-                    } else {
-                        // this is an auth error because it only contains error.error which is a string
-                        return ApiError.constructErrorMessage(parsedError.error, parsedError.error);
-                    }
+                    const errorResponse = JSON.parse((error as StatusCodeError).error);
+                    return errorResponse.error && errorResponse.error_description
+                        ? ApiError.constructErrorResponse(errorResponse.error, errorResponse.error_description)
+                        : ApiError.constructErrorResponse(errorResponse, errorResponse);
                 } catch (e) {
-                    // error body is not valid. throw a generic error
-                    return ApiError.constructErrorMessage("internal_error", "Internal server error");
+                    return ApiError.genericHttpResponse((error as StatusCodeError).statusCode);
                 }
-                // this is a generic HTTP error
-            } else {
-                return ApiError.genericHTTPResponse(error.statusCode);
-            }
-
-            // handle network errors
-        } else if (error instanceof RequestError) {
-            return ApiError.constructErrorMessage(error.error.code, "Error on `" + error.error.syscall + "`");
-            // handle any other error
-        } else {
-            return ApiError.constructErrorMessage("internal_error", "Internal server error");
+            case RequestError:
+                // The request failed due to technical reasons.
+                const reqError = (error as RequestError).error;
+                return ApiError.constructErrorResponse(reqError.code, "Error on `" + reqError.syscall + "`");
+            default:
+                if (error.message === "Invalid access token") {
+                    return ApiError.constructErrorResponse("invalid_access_token", "Invalid access token.");
+                }
+                return ApiError.constructErrorResponse("internal_error", "Well, this is embarrassing!");
         }
-    }
-
-    public readonly code: string = "internal_error";
-    constructor(error: Error) {
-        super(ApiError.getMessage(error).message);
-        this.code = ApiError.getMessage(error).code;
     }
 }

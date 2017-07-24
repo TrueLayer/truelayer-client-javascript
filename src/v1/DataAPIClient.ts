@@ -5,7 +5,7 @@ import { IBalance } from "./interfaces/data/IBalance";
 import { IInfo } from "./interfaces/data/IInfo";
 import { IJWT } from "./interfaces/auth/IJWT";
 import { IMe } from "./interfaces/data/IMe";
-import { IResponse } from "./interfaces/data/IResponse";
+import { IResult } from "./interfaces/data/IResponse";
 import { ITransaction } from "./interfaces/data/ITransaction";
 import * as decode from "jwt-decode";
 import * as moment from "moment";
@@ -23,17 +23,20 @@ export class DataAPIClient {
      * @param {string} accessToken
      * @param {string} path
      * @param {object} [qs]
-     * @returns {Promise<IResponse<T>>}
+     * @returns {Promise<IResult<T>>}
      */
-    public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResponse<T>> {
-        // Check accessToken isn't expired before making server call
-        if (DataAPIClient.isTokenExpired(accessToken)) {
-            throw new ApiError(new Error("Access token has expired"));
+    public static async callAPI<T>(accessToken: string, path: string, qs?: object): Promise<IResult<T>> {
+
+        const isValidToken = DataAPIClient.validateToken(accessToken);
+        if (!isValidToken) {
+            throw new ApiError(new Error("Invalid access token"));
         }
-        const requestOptions: request.Options = DataAPIClient.buildRequestOptions(accessToken, path, qs);
+
+        const requestOptions = DataAPIClient.buildRequestOptions(accessToken, path, qs);
+
         try {
-            const response: string = await request.get(requestOptions);
-            const parsedResponse: IResponse<T> = JSON.parse(response);
+            const response = await request.get(requestOptions);
+            const parsedResponse: IResult<T> = JSON.parse(response);
             return parsedResponse;
         } catch (error) {
             throw new ApiError(error);
@@ -66,7 +69,7 @@ export class DataAPIClient {
      * Call to /me API.
      *
      * @param accessToken
-     * @returns {Promise<IResponse<IMe>>}
+     * @returns {Promise<IResult<IMe>>}
      */
     public static async getMe(accessToken: string) {
          return await DataAPIClient.callAPI<IMe>(accessToken, `${Constants.API_URL}/data/v1/me`);
@@ -76,9 +79,9 @@ export class DataAPIClient {
      * Call to /info API.
      *
      * @param {string} accessToken
-     * @returns {Promise<IResponse<IInfo>>}
+     * @returns {Promise<IResult<IInfo>>}
      */
-    public static async getInfo(accessToken: string): Promise<IResponse<IInfo>> {
+    public static async getInfo(accessToken: string): Promise<IResult<IInfo>> {
         return await DataAPIClient.callAPI<IInfo>(accessToken, `${Constants.API_URL}/data/v1/info`);
     }
 
@@ -86,9 +89,9 @@ export class DataAPIClient {
      * Call to /accounts API.
      *
      * @param accessToken
-     * @returns {Promise<IResponse<IAccount>>}
+     * @returns {Promise<IResult<IAccount>>}
      */
-    public static async getAccounts(accessToken: string): Promise<IResponse<IAccount>> {
+    public static async getAccounts(accessToken: string): Promise<IResult<IAccount>> {
         return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_URL}/data/v1/accounts`);
     }
 
@@ -97,24 +100,24 @@ export class DataAPIClient {
      *
      * @param accessToken
      * @param accountId
-     * @returns {Promise<IResponse<IAccount>>}
+     * @returns {Promise<IResult<IAccount>>}
      */
-    public static async getAccount(accessToken: string, accountId: string): Promise<IResponse<IAccount>> {
+    public static async getAccount(accessToken: string, accountId: string): Promise<IResult<IAccount>> {
         return await DataAPIClient.callAPI<IAccount>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}`);
     }
 
     /**
      * Call to /accounts/account_id/transactions API
-     *
      * Date format expected: YYYY-MM-DD
      *
      * @param accessToken
      * @param accountId
      * @param from
      * @param to
-     * @returns {Promise<IResponse<ITransaction>>}
+     * @returns {Promise<IResult<ITransaction>>}
      */
-    public static async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResponse<ITransaction>> {
+    public static async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResult<ITransaction>> {
+
        const qs = {
             from,
             to
@@ -128,22 +131,27 @@ export class DataAPIClient {
      *
      * @param accessToken
      * @param accountId
-     * @returns {Promise<IResponse<IBalance>>}
+     * @returns {Promise<IResult<IBalance>>}
      */
-    public static async getBalance(accessToken: string, accountId: string): Promise<IResponse<IBalance>> {
+    public static async getBalance(accessToken: string, accountId: string): Promise<IResult<IBalance>> {
         return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/balance`);
     }
 
     /**
-     * Returns whether the token has expired or not
+     * Returns a boolean indicating whether the token is valid.
      *
      * @param {string} accessToken
      * @returns {boolean}
      */
-    public static isTokenExpired(accessToken: string): boolean {
-        const decoded: IJWT = decode(accessToken);
-        const expiry: number = decoded.exp;
-        const now: number = moment().utc().unix();
-        return now - expiry > 0;
+    public static validateToken(accessToken: string): boolean {
+        let decoded: IJWT;
+        try {
+            decoded = decode(accessToken);
+        } catch (error) {
+            return false;
+        }
+        const expiry = decoded.exp;
+        const now = moment().utc().unix();
+        return now - expiry < 0;
     }
 }

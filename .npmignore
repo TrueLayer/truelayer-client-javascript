@@ -1,9 +1,15 @@
-.git/
-node_modules/
-dist/
+# root level hidden files
+.*
 .cache/
-*.log
-*.bak.js
-*.bak
-.DS_STORE
-dump.rdb
+.git/
+.vscode/
+node_modules/
+
+# typescript related
+src
+test
+tsconfig.json
+tslint.json
+
+# unnecessary example
+examples

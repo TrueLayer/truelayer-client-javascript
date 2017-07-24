@@ -5,35 +5,19 @@
  * @interface IAccount
  */
 export interface IAccount {
-    /**
-     * Unique identifier of the account
-     */
+    /** Unique identifier of the account */
     account_id: string;
-    /**
-     * Account Identifiers
-     *
-     * @type {IAccountNumber}
-     */
+    /** Account Identifiers      * @type {IAccountNumber} */
     account_number: IAccountNumber;
-    /**
-     * Type of the account
-     */
+    /** Type of the account */
     account_type: string;
-    /**
-     * ISO 4217 alpha-3 currency code of the account
-     */
+    /** ISO 4217 alpha-3 currency code of the account */
     currency: string;
-    /**
-     * Optional description of account
-     */
+    /** Optional description of account */
     description?: string;
-    /**
-     * Human readable name of the account
-     */
+    /** Human readable name of the account */
     display_name?: string;
-    /**
-     * Last update time of the account information
-     */
+    /** Last update time of the account information */
     update_timestamp: string;
 }
 
@@ -43,20 +27,12 @@ export interface IAccount {
  * @interface IAccount
  */
 export interface IAccountNumber {
-    /**
-     * ISO 13616-1:2007 international bank number
-     */
+    /** ISO 13616-1:2007 international bank number */
     iban: string;
-    /**
-     * Bank account number
-     */
+    /** Bank account number */
     number: string;
-    /**
-     * United Kingdom sort code
-     */
+    /** United Kingdom sort code */
     sort_code: string;
-    /**
-     * ISO 9362:2009 Business Identifier Codes
-     */
+    /** ISO 9362:2009 Business Identifier Codes */
     swift_bic?: string;
 }

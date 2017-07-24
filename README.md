@@ -4,29 +4,30 @@
 	<a href="https://truelayer.com">
 		<img src="https://pbs.twimg.com/media/C4n_ff0WIAIYqNj.jpg" />
     </a>
-	<br>
-	<a href="https://doxdox.org/truelayer/truelayer-client-javascript">
-		<img src="https://doxdox.org/images/badge-flat.svg" />
-    </a>
-	<br>
-	<sup><strong>Detailed documentation on client</sup></strong>
+	<sup><strong>Javascript / Typescript API Client Library</sup></strong>
 </p>
 
 # [TrueLayer](https://truelayer.com) - [Docs](https://docs.truelayer.com)
 TrueLayer allows financial applications to connect securely with their customer’s bank data. TrueLayer provides a unified interface between multiple financial institutions and third party applications over a common RESTful API. 
-For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com. 
+For more information and for obtaining a new TrueLayer developer account, visit https://truelayer.com.
 
-# TrueLayer client library - JavaScript / TypeScript
+<br>
 
-This is the official Typescript client library that helps with the creation of applications that use TrueLayer APIs. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
+# Client library (JavaScript / TypeScript)
 
-The truelayer-client-javascript library can be used from either JavaScript (Node.js) or TypeScript.
+This is the official client library to help with the creation of financial applications that implement TrueLayer APIs. The library has been written in Typescript for a richer development experience. Typescript is a typed superset of Javascript that compiles to plain JavaScript. More information regarding Typescript can be found at: https://www.typescriptlang.org/
+
+The client library can be used within a JavaScript (Node.js) or TypeScript environment.
+
+<br>
 
 # Installation
 
 ```bash
 $ npm install truelayer-client
 ```
+
+<br>
 
 # Usage
 Below is a simple Javascript express app using TrueLayer's API client library. It illustrates the flow of obtaining a JWT access token from the authorization server, before using this token to query the data api `/info` endpoint for identity information of the user.
@@ -45,7 +46,7 @@ const client = new AuthAPIClient({
 
 // Generate and redirect to authentication url
 app.get("/", (req, res) => {
-    // Read JSDocs for descriptions for all parameters
+    // Reference JSDocs for descriptions of parameters
     const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "");
     res.redirect(authURL);
 });
@@ -64,10 +65,12 @@ app.post("/truelayer-redirect", async (req, res) => {
 });
 ```
 
-# Examples
+<br>
 
-Two sample applications have been created and are available to run from the `./examples` folder.
-In order to run the examples, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
+# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
+
+A simple sample application has been created and lives in `./examples`. 
+In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
 Set the environment variables from the console:
 
 ```bash
@@ -83,25 +86,14 @@ This simple example stands up a bare-bones express server that takes a user thro
 $ cd examples/express
 $ npm install
 ...
+
 $ npm start
 ```
 
 Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
 
-### [Koa](http://koajs.com/)-[Marko](http://markojs.com)
+<br>
 
-Koa is a next-generation web framework designed by the team behind Express, which aims to be a smaller, more expressive foundation for web applications and APIs.
-
-Marko on the other hand is a lightweight full featured open-source frontend framework with remarkable performance. It is heavily inspired by the work from vue, react and angular.
-
-This demo showcases the flow from client application, to TrueLayer auth dialog and back again in a fictional single page personal finance management application.
-
-```bash
-$ cd examples/koa-marko
-$ npm install
-...
-$ npm start
-```
 # Authentication and tokens
 
 > Note: The code snippets below are extracted from the above Express example.
@@ -135,9 +127,11 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 > In the case that the `access_token` has expired, ```refreshAccessToken``` can be used for refreshing the token. This will return new values for both the access_token and refresh_token (old refresh_token no longer valid).
 
+<br>
+
 # [Project structure](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1)
 
-This client library comprises of two pieces of functionality represented by separate classes:
+This client library consists of two core pieces of functionality, each represented by a separate class:
 
 #### 1. Authentication - [AuthAPIClient](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/src/v1#authapiclient)
 * This is responsible for providing methods that allow developers to perform customer authentication and client authorization.
@@ -155,17 +149,28 @@ This client library comprises of two pieces of functionality represented by sepa
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
-    * `isTokenExpired` - checks whether the current access token is still valid.
+    * `validateToken` - checks whether the current access token is still valid.
 
+<br>
 
 # Errors
-Errors are handled using the `APIError` class. The errors returned will have the following format:
+
+> **Note:** see [here](http://docs.truelayer.com/#api-response-structure) for more information about error response structure and [here](http://docs.truelayer.com/#error-codes) for more error specific information.
+
+Custom error wrapper classes have been used to handle the auth server and data api errors respectively. Errors on the wire have the following format:
+
 ```json
 {
-    "name": "error_name",
-    "message": "error_message"
+    "error": "<error_code>",
+    "error_description": "<error_description>"
 }
 ```
+
+The custom `DataApiError` and `AuthApiError` error objects have 2 parameters which relate to these properties:
+* `error`: error code
+* `message`: error description
+
+<br>
 
 # Tests
 The client library has both integration and unit tests.
@@ -176,6 +181,9 @@ The client library has both integration and unit tests.
 $ export access_token=<access_token>
 $ npm run test
 ```
+
+<br>
+
 # Contributions
 In order to contribute to the existing code base, please follow these steps: 
 * Fork the repo
