@@ -25,7 +25,8 @@ export class Fixtures {
         uri: `${Constants.API_URL}/data/v1/info`,
         headers: {
             Authorization: "Bearer " + this.accessToken
-        }
+        },
+        timeout: 60000
     };
 
     // Expected object response string for buildRequestOptions() with required params
@@ -34,6 +35,7 @@ export class Fixtures {
         headers: {
             Authorization: "Bearer " + this.accessToken
         },
+        timeout: 60000,
         qs: {
             from: "2017-04-20",
             to: "2017-04-30"

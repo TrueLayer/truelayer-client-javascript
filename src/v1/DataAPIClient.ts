@@ -53,15 +53,19 @@ export class DataAPIClient {
      * @returns {request.Options}
      */
     public static buildRequestOptions(accessToken: string, path: string, qs?: object): request.Options {
+
         const requestOptions: request.Options = {
             uri: path,
             headers: {
                 Authorization: "Bearer " + accessToken
-            }
+            },
+            timeout: 60000
         };
+
         if (qs) {
             requestOptions.qs = qs;
         }
+
         return requestOptions;
     }
 
