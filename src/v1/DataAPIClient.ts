@@ -59,7 +59,7 @@ export class DataAPIClient {
             headers: {
                 Authorization: "Bearer " + accessToken
             },
-            timeout: 60000
+            timeout: Constants.API_TIMEOUT
         };
 
         if (qs) {

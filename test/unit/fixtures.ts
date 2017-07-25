@@ -26,7 +26,7 @@ export class Fixtures {
         headers: {
             Authorization: "Bearer " + this.accessToken
         },
-        timeout: 60000
+        timeout: Constants.API_TIMEOUT
     };
 
     // Expected object response string for buildRequestOptions() with required params
@@ -35,7 +35,7 @@ export class Fixtures {
         headers: {
             Authorization: "Bearer " + this.accessToken
         },
-        timeout: 60000,
+        timeout: Constants.API_TIMEOUT,
         qs: {
             from: "2017-04-20",
             to: "2017-04-30"
