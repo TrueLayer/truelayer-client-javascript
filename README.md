@@ -104,9 +104,9 @@ Once the app is listening, navigate to `http://localhost:5000` and introduce cre
 
 The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/2/). For more information about precisely  how this customer / client authorization is achieved take a look [here](http://docs.truelayer.com/#authentication). This library serves to streamline this flow for developers and can be summarized in the following steps:
 
-1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
+> **Note:** The `responseMode` parameter if omitted will cause the auth server to return the one-time code as a **query-string** parameter. Passing `"form_post"` will intuitively cause the code to be returned as a **form/post** parameter.
 
-> *Note:* The `responseMode` parameter if omitted will cause the auth server to return the one-time code as a query-string parameter. Passing `"form_post"` will intuitively cause the code to be returned as a form/post parameter.
+1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
 
     ```javascript
     const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", "form_post");
