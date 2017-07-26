@@ -41,10 +41,16 @@ export class AuthAPIClient {
      * @param {string[]} scope
      * @param {string} nonce
      * @param {string} [state]
+     * @param {string} [responseMode]
      * @param {boolean} [enableMock]
      * @returns {string}
      */
-    public getAuthUrl(redirectURI: string, scope: string[], nonce: string, state?: string, enableMock?: boolean): string {
+    public getAuthUrl(redirectURI: string,
+                      scope: string[],
+                      nonce: string,
+                      responseMode?: string,
+                      state?: string,
+                      enableMock?: boolean): string {
 
         for (const grant of scope) {
             if (!AuthAPIClient.isValidScope(grant)) {
@@ -53,20 +59,24 @@ export class AuthAPIClient {
         }
 
         const concatScope: string = scope.join(" ");
-        let authUrl: string = `${Constants.AUTH_URL}/?` +
+        let authUrl: string =
+            `${Constants.AUTH_URL}/?` +
             `response_type=code&` +
-            `response_mode=form_post&` +
             `client_id=${this.options.client_id}&` +
             `redirect_uri=${redirectURI}&` +
             `scope=${concatScope}&` +
             `nonce=${nonce}`;
 
-        if (!!state) {
+        if (responseMode) {
+            authUrl += `&response_mode=${responseMode}`;
+        }
+        if (state) {
             authUrl += `&state=${state}`;
         }
         if (enableMock) {
             authUrl += `&enable_mock=true`;
         }
+
         return encodeURI(authUrl);
     }
 

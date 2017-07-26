@@ -47,6 +47,7 @@ Builds a correctly formatted authentication url
 | redirectURI | <code>string</code> | 
 | scope | <code>Array.&lt;string&gt;</code> | 
 | nonce | <code>string</code> | 
+| [responseMode] | <code>string</code> | 
 | [state] | <code>string</code> | 
 | [enableMock] | <code>boolean</code> | 
 

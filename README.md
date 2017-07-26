@@ -47,7 +47,7 @@ const client = new AuthAPIClient({
 // Generate and redirect to authentication url
 app.get("/", (req, res) => {
     // Reference JSDocs for descriptions of parameters
-    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "");
+    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "form_post");
     res.redirect(authURL);
 });
 
@@ -102,8 +102,10 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 
 1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
 
+> *Note:* The `responseMode` parameter if omitted will cause the auth server to return the one-time code as a query-string parameter. Passing `"form_post"` will intuitively cause the code to be returned as a form/post parameter.
+
     ```javascript
-    const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", state = "", true);
+    const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", "form_post");
     res.redirect(authURL);
     ```
 
@@ -116,7 +118,7 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
     });
     ```
 
-3. After the code is obtained, this can be exchanged for an access token.
+3. After the code is obtained, it can be exchanged for an access token.
 
     ```javascript
     const tokens = await client.exchangeCodeForToken(env.REDIRECT_URI, code);
