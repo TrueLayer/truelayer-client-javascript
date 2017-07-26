@@ -35,6 +35,7 @@ Below is a simple Javascript express app using TrueLayer's API client library. I
 ```javascript
 const {AuthAPIClient, DataAPIClient} = require("truelayer-client");
 const app = require("express")();
+const parse = require("body-parser")
 
 const redirect_uri = "http://localhost:5000/truelayer-redirect";
 
@@ -50,6 +51,9 @@ app.get("/", (req, res) => {
     const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "form_post");
     res.redirect(authURL);
 });
+
+// Body parser setup
+app.use(parser.urlencoded({ extended: true }));
 
 // Receiving POST request
 app.post("/truelayer-redirect", async (req, res) => {
