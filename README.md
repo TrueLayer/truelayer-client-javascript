@@ -35,7 +35,6 @@ Below is a simple Javascript express app using TrueLayer's API client library. I
 ```javascript
 const {AuthAPIClient, DataAPIClient} = require("truelayer-client");
 const app = require("express")();
-const parse = require("body-parser")
 
 const redirect_uri = "http://localhost:5000/truelayer-redirect";
 
@@ -45,25 +44,18 @@ const client = new AuthAPIClient({
     client_secret: "<client_secret>"
 });
 
-// Generate and redirect to authentication url
+// Construct url and redirect to the auth dialog
 app.get("/", (req, res) => {
-    // Reference JSDocs for descriptions of parameters
-    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "form_post");
+    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce");
     res.redirect(authURL);
 });
 
-// Body parser setup
-app.use(parser.urlencoded({ extended: true }));
-
-// Receiving POST request
-app.post("/truelayer-redirect", async (req, res) => {
-    // Exchange an authentication code for an access token
-    const code = req.body.code;
+// Retrieve 'code' query-string param, exchange it for access token and hit data api
+app.get("/truelayer-redirect", async (req, res) => {
+    const code = req.query.code;
     const tokens = await client.exchangeCodeForToken(redirect_uri, code);
-    
-    // Call to the Data endpoint using the access token obtained. Eg. /info endpoint
     const info = await DataAPIClient.getInfo(tokens.access_token);
-    
+
     res.set("Content-Type", "text/plain");
     res.send(`Access Token: ${JSON.stringify(info, null, 2)}`);
 });
