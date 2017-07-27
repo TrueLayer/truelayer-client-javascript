@@ -44,9 +44,12 @@ const client = new AuthAPIClient({
     client_secret: "<client_secret>"
 });
 
+// Define array of permission scopes
+const scopes = ["info", "accounts", "balance", "transactions", "offline_access"]
+
 // Construct url and redirect to the auth dialog
 app.get("/", (req, res) => {
-    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce");
+    const authURL = client.getAuthUrl(redirect_uri, scopes, "foobar");
     res.redirect(authURL);
 });
 
@@ -59,6 +62,8 @@ app.get("/truelayer-redirect", async (req, res) => {
     res.set("Content-Type", "text/plain");
     res.send(`Access Token: ${JSON.stringify(info, null, 2)}`);
 });
+
+app.listen(5000, () => console.log("Example app listening on port 5000..."));
 ```
 
 Take a look at our sample repo for an easy to digest implementation of the library. 
@@ -67,7 +72,7 @@ Take a look at our sample repo for an easy to digest implementation of the libra
 
 # [Examples](https://github.com/TrueLayer/truelayer-client-javascript-sample)
 
-A simple sample application has been created and lives in a separate repo, **[here](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)**.
+A simple sample application has been created and lives in a separate repo, **[here](https://github.com/TrueLayer/truelayer-client-javascript-sample)**.
 
 This simple node example stands up a bare-bones express server and takes a user through the authentication flow, then hits the data API `info` endpoint, and streams the results to a page.
 
