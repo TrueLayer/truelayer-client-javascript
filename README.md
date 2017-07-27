@@ -44,53 +44,37 @@ const client = new AuthAPIClient({
     client_secret: "<client_secret>"
 });
 
-// Generate and redirect to authentication url
+// Define array of permission scopes
+const scopes = ["info", "accounts", "balance", "transactions", "offline_access"]
+
+// Construct url and redirect to the auth dialog
 app.get("/", (req, res) => {
-    // Reference JSDocs for descriptions of parameters
-    const authURL = client.getAuthUrl(redirect_uri, ["info"], "nonce", "");
+    const authURL = client.getAuthUrl(redirect_uri, scopes, "foobar");
     res.redirect(authURL);
 });
 
-// Receiving POST request
-app.post("/truelayer-redirect", async (req, res) => {
-    // Exchange an authentication code for an access token
-    const code = req.body.code;
+// Retrieve 'code' query-string param, exchange it for access token and hit data api
+app.get("/truelayer-redirect", async (req, res) => {
+    const code = req.query.code;
     const tokens = await client.exchangeCodeForToken(redirect_uri, code);
-    
-    // Call to the Data endpoint using the access token obtained. Eg. /info endpoint
     const info = await DataAPIClient.getInfo(tokens.access_token);
-    
+
     res.set("Content-Type", "text/plain");
     res.send(`Access Token: ${JSON.stringify(info, null, 2)}`);
 });
+
+app.listen(5000, () => console.log("Example app listening on port 5000..."));
 ```
+
+Take a look at our sample repo for an easy to digest implementation of the library. 
 
 <br>
 
-# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
+# [Examples](https://github.com/TrueLayer/truelayer-client-javascript-sample)
 
-A simple sample application has been created and lives in `./examples`. 
-In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
-Set the environment variables from the console:
+A simple sample application has been created and lives in a separate repo, **[here](https://github.com/TrueLayer/truelayer-client-javascript-sample)**.
 
-```bash
-$ export CLIENT_ID="<client>"
-$ export CLIENT_SECRET="<secret>"
-```
-
-### [Express](https://expressjs.com/)
-
-This simple example stands up a bare-bones express server that takes a user through the authentication flow and hits the data API endpoints, streaming the results to a page.
-
-```bash
-$ cd examples/express
-$ npm install
-...
-
-$ npm start
-```
-
-Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
+This simple node example stands up a bare-bones express server and takes a user through the authentication flow, then hits the data API `info` endpoint, and streams the results to a page.
 
 <br>
 
@@ -100,10 +84,12 @@ Once the app is listening, navigate to `http://localhost:5000` and introduce cre
 
 The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/2/). For more information about precisely  how this customer / client authorization is achieved take a look [here](http://docs.truelayer.com/#authentication). This library serves to streamline this flow for developers and can be summarized in the following steps:
 
+> **Note:** The `responseMode` parameter if omitted will cause the auth server to return the one-time code as a **query-string** parameter. Passing `"form_post"` will intuitively cause the code to be returned as a **form/post** parameter.
+
 1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
 
     ```javascript
-    const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", state = "", true);
+    const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", "form_post");
     res.redirect(authURL);
     ```
 
@@ -116,7 +102,7 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
     });
     ```
 
-3. After the code is obtained, this can be exchanged for an access token.
+3. After the code is obtained, it can be exchanged for an access token.
 
     ```javascript
     const tokens = await client.exchangeCodeForToken(env.REDIRECT_URI, code);
