@@ -69,32 +69,15 @@ app.post("/truelayer-redirect", async (req, res) => {
 });
 ```
 
+Take a look at our sample repo for an easy to digest implementation of the library. 
+
 <br>
 
-# [Examples](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)
+# [Examples](https://github.com/TrueLayer/truelayer-client-javascript-sample)
 
-A simple sample application has been created and lives in `./examples`. 
-In order to run the application, `CLIENT_ID` and `CLIENT_SECRET` need to be set as environment variables. These can be obtained by signing up on https://truelayer.com.
-Set the environment variables from the console:
+A simple sample application has been created and lives in a separate repo, **[here](https://github.com/TrueLayer/truelayer-client-javascript/tree/master/examples/express)**.
 
-```bash
-$ export CLIENT_ID="<client>"
-$ export CLIENT_SECRET="<secret>"
-```
-
-### [Express](https://expressjs.com/)
-
-This simple example stands up a bare-bones express server that takes a user through the authentication flow and hits the data API endpoints, streaming the results to a page.
-
-```bash
-$ cd examples/express
-$ npm install
-...
-
-$ npm start
-```
-
-Once the app is listening, navigate to `http://localhost:5000` and introduce credentials.
+This simple node example stands up a bare-bones express server and takes a user through the authentication flow, then hits the data API `info` endpoint, and streams the results to a page.
 
 <br>
 
