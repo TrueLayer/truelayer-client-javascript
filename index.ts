@@ -8,3 +8,7 @@ export { IOptions } from "./src/v1/interfaces/auth/IOptions";
 export { IResult, IError } from "./src/v1/interfaces/data/IResponse";
 export { ITokenResponse } from "./src/v1/interfaces/auth/ITokenResponse";
 export { ITransaction } from "./src/v1/interfaces/data/ITransaction";
+
+export { ICard } from "./src/v1/interfaces/data/ICard";
+export { ICardBalance } from "./src/v1/interfaces/data/ICardBalance";
+export { ICardTransaction } from "./src/v1/interfaces/data/ICardTransaction";

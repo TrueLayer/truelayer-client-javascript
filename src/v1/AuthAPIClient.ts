@@ -94,6 +94,7 @@ export class AuthAPIClient {
             case "accounts":
             case "transactions":
             case "balance":
+            case "cards":
                 return true;
             default:
                 return false;

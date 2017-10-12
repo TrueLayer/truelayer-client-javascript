@@ -6,6 +6,10 @@ import { IAccount } from "../../src/v1/interfaces/data/IAccount";
 import { IBalance } from "../../src/v1/interfaces/data/IBalance";
 import { ITransaction } from "../../src/v1/interfaces/data/ITransaction";
 
+import { ICard } from "../../src/v1/interfaces/data/ICard";
+import { ICardBalance } from "../../src/v1/interfaces/data/ICardBalance";
+import { ICardTransaction } from "../../src/v1/interfaces/data/ICardTransaction";
+
 export class Fixtures {
 
     // Expired access token
@@ -139,8 +143,8 @@ export class Fixtures {
             ]
         };
 
-    // Expected /Balance json response
-    public readonly balanceResponse: IResult<IBalance> =
+    // Expected /Accounts/{id}/Balance json response
+    public readonly accountBalanceResponse: IResult<IBalance> =
         {
             results: [
                 {
@@ -152,8 +156,8 @@ export class Fixtures {
             ]
         };
 
-    // Expected /Transactions json response
-    public readonly transactionsResponse: IResult<ITransaction> =
+    // Expected /Accounts/{id}/Transactions json response
+    public readonly accountTransactionsResponse: IResult<ITransaction> =
         {
             results: [
                 {
@@ -235,4 +239,62 @@ export class Fixtures {
             ]
         };
 
+    // Expected /Cards json response
+    public readonly cardsResponse: IResult<ICard> =
+        {
+            results: [
+                {
+                    account_id: "cfc2bcf7a405fed81ec8a777213baf59",
+                    card_network: "VISA",
+                    card_type: "CREDIT",
+                    currency: "GBP",
+                    display_name: "Platinum super",
+                    partial_card_number: "6589",
+                    update_timestamp: "2017-10-12T06:47:22.4606763Z"
+                },
+                {
+                    account_id: "f76c93e41ca4b6e8de429087130663df",
+                    card_network: "MASTERCARD",
+                    card_type: "CREDIT",
+                    currency: "GBP",
+                    display_name: "Everyday",
+                    partial_card_number: "1101",
+                    update_timestamp: "2017-10-12T06:47:22.4606768Z"
+                }
+            ]
+        };
+
+    // Expected /Cards/{id} json response
+    public readonly cardResponse: IResult<ICard> =
+        {
+            results: [
+                {
+                    "account_id": "cfc2bcf7a405fed81ec8a777213baf59",
+                    "card_network": "VISA",
+                    "card_type": "CREDIT",
+                    "currency": "GBP",
+                    "display_name": "Platinum super",
+                    "partial_card_number": "6589",
+                    "update_timestamp": "2017-10-12T07:05:04.4471252Z"
+                }
+            ]
+        };
+    
+    // Expected /Cards/{id}/Balance json response
+    public readonly cardBalanceResponse: IResult<ICardBalance> =
+        {
+            results: [
+                {
+                    currency: "GBP",
+                    available: 5479.0,
+                    current: 21.0,
+                    credit_limit: 5500.0,
+                    last_statement_date: "2017-10-02T00:00:00",
+                    last_statement_balance: 420.0,
+                    payment_due: 5.0,
+                    payment_due_date: "2017-11-01T00:00:00",
+                    update_timestamp: "2017-10-12T07:17:54.8144949Z"
+                }
+            ]
+        }
 }
