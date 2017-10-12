@@ -119,6 +119,93 @@ if (DataAPIClient.validateToken(access_token)) {
         t.is(error.message, "account not found");
     });
 
+    /** cards **/
+    test.serial("Get /cards returns success", async (t) => {
+        t.plan(1);
+        const response = await t.notThrows(DataAPIClient.getCards(access_token));
+    });
+
+    test.serial("Get /cards returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCards("invalid_token"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /cards returns success for each result account", async (t) => {
+        const resp = await DataAPIClient.getCards(access_token);
+        const cards: TrueLayer.ICard[] = resp.results;
+        const assertions: number = cards.length;
+        t.plan(assertions);
+        for (const card of cards) {
+            const response = await t.notThrows(DataAPIClient.getCard(access_token, card.account_id));
+        }
+    });
+
+    test.serial("Get /card returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCard("invalid_token", "account"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /card returns error - invalid account", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCard(access_token, "invalid_account"));
+        t.is(error.error, "account_not_found");
+        t.is(error.message, "account not found");
+    });
+
+    test.serial("Get /cards/{id}/balance returns success for each card account", async (t) => {
+        const resp = await DataAPIClient.getCards(access_token);
+        const cards: TrueLayer.ICard[] = resp.results;
+        const assertions: number = cards.length;
+        t.plan(assertions);
+        for (const card of cards) {
+            const response = await t.notThrows(DataAPIClient.getCardBalance(access_token, card.account_id));
+        }
+    });
+
+    test.serial("Get /cards/{id}/balance returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardBalance("invalid_token", "invalid_account"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /cards/{id}/balance returns error - invalid account", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardBalance(access_token, "invalid_account"));
+        t.is(error.error, "account_not_found");
+        t.is(error.message, "account not found");
+    });
+
+    test.serial("Get /cards/{id}/transactions returns success for each account", async (t) => {
+        const resp = await DataAPIClient.getCards(access_token);
+        const cards: TrueLayer.ICard[] = resp.results;
+        const assertions: number = cards.length;
+        t.plan(assertions);
+        const from: string = moment().subtract(1, "month").format("YYYY-MM-DD");
+        const to: string = moment().format("YYYY-MM-DD");
+        for (const card of cards) {
+            const response = await t.notThrows(DataAPIClient.getCardTransactions(access_token, card.account_id, from, to));
+        }
+    });
+
+    test.serial("Get /cards/{id}/transactions returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardTransactions("invalid_token", "invalid_account", "2017-05-05", "2017-05-07"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /cards/{id}/transactions returns error - invalid account", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardTransactions(access_token, "invalid_account", "2017-05-05", "2017-05-07"));
+        t.is(error.error, "account_not_found");
+        t.is(error.message, "account not found");
+    });
+
 } else {
     test("No 'access_token' environment variable set. Integration test disabled.", (t) => t.pass());
 }

@@ -45,7 +45,7 @@ const client = new AuthAPIClient({
 });
 
 // Define array of permission scopes
-const scopes = ["info", "accounts", "balance", "transactions", "offline_access"]
+const scopes = ["info", "accounts", "balance", "transactions", "offline_access", "cards"]
 
 // Construct url and redirect to the auth dialog
 app.get("/", (req, res) => {
@@ -131,10 +131,17 @@ This client library consists of two core pieces of functionality, each represent
 * The following methods are provided in DataAPIClient:
     * `getMe` - call to the */me* endpoint
     * `getInfo` - call to the */info* endpoint
+
     * `getAccounts` - call to the */accounts* endpoint
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
+
+    * `getCards` - call to the */cards* endpoint
+    * `getCard` - call to the */cards/{account_id}* endpoint
+    * `getCardTransactions` - call to the */cards/{account_id}/transactions* endpoint
+    * `getCardBalance` - call to the */cards/{account_id}/balance* endpoint
+
     * `validateToken` - checks whether the current access token is still valid.
 
 <br>

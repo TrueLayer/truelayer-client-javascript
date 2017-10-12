@@ -11,6 +11,12 @@ import * as decode from "jwt-decode";
 import * as moment from "moment";
 import * as request from "request-promise";
 
+/** Card Interfaces **/
+
+import { ICard } from "./interfaces/data/ICard";
+import { ICardBalance } from "./interfaces/data/ICardBalance";
+import { ICardTransaction } from "./interfaces/data/ICardTransaction";
+
 /**
  * Class responsible for calling to the Data endpoints
  */
@@ -139,6 +145,58 @@ export class DataAPIClient {
      */
     public static async getBalance(accessToken: string, accountId: string): Promise<IResult<IBalance>> {
         return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/balance`);
+    }
+
+    /**
+     * Call to /cards API.
+     *
+     * @param accessToken
+     * @returns {Promise<IResult<ICard>>}
+     */
+    public static async getCards(accessToken: string): Promise<IResult<ICard>> {
+        return await DataAPIClient.callAPI<ICard>(accessToken, `${Constants.API_URL}/data/v1/cards`);
+    }
+
+    /**
+     * Call to /cards/account_id API.
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<ICard>>}
+     */
+    public static async getCard(accessToken: string, accountId: string): Promise<IResult<ICard>> {
+        return await DataAPIClient.callAPI<ICard>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}`);
+    }
+
+    /**
+     * Call to /cards/account_id/transactions API
+     * Date format expected: YYYY-MM-DD
+     *
+     * @param accessToken
+     * @param accountId
+     * @param from
+     * @param to
+     * @returns {Promise<IResult<ICardTransaction>>}
+     */
+    public static async getCardTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResult<ICardTransaction>> {
+        
+        const qs = {
+            from,
+            to
+        };
+        
+        return await DataAPIClient.callAPI<ICardTransaction>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/transactions`, qs);
+    }
+
+    /**
+     * Call to /cards/account_id/balance API
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<ICardBalance>>}
+     */
+    public static async getCardBalance(accessToken: string, accountId: string): Promise<IResult<ICardBalance>> {
+        return await DataAPIClient.callAPI<ICardBalance>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/balance`);
     }
 
     /**
