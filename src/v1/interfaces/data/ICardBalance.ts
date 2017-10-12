@@ -1,6 +1,6 @@
 /**
  * Card Balance information for a specific account - for use with /cards/{account_id}/balance endpoint
- * Docs: http://docs.truelayer.com/#retrieve-account-balance
+ * Docs: http://docs.truelayer.com/#retrieve-card-transactions
  *
  * @interface ICardBalance
  */
