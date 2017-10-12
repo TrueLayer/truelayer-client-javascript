@@ -297,4 +297,46 @@ export class Fixtures {
                 }
             ]
         }
+
+    public readonly cardTransactionsResponse: IResult<ICardTransaction> =
+        {
+            results: [
+                {
+                    timestamp: "2017-10-06T00:00:00",
+                    description: "ATM",
+                    amount: -85.0,
+                    currency: "GBP",
+                    meta: {
+                        type: "Cash Point"
+                    }
+                },
+                {
+                    timestamp: "2017-10-06T00:00:00",
+                    description: "ATM",
+                    amount: -85.0,
+                    currency: "GBP",
+                    meta: {
+                        type: "Cash Point"
+                    }
+                },
+                {
+                    timestamp: "2017-10-09T00:00:00",
+                    description: "Rent",
+                    amount: -700.0,
+                    currency: "GBP",
+                    meta: {
+                        type: "Standing Order"
+                    }
+                },
+                {
+                    timestamp: "2017-10-09T00:00:00",
+                    description: "Energy",
+                    amount: -24.99,
+                    currency: "GBP",
+                    meta: {
+                        type: "Standing Order"
+                    }
+                }
+            ]
+        }
 }
