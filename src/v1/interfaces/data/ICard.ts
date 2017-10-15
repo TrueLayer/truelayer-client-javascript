@@ -15,6 +15,8 @@ export interface ICard {
     currency: string;
     /** Human readable name of the account */
     display_name?: string;
+    /** Provider details **/
+    provider: IProvider;
     /** Last 4 digits of the card **/
     partial_card_number: string;
     /** Name on the card **/
@@ -25,4 +27,19 @@ export interface ICard {
     valid_to?: string;
     /** Last update time of the card information */
     update_timestamp: string;
+}
+
+
+/**
+ * Account identifiers
+ *
+ * @interface IProvider
+ */
+export interface IProvider {
+    /** Provider name */
+    display_name: string;
+    /** Provider logo uri */
+    logo_uri: string;
+    /** Provider ID **/
+    provider_id: string;
 }

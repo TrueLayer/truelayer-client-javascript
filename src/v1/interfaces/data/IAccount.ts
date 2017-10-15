@@ -17,6 +17,8 @@ export interface IAccount {
     description?: string;
     /** Human readable name of the account */
     display_name?: string;
+    /** Provider details **/
+    provider: IProvider;
     /** Last update time of the account information */
     update_timestamp: string;
 }
@@ -35,4 +37,18 @@ export interface IAccountNumber {
     sort_code: string;
     /** ISO 9362:2009 Business Identifier Codes */
     swift_bic?: string;
+}
+
+/**
+ * Provider identifiers
+ *
+ * @interface IProvider
+ */
+export interface IProvider {
+    /** Provider name */
+    display_name: string;
+    /** Provider logo uri */
+    logo_uri: string;
+    /** Provider ID **/
+    provider_id: string;
 }
