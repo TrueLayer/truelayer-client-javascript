@@ -102,6 +102,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390871",
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901234",
@@ -114,6 +119,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390872",
                     account_type: "SAVING",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901235",
@@ -133,6 +143,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390871",
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901234",
@@ -249,6 +264,11 @@ export class Fixtures {
                     card_type: "CREDIT",
                     currency: "GBP",
                     display_name: "Platinum super",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
                     partial_card_number: "6589",
                     update_timestamp: "2017-10-12T06:47:22.4606763Z"
                 },
@@ -258,6 +278,11 @@ export class Fixtures {
                     card_type: "CREDIT",
                     currency: "GBP",
                     display_name: "Everyday",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
                     partial_card_number: "1101",
                     update_timestamp: "2017-10-12T06:47:22.4606768Z"
                 }
@@ -269,13 +294,18 @@ export class Fixtures {
         {
             results: [
                 {
-                    "account_id": "cfc2bcf7a405fed81ec8a777213baf59",
-                    "card_network": "VISA",
-                    "card_type": "CREDIT",
-                    "currency": "GBP",
-                    "display_name": "Platinum super",
-                    "partial_card_number": "6589",
-                    "update_timestamp": "2017-10-12T07:05:04.4471252Z"
+                    account_id: "cfc2bcf7a405fed81ec8a777213baf59",
+                    card_network: "VISA",
+                    card_type: "CREDIT",
+                    currency: "GBP",
+                    display_name: "Platinum super",
+                    provider: {
+                        display_name: "TODO",
+                        provider_id: "mock",
+                        logo_uri: "http://todo.invalid"
+                    },
+                    partial_card_number: "6589",
+                    update_timestamp: "2017-10-12T07:05:04.4471252Z"
                 }
             ]
         };

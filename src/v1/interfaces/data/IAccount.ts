@@ -17,7 +17,7 @@ export interface IAccount {
     description?: string;
     /** Human readable name of the account */
     display_name?: string;
-    /** Provider details **/
+    /** Provider Identifiers     * @type {IProvider} **/
     provider: IProvider;
     /** Last update time of the account information */
     update_timestamp: string;
