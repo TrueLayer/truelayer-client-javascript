@@ -178,6 +178,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "INTEREST (GROSS)",
+                    transaction_id: "239a35851d9fc833f1ec748f6efc8097",
                     transaction_type: "CREDIT",
                     amount: 0.77,
                     currency: "GBP",
@@ -186,6 +187,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "O/D USAGE FEE",
+                    transaction_id: "16a5f86e9da92d86aed9ad02bbce2f47",
                     transaction_type: "DEBIT",
                     amount: -6,
                     currency: "GBP",
@@ -196,6 +198,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 30T00: 00:00+00:00",
                     description: "INTEREST (GROSS)",
+                    transaction_id: "5b9bc882d3feefe3c5d081bd4cb96f7c",
                     transaction_type: "CREDIT",
                     amount: 0.77,
                     currency: "GBP",
@@ -204,6 +207,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "O/D USAGE FEE",
+                    transaction_id: "c1b3a5129487f96d03d22f66c2b57139",
                     transaction_type: "DEBIT",
                     amount: -6,
                     currency: "GBP",
@@ -214,6 +218,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 30T00: 00:00+00:00",
                     description: "THAMES WATER",
+                    transaction_id: "4114e18ec809c5ca5cafbf38fcf5aa5f",
                     transaction_type: "DEBIT",
                     amount: -33.93,
                     currency: "GBP",
@@ -224,6 +229,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 19T00: 00:00+00:00",
                     description: "L B I COUNCIL TAX",
+                    transaction_id: "206c10209cd96477ccb39a9adf802b88",
                     transaction_type: "DEBIT",
                     amount: -148,
                     currency: "GBP",
@@ -234,6 +240,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 16T00: 00:00+00:00",
                     description: "TV LICENCE MBP",
+                    transaction_id: "dd567a32d4a1ca05b158ed3c2cebf077",
                     transaction_type: "DEBIT",
                     amount: -24.25,
                     currency: "GBP",
@@ -244,6 +251,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 03T00: 00:00+00:00",
                     description: "ACME LIMITED",
+                    transaction_id: "61601c817818c476495709cde9bc82df",
                     transaction_type: "CREDIT",
                     amount: 12345.67,
                     currency: "GBP",
@@ -334,6 +342,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-06T00:00:00",
                     description: "ATM",
+                    transaction_id: "a4bb6ccd8ea5b0d0e2ff9c1dd473c675",
                     amount: -85.0,
                     currency: "GBP",
                     meta: {
@@ -343,6 +352,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-06T00:00:00",
                     description: "ATM",
+                    transaction_id: "33aedca69d496d1e9c12934da2c33149",
                     amount: -85.0,
                     currency: "GBP",
                     meta: {
@@ -352,6 +362,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-09T00:00:00",
                     description: "Rent",
+                    transaction_id: "a8912726fb215e5dd67a2e5ccc6359fe",
                     amount: -700.0,
                     currency: "GBP",
                     meta: {
@@ -361,6 +372,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-09T00:00:00",
                     description: "Energy",
+                    transaction_id: "b12d220e1eee58a88bc66b32c55c0326",
                     amount: -24.99,
                     currency: "GBP",
                     meta: {

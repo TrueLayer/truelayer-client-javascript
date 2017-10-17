@@ -11,6 +11,8 @@ export interface ITransaction {
     currency: string;
     /** Original description of the transaction as reported by the Provider */
     description: string;
+    /** ID of the transaction **/
+    transaction_id: string;
     /** A collection of additional Provider specific transaction metadata */
     meta: object;
     /** Date the transaction was posted on the account */
