@@ -103,9 +103,9 @@ export class Fixtures {
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     currency: "GBP",
                     account_number: {
@@ -120,9 +120,9 @@ export class Fixtures {
                     account_type: "SAVING",
                     display_name: "Club Lloyds",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     currency: "GBP",
                     account_number: {
@@ -144,9 +144,9 @@ export class Fixtures {
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     currency: "GBP",
                     account_number: {
@@ -273,9 +273,9 @@ export class Fixtures {
                     currency: "GBP",
                     display_name: "Platinum super",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     partial_card_number: "6589",
                     update_timestamp: "2017-10-12T06:47:22.4606763Z"
@@ -287,9 +287,9 @@ export class Fixtures {
                     currency: "GBP",
                     display_name: "Everyday",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     partial_card_number: "1101",
                     update_timestamp: "2017-10-12T06:47:22.4606768Z"
@@ -308,9 +308,9 @@ export class Fixtures {
                     currency: "GBP",
                     display_name: "Platinum super",
                     provider: {
-                        display_name: "TODO",
+                        display_name: "Mock",
                         provider_id: "mock",
-                        logo_uri: "http://todo.invalid"
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
                     },
                     partial_card_number: "6589",
                     update_timestamp: "2017-10-12T07:05:04.4471252Z"
