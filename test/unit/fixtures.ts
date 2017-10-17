@@ -102,6 +102,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390871",
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901234",
@@ -114,6 +119,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390872",
                     account_type: "SAVING",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901235",
@@ -133,6 +143,11 @@ export class Fixtures {
                     account_id: "f1234560abf9f57287637624def390871",
                     account_type: "TRANSACTION",
                     display_name: "Club Lloyds",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                     currency: "GBP",
                     account_number: {
                         iban: "GB35LOYD12345678901234",
@@ -163,6 +178,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "INTEREST (GROSS)",
+                    transaction_id: "239a35851d9fc833f1ec748f6efc8097",
                     transaction_type: "CREDIT",
                     amount: 0.77,
                     currency: "GBP",
@@ -171,6 +187,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "O/D USAGE FEE",
+                    transaction_id: "16a5f86e9da92d86aed9ad02bbce2f47",
                     transaction_type: "DEBIT",
                     amount: -6,
                     currency: "GBP",
@@ -181,6 +198,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 30T00: 00:00+00:00",
                     description: "INTEREST (GROSS)",
+                    transaction_id: "5b9bc882d3feefe3c5d081bd4cb96f7c",
                     transaction_type: "CREDIT",
                     amount: 0.77,
                     currency: "GBP",
@@ -189,6 +207,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "O/D USAGE FEE",
+                    transaction_id: "c1b3a5129487f96d03d22f66c2b57139",
                     transaction_type: "DEBIT",
                     amount: -6,
                     currency: "GBP",
@@ -199,6 +218,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 30T00: 00:00+00:00",
                     description: "THAMES WATER",
+                    transaction_id: "4114e18ec809c5ca5cafbf38fcf5aa5f",
                     transaction_type: "DEBIT",
                     amount: -33.93,
                     currency: "GBP",
@@ -209,6 +229,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 19T00: 00:00+00:00",
                     description: "L B I COUNCIL TAX",
+                    transaction_id: "206c10209cd96477ccb39a9adf802b88",
                     transaction_type: "DEBIT",
                     amount: -148,
                     currency: "GBP",
@@ -219,6 +240,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 16T00: 00:00+00:00",
                     description: "TV LICENCE MBP",
+                    transaction_id: "dd567a32d4a1ca05b158ed3c2cebf077",
                     transaction_type: "DEBIT",
                     amount: -24.25,
                     currency: "GBP",
@@ -229,6 +251,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-01 - 03T00: 00:00+00:00",
                     description: "ACME LIMITED",
+                    transaction_id: "61601c817818c476495709cde9bc82df",
                     transaction_type: "CREDIT",
                     amount: 12345.67,
                     currency: "GBP",
@@ -249,6 +272,11 @@ export class Fixtures {
                     card_type: "CREDIT",
                     currency: "GBP",
                     display_name: "Platinum super",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                     partial_card_number: "6589",
                     update_timestamp: "2017-10-12T06:47:22.4606763Z"
                 },
@@ -258,6 +286,11 @@ export class Fixtures {
                     card_type: "CREDIT",
                     currency: "GBP",
                     display_name: "Everyday",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                     partial_card_number: "1101",
                     update_timestamp: "2017-10-12T06:47:22.4606768Z"
                 }
@@ -269,13 +302,18 @@ export class Fixtures {
         {
             results: [
                 {
-                    "account_id": "cfc2bcf7a405fed81ec8a777213baf59",
-                    "card_network": "VISA",
-                    "card_type": "CREDIT",
-                    "currency": "GBP",
-                    "display_name": "Platinum super",
-                    "partial_card_number": "6589",
-                    "update_timestamp": "2017-10-12T07:05:04.4471252Z"
+                    account_id: "cfc2bcf7a405fed81ec8a777213baf59",
+                    card_network: "VISA",
+                    card_type: "CREDIT",
+                    currency: "GBP",
+                    display_name: "Platinum super",
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
+                    partial_card_number: "6589",
+                    update_timestamp: "2017-10-12T07:05:04.4471252Z"
                 }
             ]
         };
@@ -304,6 +342,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-06T00:00:00",
                     description: "ATM",
+                    transaction_id: "a4bb6ccd8ea5b0d0e2ff9c1dd473c675",
                     amount: -85.0,
                     currency: "GBP",
                     meta: {
@@ -313,6 +352,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-06T00:00:00",
                     description: "ATM",
+                    transaction_id: "33aedca69d496d1e9c12934da2c33149",
                     amount: -85.0,
                     currency: "GBP",
                     meta: {
@@ -322,6 +362,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-09T00:00:00",
                     description: "Rent",
+                    transaction_id: "a8912726fb215e5dd67a2e5ccc6359fe",
                     amount: -700.0,
                     currency: "GBP",
                     meta: {
@@ -331,6 +372,7 @@ export class Fixtures {
                 {
                     timestamp: "2017-10-09T00:00:00",
                     description: "Energy",
+                    transaction_id: "b12d220e1eee58a88bc66b32c55c0326",
                     amount: -24.99,
                     currency: "GBP",
                     meta: {
