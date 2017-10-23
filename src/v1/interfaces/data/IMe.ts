@@ -9,6 +9,21 @@ export interface IMe {
     client_id: string;
     /** Unique identifier of the set of credentials */
     credentials_id: string;
-    /** Unique identifier of the Provider */
+    /** Provider Identifiers     * @type {IProvider} **/
+    provider: IProvider;
+}
+
+/**
+ * Provider identifiers
+ *
+ * @interface IProvider
+ */
+export interface IProvider {
+    /** Provider name */
+    display_name: string;
+    /** Provider logo uri */
+    logo_uri: string;
+    /** Provider ID **/
     provider_id: string;
 }
+

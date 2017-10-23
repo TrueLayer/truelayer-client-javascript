@@ -62,7 +62,11 @@ export class Fixtures {
                 {
                     client_id: "test",
                     credentials_id: "6L7RxyPKX0THy1tw93PB4V+ 8DB+KjnX9Pxa451yXPu0=",
-                    provider_id: "lloyds"
+                    provider: {
+                        display_name: "Mock",
+                        provider_id: "mock",
+                        logo_uri: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg"
+                    },
                 }
             ]
         };
