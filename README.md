@@ -32,6 +32,8 @@ $ npm install truelayer-client
 # Usage
 Below is a simple Javascript express app using TrueLayer's API client library. It illustrates the flow of obtaining a JWT access token from the authorization server, before using this token to query the data api `/info` endpoint for identity information of the user.
 
+> Note: You'll need **node** (*at least > v7.6*) and **npm** or **yarn** to install and run this example.
+
 ```javascript
 const {AuthAPIClient, DataAPIClient} = require("truelayer-client");
 const app = require("express")();
@@ -40,8 +42,8 @@ const redirect_uri = "http://localhost:5000/truelayer-redirect";
 
 // Create TrueLayer client instance
 const client = new AuthAPIClient({
-    client_id: "<client_id>",
-    client_secret: "<client_secret>"
+    client_id: "INSERT YOUR client_id HERE",
+    client_secret: "INSERT YOUR client_secret HERE"
 });
 
 // Define array of permission scopes
@@ -66,7 +68,26 @@ app.get("/truelayer-redirect", async (req, res) => {
 app.listen(5000, () => console.log("Example app listening on port 5000..."));
 ```
 
-Take a look at our sample repo for an easy to digest implementation of the library. 
+**Create new package**
+```bash
+$ npm init
+```
+
+**Install dependencies**
+```bash
+$ npm install --save truelayer-client express
+```
+
+**Run the app** :video_game:
+```bash
+$ node your_file.js
+```
+
+If all goes well you should be able to navigate to http://localhost:5000 and view the app!
+
+Take a look at our sample repo for an easy to digest implementation of the library.
+
+[TrueLayer node sample app](https://github.com/TrueLayer/truelayer-client-javascript-sample)
 
 <br>
 
