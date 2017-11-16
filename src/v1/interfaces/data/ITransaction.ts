@@ -19,4 +19,6 @@ export interface ITransaction {
     timestamp: string;
     /** Type of the transaction */
     transaction_type: string;
+    /** Category of the transaction */
+    transaction_category: string;
 }
