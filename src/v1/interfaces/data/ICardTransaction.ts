@@ -17,4 +17,6 @@ export interface ICardTransaction {
     meta: object;
     /** Date the transaction was posted on the account */
     timestamp: string;
+    /** Category of the transaction */
+    transaction_category: string;
 }
