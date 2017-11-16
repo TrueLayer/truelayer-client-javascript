@@ -393,7 +393,7 @@ export class Fixtures {
                     transaction_id: "a4bb6ccd8ea5b0d0e2ff9c1dd473c675",
                     amount: -85.0,
                     currency: "GBP",
-                    transaction_category: "Automated Teller (Cash) Machine",
+                    transaction_category: "ATM",
                     meta: {
                         type: "Cash Point"
                     }
@@ -404,7 +404,7 @@ export class Fixtures {
                     transaction_id: "33aedca69d496d1e9c12934da2c33149",
                     amount: -85.0,
                     currency: "GBP",
-                    transaction_category: "Automated Teller (Cash) Machine",
+                    transaction_category: "ATM",
                     meta: {
                         type: "Cash Point"
                     }
@@ -415,7 +415,7 @@ export class Fixtures {
                     transaction_id: "a8912726fb215e5dd67a2e5ccc6359fe",
                     amount: -700.0,
                     currency: "GBP",
-                    transaction_category: "DIRECT_DEBIT",
+                    transaction_category: "STANDING_ORDER",
                     meta: {
                         type: "Standing Order"
                     }
@@ -426,7 +426,7 @@ export class Fixtures {
                     transaction_id: "b12d220e1eee58a88bc66b32c55c0326",
                     amount: -24.99,
                     currency: "GBP",
-                    transaction_category: "DIRECT_DEBIT",
+                    transaction_category: "STANDING_ORDER",
                     meta: {
                         type: "Standing Order"
                     }
