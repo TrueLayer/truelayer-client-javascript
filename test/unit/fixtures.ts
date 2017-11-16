@@ -180,10 +180,47 @@ export class Fixtures {
         {
             results: [
                 {
+                  timestamp: "2017-01-14T00:00:00",
+                  description: "PAYPAL EBAY",
+                  transaction_type: "DEBIT",
+                  transaction_category: "PURCHASE",
+                  amount: -10.0,
+                  currency: "GBP",
+                  transaction_id: "cd0a7d0ec46686b2bed54af7bbf17464",
+                  meta: {
+                    provider_transaction_category: "DEB"
+                  }
+                },
+                {
+                  timestamp: "2017-01-18T00:00:00",
+                  description: "PAYPAL BETFRED",
+                  transaction_type: "DEBIT",
+                  transaction_category: "PURCHASE",
+                  amount: -2.0,
+                  currency: "GBP",
+                  transaction_id: "848f99795dc9793aaa189980eccbf161",
+                  meta: {
+                    provider_transaction_category: "DEB"
+                  }
+                },
+                {
+                  timestamp: "2017-01-30T00:00:00",
+                  description: "MT SecureTrade Lim",
+                  transaction_type: "DEBIT",
+                  transaction_category: "PURCHASE",
+                  amount: -20.5,
+                  currency: "GBP",
+                  transaction_id: "ae19ae9a38dbc41c5ad952e3add7c2f5",
+                  meta: {
+                    provider_transaction_category: "DEB"
+                  }
+                },
+                {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
                     description: "INTEREST (GROSS)",
                     transaction_id: "239a35851d9fc833f1ec748f6efc8097",
                     transaction_type: "CREDIT",
+                    transaction_category: "INTEREST",
                     amount: 0.77,
                     currency: "GBP",
                     meta: {}
@@ -193,10 +230,11 @@ export class Fixtures {
                     description: "O/D USAGE FEE",
                     transaction_id: "16a5f86e9da92d86aed9ad02bbce2f47",
                     transaction_type: "DEBIT",
+                    transaction_category: "FEE_CHARGE",
                     amount: -6,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "CHARGE"
+                        provider_transaction_category: "CHG"
                     }
                 },
                 {
@@ -204,6 +242,7 @@ export class Fixtures {
                     description: "INTEREST (GROSS)",
                     transaction_id: "5b9bc882d3feefe3c5d081bd4cb96f7c",
                     transaction_type: "CREDIT",
+                    transaction_category: "INTEREST",
                     amount: 0.77,
                     currency: "GBP",
                     meta: {}
@@ -213,10 +252,11 @@ export class Fixtures {
                     description: "O/D USAGE FEE",
                     transaction_id: "c1b3a5129487f96d03d22f66c2b57139",
                     transaction_type: "DEBIT",
+                    transaction_category: "FEE_CHARGE",
                     amount: -6,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "CHARGE"
+                        provider_transaction_category: "CHG"
                     }
                 },
                 {
@@ -224,10 +264,11 @@ export class Fixtures {
                     description: "THAMES WATER",
                     transaction_id: "4114e18ec809c5ca5cafbf38fcf5aa5f",
                     transaction_type: "DEBIT",
+                    transaction_category: "DIRECT_DEBIT",
                     amount: -33.93,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "DIRECT_DEBIT"
+                        provider_transaction_category: "DD"
                     }
                 },
                 {
@@ -235,10 +276,11 @@ export class Fixtures {
                     description: "L B I COUNCIL TAX",
                     transaction_id: "206c10209cd96477ccb39a9adf802b88",
                     transaction_type: "DEBIT",
+                    transaction_category: "DIRECT_DEBIT",
                     amount: -148,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "DIRECT_DEBIT"
+                        provider_transaction_category: "DD"
                     }
                 },
                 {
@@ -246,10 +288,11 @@ export class Fixtures {
                     description: "TV LICENCE MBP",
                     transaction_id: "dd567a32d4a1ca05b158ed3c2cebf077",
                     transaction_type: "DEBIT",
+                    transaction_category: "DIRECT_DEBIT",
                     amount: -24.25,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "DIRECT_DEBIT"
+                        provider_transaction_category: "DD"
                     }
                 },
                 {
@@ -257,10 +300,11 @@ export class Fixtures {
                     description: "ACME LIMITED",
                     transaction_id: "61601c817818c476495709cde9bc82df",
                     transaction_type: "CREDIT",
+                    transaction_category: "TRANSFER",
                     amount: 12345.67,
                     currency: "GBP",
                     meta: {
-                        transaction_type: "FASTER_PAYMENTS_INCOMING"
+                        provider_transaction_category: "FPI"
                     }
                 }
             ]
