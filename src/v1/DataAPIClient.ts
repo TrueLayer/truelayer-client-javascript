@@ -126,14 +126,14 @@ export class DataAPIClient {
      * @param to
      * @returns {Promise<IResult<ITransaction>>}
      */
-    public static async getTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResult<ITransaction>> {
+    public static async getTransactions(accessToken: string, accountId: string, from?: string, to?: string): Promise<IResult<ITransaction>> {
 
-       const qs = {
-            from,
-            to
+        const qs = {
+            ...from && { from },
+            ...to && { to }
         };
 
-       return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/transactions`, qs);
+        return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/transactions`, qs);
     }
 
     /**
@@ -178,13 +178,13 @@ export class DataAPIClient {
      * @param to
      * @returns {Promise<IResult<ICardTransaction>>}
      */
-    public static async getCardTransactions(accessToken: string, accountId: string, from: string, to: string): Promise<IResult<ICardTransaction>> {
-        
+    public static async getCardTransactions(accessToken: string, accountId: string, from?: string, to?: string): Promise<IResult<ICardTransaction>> {
+
         const qs = {
-            from,
-            to
+            ...from && { from },
+            ...to && { to }
         };
-        
+
         return await DataAPIClient.callAPI<ICardTransaction>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/transactions`, qs);
     }
 
