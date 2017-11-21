@@ -129,8 +129,8 @@ export class DataAPIClient {
     public static async getTransactions(accessToken: string, accountId: string, from?: string, to?: string): Promise<IResult<ITransaction>> {
 
         const qs = {
-            ...from && { from },
-            ...to && { to }
+            ...from ? { from: from } : {},
+            ...to ? { to: to } : {}
         };
 
         return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/transactions`, qs);
@@ -180,9 +180,9 @@ export class DataAPIClient {
      */
     public static async getCardTransactions(accessToken: string, accountId: string, from?: string, to?: string): Promise<IResult<ICardTransaction>> {
 
-        const qs = {
-            ...from && { from },
-            ...to && { to }
+        const qs: object = {
+            ...from ? { from: from } : {},
+            ...to ? { to: to } : {}
         };
 
         return await DataAPIClient.callAPI<ICardTransaction>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/transactions`, qs);
