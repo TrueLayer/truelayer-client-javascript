@@ -1,5 +1,6 @@
 export { AuthAPIClient } from "./src/v1/AuthAPIClient";
 export { DataAPIClient } from "./src/v1/DataAPIClient";
+export { Constants } from "./src/v1/Constants";
 export { IAccount } from "./src/v1/interfaces/data/IAccount";
 export { IBalance } from "./src/v1/interfaces/data/IBalance";
 export { IInfo } from "./src/v1/interfaces/data/IInfo";
