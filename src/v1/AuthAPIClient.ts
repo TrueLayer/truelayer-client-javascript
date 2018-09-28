@@ -43,7 +43,6 @@ export class AuthAPIClient {
      * @param {string} [state]
      * @param {string} [responseMode]
      * @param {boolean} [enableMock]
-     * @param {boolean} [enableObProviders]
      * @returns {string}
      */
     public getAuthUrl(redirectURI: string,
@@ -51,8 +50,7 @@ export class AuthAPIClient {
                       nonce: string,
                       responseMode?: string,
                       state?: string,
-                      enableMock?: boolean,
-                      enableObProviders?: boolean): string {
+                      enableMock?: boolean): string {
 
         for (const grant of scope) {
             if (!AuthAPIClient.isValidScope(grant)) {
@@ -77,9 +75,6 @@ export class AuthAPIClient {
         }
         if (enableMock) {
             authUrl += `&enable_mock=true`;
-        }
-        if (enableObProviders) {
-            authUrl += `&enable_open_banking_providers=true`;
         }
 
         return encodeURI(authUrl);
