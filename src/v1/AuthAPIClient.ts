@@ -166,7 +166,7 @@ export class AuthAPIClient {
                 refresh_token: parsedResponse.refresh_token
             };
         } catch (error) {
-            throw new AuthAPIClient(error);
+            throw new ApiError(error);
         }
     }
 }
