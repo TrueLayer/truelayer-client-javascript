@@ -95,6 +95,31 @@ if (DataAPIClient.validateToken(access_token)) {
         t.is(error.message, "account not found");
     });
 
+    test.serial("Get /accounts/{id}/transactions/pending returns success for each account", async (t) => {
+        const resp = await DataAPIClient.getAccounts(access_token);
+        const accounts: TrueLayer.IAccount[] = resp.results;
+        const assertions: number = accounts.length;
+        t.plan(assertions);
+
+        for (const account of accounts) {
+            await t.notThrows(DataAPIClient.getPendingTransactions(access_token, account.account_id));
+        }
+    });
+
+    test.serial("Get /accounts/{id}/transactions/pending returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getPendingTransactions("invalid_token", "invalid_account"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /accounts/{id}/transactions/pending returns error - invalid account", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getPendingTransactions(access_token, "invalid_account"));
+        t.is(error.error, "account_not_found");
+        t.is(error.message, "account not found");
+    });
+
     test.serial("Get /accounts/{id}/balance returns success for each account", async (t) => {
         const resp = await DataAPIClient.getAccounts(access_token);
         const accounts: TrueLayer.IAccount[] = resp.results;
@@ -202,6 +227,30 @@ if (DataAPIClient.validateToken(access_token)) {
     test.serial("Get /cards/{id}/transactions returns error - invalid account", async (t) => {
         t.plan(3);
         const error: ApiError = await t.throws(DataAPIClient.getCardTransactions(access_token, "invalid_account", "2017-05-05", "2017-05-07"));
+        t.is(error.error, "account_not_found");
+        t.is(error.message, "account not found");
+    });
+
+    test.serial("Get /cards/{id}/transactions/pending returns success for each account", async (t) => {
+        const resp = await DataAPIClient.getCards(access_token);
+        const cards: TrueLayer.ICard[] = resp.results;
+        const assertions: number = cards.length;
+        t.plan(assertions);
+        for (const card of cards) {
+            await t.notThrows(DataAPIClient.getCardPendingTransactions(access_token, card.account_id));
+        }
+    });
+
+    test.serial("Get /cards/{id}/transactions/pending returns error - invalid token", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardPendingTransactions("invalid_token", "invalid_account"));
+        t.is(error.error, "invalid_access_token");
+        t.is(error.message, "Invalid access token.");
+    });
+
+    test.serial("Get /cards/{id}/transactions/pending returns error - invalid account", async (t) => {
+        t.plan(3);
+        const error: ApiError = await t.throws(DataAPIClient.getCardPendingTransactions(access_token, "invalid_account"));
         t.is(error.error, "account_not_found");
         t.is(error.message, "account not found");
     });
