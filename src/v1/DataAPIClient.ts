@@ -137,6 +137,17 @@ export class DataAPIClient {
     }
 
     /**
+     * Call to /accounts/account_id/transactions/pending API
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<ITransaction>>}
+     */
+    public static async getPendingTransactions(accessToken: string, accountId: string): Promise<IResult<ITransaction>> {
+        return await DataAPIClient.callAPI<ITransaction>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/transactions/pending`);
+    }
+
+    /**
      * Call to /accounts/account_id/balance API
      *
      * @param accessToken
@@ -186,6 +197,17 @@ export class DataAPIClient {
         };
 
         return await DataAPIClient.callAPI<ICardTransaction>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/transactions`, qs);
+    }
+
+    /**
+     * Call to /cards/account_id/transactions/pending API
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<ICardTransaction>>}
+     */
+    public static async getCardPendingTransactions(accessToken: string, accountId: string): Promise<IResult<ICardTransaction>> {
+        return await DataAPIClient.callAPI<ICardTransaction>(accessToken, `${Constants.API_URL}/data/v1/cards/${accountId}/transactions/pending`);
     }
 
     /**
