@@ -156,11 +156,13 @@ This client library consists of two core pieces of functionality, each represent
     * `getAccounts` - call to the */accounts* endpoint
     * `getAccount` - call to the */accounts/{account_id}* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
+    * `getPendingTransactions` - call to the */accounts/{account_id}/transactions/pending* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint
 
     * `getCards` - call to the */cards* endpoint
     * `getCard` - call to the */cards/{account_id}* endpoint
     * `getCardTransactions` - call to the */cards/{account_id}/transactions* endpoint
+    * `getCardPendingTransactions` - call to the */cards/{account_id}/transactions/pending* endpoint
     * `getCardBalance` - call to the */cards/{account_id}/balance* endpoint
 
     * `validateToken` - checks whether the current access token is still valid.
