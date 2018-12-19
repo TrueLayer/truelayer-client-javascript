@@ -13,3 +13,4 @@ export { ITransaction } from "./src/v1/interfaces/data/ITransaction";
 export { ICard } from "./src/v1/interfaces/data/ICard";
 export { ICardBalance } from "./src/v1/interfaces/data/ICardBalance";
 export { ICardTransaction } from "./src/v1/interfaces/data/ICardTransaction";
+export { IProviderInfo } from "./src/v1/interfaces/auth/IProviderInfo";
