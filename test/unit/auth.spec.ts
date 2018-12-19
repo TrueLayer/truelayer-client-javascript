@@ -75,3 +75,12 @@ test("Exchange code for token", async (t) => {
     t.deepEqual(actual.access_token, expected.access_token, "Access token not as expected");
     t.deepEqual(actual.refresh_token, expected.refresh_token, "Refresh token not as expected");
 });
+
+test("Get providers", async (t) => {
+    t.plan(2);
+    const stub = sinon.stub(request, "get").returns(JSON.stringify(fixtures.providersResponse))
+    const actual = await AuthAPIClient.getProviderInfos("oauth");
+    const expectedGetUri = "https://auth.truelayer.com/api/providers/oauth";
+    t.is(stub.getCall(0).args[0].uri, expectedGetUri);
+    t.deepEqual(actual, fixtures.providersResponse);
+});

@@ -24,4 +24,4 @@ export interface IJWT {
  *
  * @type: Scope
  */
-export type Scope = "info" | "accounts" | "transactions" | "balance" | "offline_access";
+export type Scope = "info" | "accounts" | "transactions" | "balance" | "cards" | "offline_access";

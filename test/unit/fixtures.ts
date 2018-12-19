@@ -9,6 +9,7 @@ import { ITransaction } from "../../src/v1/interfaces/data/ITransaction";
 import { ICard } from "../../src/v1/interfaces/data/ICard";
 import { ICardBalance } from "../../src/v1/interfaces/data/ICardBalance";
 import { ICardTransaction } from "../../src/v1/interfaces/data/ICardTransaction";
+import { IProviderInfo } from '../../src/v1/interfaces/auth/IProviderInfo';
 
 export class Fixtures {
 
@@ -382,7 +383,7 @@ export class Fixtures {
                     update_timestamp: "2017-10-12T07:17:54.8144949Z"
                 }
             ]
-        }
+        };
 
     public readonly cardTransactionsResponse: IResult<ICardTransaction> =
         {
@@ -432,5 +433,22 @@ export class Fixtures {
                     }
                 }
             ]
-        }
+        };
+
+    // Expected auth /api/providers response
+    public readonly providersResponse: IProviderInfo[] =
+        [
+            {
+                provider_id: "test_provider",
+                display_name: "Test Provider",
+                logo_url: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg",
+                scopes: ["accounts", "balance"],
+            },
+            {
+                provider_id: "test_provider2",
+                display_name: "Test Provider Two",
+                logo_url: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg",
+                scopes: ["offline_access", "transactions"],
+            }
+        ];
 }

@@ -2,8 +2,8 @@ import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
 import { IOptions } from "./interfaces/auth/IOptions";
+import { IProviderInfo } from './interfaces/auth/IProviderInfo';
 import { ITokenResponse } from "./interfaces/auth/ITokenResponse";
-import * as moment from "moment";
 import * as request from "request-promise";
 
 /**
@@ -169,4 +169,27 @@ export class AuthAPIClient {
             throw new ApiError(error);
         }
     }
+
+    /**
+     * Gets info about available providers
+     * Docs: https://docs.truelayer.com/#list-of-supported-providers
+     *
+     * @param {string} [type] when provided, returns only providers of the given type
+    */
+   public static async getProviderInfos(
+       type?: "credentialssharing" | "oauth" | "oauth/openbanking",
+   ): Promise<IProviderInfo[]> {
+
+       const requestOptions: request.Options = {
+           uri: `${Constants.AUTH_URL}/api/providers/${type || ""}`,
+       }
+
+       try {
+           const response: string = await request.get(requestOptions);
+           const parsedResponse: IProviderInfo[] = JSON.parse(response);
+           return parsedResponse;
+       } catch (error) {
+           throw new ApiError(error);
+       }
+   }
 }
