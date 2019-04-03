@@ -3,6 +3,7 @@ import { DataAPIClient } from "../../src/v1/DataAPIClient";
 import { test } from "ava";
 import * as moment from "moment";
 import * as TrueLayer from "./../../index";
+import { StatusAPIClient } from "../../src/v1/StatusAPIClient";
 
 // Get access token from environment variable
 const access_token: string = process.env.access_token;
@@ -258,3 +259,13 @@ if (DataAPIClient.validateToken(access_token)) {
 } else {
     test("No 'access_token' environment variable set. Integration test disabled.", (t) => t.pass());
 }
+
+test.serial("Get /data/status returns success", async (t) => {
+    t.plan(1);
+    const from = new Date(Date.parse("2019-01-07T10:00:00"));
+    const to = new Date(Date.parse("2019-01-08T13:00:00"));
+    const providers = ["hsbc", "oauth-monzo", "ob-barclays"];
+    const endpoints = ["accounts", "info"];
+    const response = await t.notThrows(StatusAPIClient.getStatus(from, to, providers, endpoints));
+    console.dir(response);
+});
