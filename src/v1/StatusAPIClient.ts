@@ -53,6 +53,7 @@ export class StatusAPIClient {
 
         if (qs) {
             requestOptions.qs = qs;
+            requestOptions.useQuerystring = true;
         }
 
         return requestOptions;
@@ -74,8 +75,8 @@ export class StatusAPIClient {
         const qs = {
             from: moment(from).format(dateFormat),
             to: moment(to).format(dateFormat),
-            providers,
-            endpoints
+            providers: providers ? providers.join(",") : null,
+            endpoints: endpoints ? endpoints.join(",") : null,
         };
         return await StatusAPIClient.callAPI<IStatusInfo>(url, qs);
     }

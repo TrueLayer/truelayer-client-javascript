@@ -260,12 +260,23 @@ if (DataAPIClient.validateToken(access_token)) {
     test("No 'access_token' environment variable set. Integration test disabled.", (t) => t.pass());
 }
 
+const now = moment(new Date(Date.now())).startOf("hour");
+const from = now.clone().subtract(2, "hours").toDate();
+const to = now.clone().subtract(1, "hours").toDate();
+const providers = ["hsbc", "oauth-monzo", "ob-barclays"];
+const endpoints = ["accounts", "info"];
+
 test.serial("Get /data/status returns success", async (t) => {
     t.plan(1);
-    const from = new Date(Date.parse("2019-01-07T10:00:00"));
-    const to = new Date(Date.parse("2019-01-08T13:00:00"));
-    const providers = ["hsbc", "oauth-monzo", "ob-barclays"];
-    const endpoints = ["accounts", "info"];
-    const response = await t.notThrows(StatusAPIClient.getStatus(from, to, providers, endpoints));
-    console.dir(response);
+    await t.notThrows(StatusAPIClient.getStatus(from, to, providers, endpoints));
+});
+
+test.serial("Get /data/status actually returns something", async (t) => {
+    t.plan(1);
+    const statuses = (await StatusAPIClient.getStatus(from, to, providers, endpoints)).results;
+    const receivedProviders: string[] = [];
+    for (const status of statuses) {
+        status.providers.map((p) => receivedProviders.push(p.provider_id));
+    }
+    t.deepEqual(receivedProviders, providers);
 });

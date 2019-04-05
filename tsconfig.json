@@ -10,8 +10,10 @@
         /* Redirect output structure to the directory. */
         "sourceMap": false,
         /* Generates corresponding '.map' file. */
-        "strict": true
+        "strict": true,
         /* Enable all strict type-checking options. */
+        "lib": ["es2017"],
+        /* Include the good stuff. */
     },
     "exclude": [
         "examples",

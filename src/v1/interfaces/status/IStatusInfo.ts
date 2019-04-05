@@ -1,6 +1,6 @@
 export interface IStatusInfo {
     /** A string containing the provider id */
-    providers?: IProviderStatus[];
+    providers: IProviderStatus[];
     /** The start of a one-hour time bucket */
     timestamp: string;
 }
