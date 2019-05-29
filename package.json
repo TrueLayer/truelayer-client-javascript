@@ -8,9 +8,6 @@
     "author": "Jarvis Prestidge <jarvis@truelayer.com> & Raluca Lehadus <raluca@truelayer.com>",
     "license": "MIT",
     "devDependencies": {
-        "@types/jwt-decode": "^1.4.28",
-        "@types/node": "^7.0.21",
-        "@types/request-promise": "4.1.33",
         "@types/sinon": "^2.2.2",
         "ava": "^0.19.1",
         "sinon": "^2.3.2",
@@ -20,6 +17,9 @@
         "yarn": "^0.24.5"
     },
     "dependencies": {
+        "@types/jwt-decode": "^1.4.28",
+        "@types/node": "^7.0.21",
+        "@types/request-promise": "4.1.33",
         "jwt-decode": "^2.2.0",
         "moment": "^2.18.1",
         "request": "^2.81.0",
