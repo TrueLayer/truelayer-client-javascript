@@ -9,6 +9,8 @@ import { ITransaction } from "../../src/v1/interfaces/data/ITransaction";
 import { ICard } from "../../src/v1/interfaces/data/ICard";
 import { ICardBalance } from "../../src/v1/interfaces/data/ICardBalance";
 import { ICardTransaction } from "../../src/v1/interfaces/data/ICardTransaction";
+import { IProviderInfo } from '../../src/v1/interfaces/auth/IProviderInfo';
+import { IStatusInfo } from "../../src/v1/interfaces/status/IStatusInfo";
 
 export class Fixtures {
 
@@ -180,40 +182,40 @@ export class Fixtures {
         {
             results: [
                 {
-                  timestamp: "2017-01-14T00:00:00",
-                  description: "PAYPAL EBAY",
-                  transaction_type: "DEBIT",
-                  transaction_category: "PURCHASE",
-                  amount: -10.0,
-                  currency: "GBP",
-                  transaction_id: "cd0a7d0ec46686b2bed54af7bbf17464",
-                  meta: {
-                    provider_transaction_category: "DEB"
-                  }
+                    timestamp: "2017-01-14T00:00:00",
+                    description: "PAYPAL EBAY",
+                    transaction_type: "DEBIT",
+                    transaction_category: "PURCHASE",
+                    amount: -10.0,
+                    currency: "GBP",
+                    transaction_id: "cd0a7d0ec46686b2bed54af7bbf17464",
+                    meta: {
+                        provider_transaction_category: "DEB"
+                    }
                 },
                 {
-                  timestamp: "2017-01-18T00:00:00",
-                  description: "PAYPAL BETFRED",
-                  transaction_type: "DEBIT",
-                  transaction_category: "PURCHASE",
-                  amount: -2.0,
-                  currency: "GBP",
-                  transaction_id: "848f99795dc9793aaa189980eccbf161",
-                  meta: {
-                    provider_transaction_category: "DEB"
-                  }
+                    timestamp: "2017-01-18T00:00:00",
+                    description: "PAYPAL BETFRED",
+                    transaction_type: "DEBIT",
+                    transaction_category: "PURCHASE",
+                    amount: -2.0,
+                    currency: "GBP",
+                    transaction_id: "848f99795dc9793aaa189980eccbf161",
+                    meta: {
+                        provider_transaction_category: "DEB"
+                    }
                 },
                 {
-                  timestamp: "2017-01-30T00:00:00",
-                  description: "MT SecureTrade Lim",
-                  transaction_type: "DEBIT",
-                  transaction_category: "PURCHASE",
-                  amount: -20.5,
-                  currency: "GBP",
-                  transaction_id: "ae19ae9a38dbc41c5ad952e3add7c2f5",
-                  meta: {
-                    provider_transaction_category: "DEB"
-                  }
+                    timestamp: "2017-01-30T00:00:00",
+                    description: "MT SecureTrade Lim",
+                    transaction_type: "DEBIT",
+                    transaction_category: "PURCHASE",
+                    amount: -20.5,
+                    currency: "GBP",
+                    transaction_id: "ae19ae9a38dbc41c5ad952e3add7c2f5",
+                    meta: {
+                        provider_transaction_category: "DEB"
+                    }
                 },
                 {
                     timestamp: "2017-02 - 01T00: 00:00+00:00",
@@ -365,7 +367,7 @@ export class Fixtures {
                 }
             ]
         };
-    
+
     // Expected /Cards/{id}/Balance json response
     public readonly cardBalanceResponse: IResult<ICardBalance> =
         {
@@ -382,7 +384,7 @@ export class Fixtures {
                     update_timestamp: "2017-10-12T07:17:54.8144949Z"
                 }
             ]
-        }
+        };
 
     public readonly cardTransactionsResponse: IResult<ICardTransaction> =
         {
@@ -432,5 +434,102 @@ export class Fixtures {
                     }
                 }
             ]
+        };
+
+    // Expected auth /api/providers response
+    public readonly providersResponse: IProviderInfo[] =
+        [
+            {
+                provider_id: "test_provider",
+                display_name: "Test Provider",
+                logo_url: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg",
+                scopes: ["accounts", "balance"],
+            },
+            {
+                provider_id: "test_provider2",
+                display_name: "Test Provider Two",
+                logo_url: "https://auth.truelayer.com/img/banks/banks-icons/mock-icon.svg",
+                scopes: ["offline_access", "transactions"],
+            }
+        ];
+
+    // Expected auth /data/status response
+    public readonly statusResponse: IResult<IStatusInfo> =
+        {
+            "results": [
+                {
+                    "timestamp": "2019-01-07 10:00:00.000",
+                    "providers": [
+                        {
+                            "provider_id": "oauth-monzo",
+                            "endpoints": [
+                                {
+                                    "endpoint": "accounts",
+                                    "availability": 97.24,
+                                    "provider_error": 0,
+                                    "truelayer_error": 2.76
+                                },
+                                {
+                                    "endpoint": "accounts/balance",
+                                    "availability": 100,
+                                    "provider_error": 0,
+                                    "truelayer_error": 0
+                                }
+                            ]
+                        },
+                        {
+                            "provider_id": "oauth-starling",
+                            "endpoints": [
+                                {
+                                    "endpoint": "accounts",
+                                    "availability": 100,
+                                    "provider_error": 0,
+                                    "truelayer_error": 0
+                                },
+                                {
+                                    "endpoint": "accounts/balance",
+                                    "availability": 100,
+                                    "provider_error": 0,
+                                    "truelayer_error": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "timestamp": "2019-01-07 11:00:00.000",
+                    "providers": [
+                        {
+                            "provider_id": "oauth-monzo",
+                            "endpoints": [
+                                {
+                                    "endpoint": "accounts",
+                                    "availability": 100,
+                                    "provider_error": 0,
+                                    "truelayer_error": 0
+                                },
+                                {
+                                    "endpoint": "accounts/balance",
+                                    "availability": 92.86,
+                                    "provider_error": 7.14,
+                                    "truelayer_error": 0
+                                }
+                            ]
+                        },
+                        {
+                            "provider_id": "oauth-starling",
+                            "endpoints": [
+                                {
+                                    "endpoint": "accounts",
+                                    "availability": 96.43,
+                                    "provider_error": 0,
+                                    "truelayer_error": 3.57
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
+
 }

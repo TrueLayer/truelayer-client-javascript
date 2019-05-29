@@ -3,6 +3,7 @@ import { DataAPIClient } from "../../src/v1/DataAPIClient";
 import { test } from "ava";
 import * as moment from "moment";
 import * as TrueLayer from "./../../index";
+import { StatusAPIClient } from "../../src/v1/StatusAPIClient";
 
 // Get access token from environment variable
 const access_token: string = process.env.access_token;
@@ -258,3 +259,24 @@ if (DataAPIClient.validateToken(access_token)) {
 } else {
     test("No 'access_token' environment variable set. Integration test disabled.", (t) => t.pass());
 }
+
+const now = moment(new Date(Date.now())).startOf("hour");
+const from = now.clone().subtract(2, "hours").toDate();
+const to = now.clone().subtract(1, "hours").toDate();
+const providers = ["hsbc", "oauth-monzo", "ob-barclays"];
+const endpoints = ["accounts", "info"];
+
+test.serial("Get /data/status returns success", async (t) => {
+    t.plan(1);
+    await t.notThrows(StatusAPIClient.getStatus(from, to, providers, endpoints));
+});
+
+test.serial("Get /data/status actually returns something", async (t) => {
+    t.plan(1);
+    const statuses = (await StatusAPIClient.getStatus(from, to, providers, endpoints)).results;
+    const receivedProviders: string[] = [];
+    for (const status of statuses) {
+        status.providers.map((p) => receivedProviders.push(p.provider_id));
+    }
+    t.deepEqual(receivedProviders, providers);
+});
