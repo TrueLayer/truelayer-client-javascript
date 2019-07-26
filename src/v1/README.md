@@ -15,7 +15,7 @@ This class is responsible for performing authentication with TrueLayer
 * [AuthAPIClient](#AuthAPIClient)
     * [new AuthAPIClient()](#new_AuthAPIClient_new)
     * [new AuthAPIClient(options)](#new_AuthAPIClient_new)
-    * [.getAuthUrl(redirectURI, scope, nonce, [state], [enableMock])](#AuthAPIClient+getAuthUrl) ⇒ <code>string</code>
+    * [.getAuthUrl(config)](#AuthAPIClient+getAuthUrl) ⇒ <code>string</code>
     * [.exchangeCodeForToken(redirectURI, code)](#AuthAPIClient+exchangeCodeForToken) ⇒ <code>Promise.&lt;IToken&gt;</code>
     * [.refreshAccessToken(refreshToken)](#AuthAPIClient+refreshAccessToken) ⇒ <code>Promise.&lt;IToken&gt;</code>
 
@@ -37,19 +37,14 @@ If no constructor options are passed then look for environment variables by defa
 
 <a name="AuthAPIClient+getAuthUrl"></a>
 
-### authAPIClient.getAuthUrl(redirectURI, scope, nonce, [state], [enableMock]) ⇒ <code>string</code>
+### authAPIClient.getAuthUrl(config) ⇒ <code>string</code>
 Builds a correctly formatted authentication url
 
 **Kind**: instance method of [<code>AuthAPIClient</code>](#AuthAPIClient)  
 
 | Param | Type |
 | --- | --- |
-| redirectURI | <code>string</code> | 
-| scope | <code>Array.&lt;string&gt;</code> | 
-| nonce | <code>string</code> | 
-| [responseMode] | <code>string</code> | 
-| [state] | <code>string</code> | 
-| [enableMock] | <code>boolean</code> | 
+| config | <code>IConfig</code> |
 
 <a name="AuthAPIClient+exchangeCodeForToken"></a>
 
