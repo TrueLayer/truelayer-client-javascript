@@ -7,6 +7,7 @@ export { IBalance } from "./src/v1/interfaces/data/IBalance";
 export { IInfo } from "./src/v1/interfaces/data/IInfo";
 export { IMe } from "./src/v1/interfaces/data/IMe";
 export { IOptions } from "./src/v1/interfaces/auth/IOptions";
+export { IConfig } from "./src/v1/interfaces/auth/IConfig";
 export { IResult, IError } from "./src/v1/interfaces/data/IResponse";
 export { ITokenResponse } from "./src/v1/interfaces/auth/ITokenResponse";
 export { ITransaction } from "./src/v1/interfaces/data/ITransaction";
