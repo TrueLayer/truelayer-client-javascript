@@ -2,6 +2,7 @@ import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAuthResponse } from "./interfaces/auth/IAuthResponse";
 import { IOptions } from "./interfaces/auth/IOptions";
+import { IConfig } from "./interfaces/auth/IConfig";
 import { IProviderInfo } from './interfaces/auth/IProviderInfo';
 import { ITokenResponse } from "./interfaces/auth/ITokenResponse";
 import * as request from "request-promise";
@@ -37,27 +38,35 @@ export class AuthAPIClient {
     /**
      * Builds a correctly formatted authentication url
      *
-     * @param {string} redirectURI
-     * @param {string[]} scope
-     * @param {string} nonce
-     * @param {string} [state]
-     * @param {string} [responseMode]
-     * @param {boolean} [enableMock]
+     * @param {object} options
      * @returns {string}
      */
-    public getAuthUrl(redirectURI: string,
-                      scope: string[],
-                      nonce: string,
-                      responseMode?: string,
-                      state?: string,
-                      enableMock?: boolean): string {
+    public getAuthUrl(options: IConfig): string {
+        const {
+            scope,
+            redirectURI,
+            nonce,
+            responseMode,
+            state,
+            enableMock,
+            enableCredentialsSharing,
+            enableCredentialsSharingDe,
+            enableOauth,
+            enableOpenBanking,
+            disableProviders,
+            providerId
+        }: IConfig = options;
 
         for (const grant of scope) {
             if (!AuthAPIClient.isValidScope(grant)) {
                 throw new Error(`Provided scope is not valid: ${grant}`);
             }
         }
-
+        let concatDisableProviders: string = "";
+        
+        if (disableProviders) {
+            concatDisableProviders = disableProviders.join(" ");
+        }
         const concatScope: string = scope.join(" ");
         let authUrl: string =
             `${Constants.AUTH_URL}/?` +
@@ -75,6 +84,24 @@ export class AuthAPIClient {
         }
         if (enableMock) {
             authUrl += `&enable_mock=true`;
+        }
+        if (enableCredentialsSharing) {
+            authUrl += `&enable_credentials_sharing_providers=true`;
+        }
+        if (enableCredentialsSharingDe) {
+            authUrl += `&enable_credentials_sharing_providers_de=true`;
+        }
+        if (enableOauth) {
+            authUrl += `&enable_oauth_providers=true`;
+        }
+        if (enableOpenBanking) {
+            authUrl += `&enable_open_banking_providers=true`;
+        }
+        if (concatDisableProviders) {
+            authUrl += `&disable_providers=${concatDisableProviders}`;
+        }
+        if (providerId) {
+            authUrl += `&provider_id=${providerId}`;
         }
 
         return encodeURI(authUrl);
