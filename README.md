@@ -1,4 +1,4 @@
-
+[![npm version](https://badge.fury.io/js/truelayer-client.svg)](//npmjs.com/package/truelayer-client)
 
 <p align="center">
 	<a href="https://truelayer.com">
