@@ -155,6 +155,8 @@ This client library consists of two core pieces of functionality, each represent
 
     * `getAccounts` - call to the */accounts* endpoint
     * `getAccount` - call to the */accounts/{account_id}* endpoint
+    * `getDirectDebits` - call to the */accounts/{account_id}/direct_debits* endpoint
+    * `getStandingOrders` - call to the */accounts/{account_id}/standing_orders* endpoint
     * `getTransactions` - call to the */accounts/{account_id}/transactions* endpoint
     * `getPendingTransactions` - call to the */accounts/{account_id}/transactions/pending* endpoint
     * `getBalance` - call to the */accounts/{account_id}/balance* endpoint

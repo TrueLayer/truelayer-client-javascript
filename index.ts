@@ -4,6 +4,8 @@ export { StatusAPIClient } from "./src/v1/StatusAPIClient";
 export { Constants } from "./src/v1/Constants";
 export { IAccount } from "./src/v1/interfaces/data/IAccount";
 export { IBalance } from "./src/v1/interfaces/data/IBalance";
+export { IDirectDebit } from "./src/v1/interfaces/data/IDirectDebit";
+export { IStandingOrder } from "./src/v1/interfaces/data/IStandingOrder";
 export { IInfo } from "./src/v1/interfaces/data/IInfo";
 export { IMe } from "./src/v1/interfaces/data/IMe";
 export { IOptions } from "./src/v1/interfaces/auth/IOptions";
