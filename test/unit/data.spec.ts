@@ -42,7 +42,7 @@ test("buildRequestOptions() - returns well formed request options - all params",
 });
 
 // Get access token from environment variable
-const access_token: string = process.env.access_token;
+const access_token: string = process.env.access_token || '';
 
 // Only run the below stubbed tests with a valid access token
 if (DataAPIClient.validateToken(access_token)) {
@@ -97,6 +97,22 @@ if (DataAPIClient.validateToken(access_token)) {
         const expected = fixtures.accountTransactionsResponse;
         mock.stub(request, "get").returns(JSON.stringify(expected));
         const actual = await DataAPIClient.getTransactions(access_token, "test_account_id", "2017-04-20", "2017-04-30");
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+
+    test.serial("stubbed request body for /Accounts/{id}/DirectDebits endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.accountDirectDebitResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getDirectDebits(access_token, "test_account_id");
+        t.plan(1);
+        t.deepEqual(actual, expected);
+    });
+
+    test.serial("stubbed request body for /Accounts/{id}/StandingOrders endpoint is correctly parsed", async (t) => {
+        const expected = fixtures.accountStandingOrderResponse;
+        mock.stub(request, "get").returns(JSON.stringify(expected));
+        const actual = await DataAPIClient.getStandingOrders(access_token, "test_account_id");
         t.plan(1);
         t.deepEqual(actual, expected);
     });

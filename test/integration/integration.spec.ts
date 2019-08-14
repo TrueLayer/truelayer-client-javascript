@@ -6,7 +6,7 @@ import * as TrueLayer from "./../../index";
 import { StatusAPIClient } from "../../src/v1/StatusAPIClient";
 
 // Get access token from environment variable
-const access_token: string = process.env.access_token;
+const access_token: string = process.env.access_token || '';
 
 if (DataAPIClient.validateToken(access_token)) {
 

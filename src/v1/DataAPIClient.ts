@@ -2,6 +2,8 @@ import { ApiError } from "./APIError";
 import { Constants } from "./Constants";
 import { IAccount } from "./interfaces/data/IAccount";
 import { IBalance } from "./interfaces/data/IBalance";
+import { IDirectDebit } from "./interfaces/data/IDirectDebit";
+import { IStandingOrder } from "./interfaces/data/IStandingOrder";
 import { IInfo } from "./interfaces/data/IInfo";
 import { IJWT } from "./interfaces/auth/IJWT";
 import { IMe } from "./interfaces/data/IMe";
@@ -156,6 +158,28 @@ export class DataAPIClient {
      */
     public static async getBalance(accessToken: string, accountId: string): Promise<IResult<IBalance>> {
         return await DataAPIClient.callAPI<IBalance>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/balance`);
+    }
+
+    /**
+     * Call to /accounts/account_id/direct_debits API
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<IDirectDebit>>}
+     */
+    public static async getDirectDebits(accessToken: string, accountId: string): Promise<IResult<IDirectDebit>> {
+        return await DataAPIClient.callAPI<IDirectDebit>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/direct_debits`);
+    }
+
+    /**
+     * Call to /accounts/account_id/standing_orders API
+     *
+     * @param accessToken
+     * @param accountId
+     * @returns {Promise<IResult<IStandingOrder>>}
+     */
+    public static async getStandingOrders(accessToken: string, accountId: string): Promise<IResult<IStandingOrder>> {
+        return await DataAPIClient.callAPI<IStandingOrder>(accessToken, `${Constants.API_URL}/data/v1/accounts/${accountId}/standing_orders`);
     }
 
     /**
