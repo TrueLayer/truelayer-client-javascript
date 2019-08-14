@@ -115,17 +115,7 @@ export class AuthAPIClient {
      * @returns {boolean}
      */
     private static isValidScope(grant: string): boolean {
-        switch (grant) {
-            case "offline_access":
-            case "info":
-            case "accounts":
-            case "transactions":
-            case "balance":
-            case "cards":
-                return true;
-            default:
-                return false;
-        }
+        return Constants.AVAILABLE_SCOPES.includes(grant);
     }
 
     /**
