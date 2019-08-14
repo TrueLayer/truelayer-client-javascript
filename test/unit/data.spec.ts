@@ -42,7 +42,8 @@ test("buildRequestOptions() - returns well formed request options - all params",
 });
 
 // Get access token from environment variable
-const access_token: string = process.env.access_token || '';
+const access_token: string = (process.env.access_token as string);
+
 
 // Only run the below stubbed tests with a valid access token
 if (DataAPIClient.validateToken(access_token)) {
