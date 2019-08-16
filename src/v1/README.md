@@ -84,6 +84,8 @@ Class responsible for calling to the Data endpoints
     * [.getInfo(accessToken)](#DataAPIClient.getInfo) ⇒ <code>Promise.&lt;IResponse.&lt;IInfo&gt;&gt;</code>
     * [.getAccounts(accessToken)](#DataAPIClient.getAccounts) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
     * [.getAccount(accessToken, accountId)](#DataAPIClient.getAccount) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
+    * [.getDirectDebits(accessToken, accountId)](#DataAPIClient.getDirectDebits) ⇒ <code>Promise.&lt;IResponse.&lt;IDirectDebit&gt;&gt;</code>
+    * [.getStandingOrders(accessToken, accountId)](#DataAPIClient.getStandingOrders) ⇒ <code>Promise.&lt;IResponse.&lt;IStandingOrder&gt;&gt;</code>
     * [.getTransactions(accessToken, accountId, from, to)](#DataAPIClient.getTransactions) ⇒ <code>Promise.&lt;IResponse.&lt;ITransaction&gt;&gt;</code>
     * [.getBalance(accessToken, accountId)](#DataAPIClient.getBalance) ⇒ <code>Promise.&lt;IResponse.&lt;IBalance&gt;&gt;</code>
     * [.validateToken(accessToken)](#DataAPIClient.isTokenExpired) ⇒ <code>boolean</code>
@@ -139,6 +141,26 @@ Call to /accounts API.
 
 ### DataAPIClient.getAccount(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IAccount&gt;&gt;</code>
 Call to /accounts/account_id API.
+
+**Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
+
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
+| accountId | <code>string</code> |
+
+### DataAPIClient.getDirectDebits(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IDirectDebit&gt;&gt;</code>
+Call to /accounts/account_id/direct_debits API.
+
+**Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
+
+| Param | Type |
+| --- | --- |
+| accessToken | <code>string</code> | 
+| accountId | <code>string</code> |
+
+### DataAPIClient.getStandingOrders(accessToken, accountId) ⇒ <code>Promise.&lt;IResponse.&lt;IStandingOrder&gt;&gt;</code>
+Call to /accounts/account_id/standing_orders API.
 
 **Kind**: static method of [<code>DataAPIClient</code>](#DataAPIClient)  
 

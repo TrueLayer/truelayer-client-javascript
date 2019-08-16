@@ -11,6 +11,8 @@ import { ICardBalance } from "../../src/v1/interfaces/data/ICardBalance";
 import { ICardTransaction } from "../../src/v1/interfaces/data/ICardTransaction";
 import { IProviderInfo } from '../../src/v1/interfaces/auth/IProviderInfo';
 import { IStatusInfo } from "../../src/v1/interfaces/status/IStatusInfo";
+import { IStandingOrder } from "../../src/v1/interfaces/data/IStandingOrder";
+import { IDirectDebit } from "../../src/v1/interfaces/data/IDirectDebit";
 
 export class Fixtures {
 
@@ -386,6 +388,52 @@ export class Fixtures {
             ]
         };
 
+    // Expected  /Accounts/{id}/StandingOrders json response
+    public readonly accountStandingOrderResponse: IResult<IStandingOrder> =
+        {
+            results: [
+                {
+                    currency: "GBP",
+                    frequency: "DD",
+                    next_payment_date: "2017-10-12T07:17:54.8144949Z",
+                    next_payment_amount: 123,
+                    first_payment_date: "2017-10-12T07:17:54.8144949Z",
+                    status: "Active",
+                    first_payment_amount: 123,
+                    final_payment_date: "2017-10-12T07:17:54.8144949Z",
+                    final_payment_amount: 123,
+                    timestamp: "2017-10-12T07:17:54.8144949Z",
+                    reference: "Savings",
+                    previous_payment_timestamp: "2017-10-12T07:17:54.8144949Z",
+                    previous_payment_amount: 123,
+                    meta: {
+                        provider_account_id: "234234-123"
+                    }
+                }
+            ]
+        };
+
+    // Expected  /Accounts/{id}/DirectDebits json response
+    public readonly accountDirectDebitResponse: IResult<IDirectDebit> =
+        {
+            results: [
+                {
+                    direct_debit_id: "123",
+                    name: "Netflic",
+                    status: "Active",
+                    previous_payment_timestamp: "2017-10-12T07:17:54.8144949Z",
+                    previous_payment_amount: 123,
+                    currency: "GBP",
+                    timestamp: "2017-10-12T07:17:54.8144949Z",
+                    meta: {
+                        provider_mandate_identification: "Lacsitos",
+                        provider_account_id: "234234-123"
+                    }
+                }
+            ]
+        };
+
+    // Expected /Cards/{id}/Transactions json response
     public readonly cardTransactionsResponse: IResult<ICardTransaction> =
         {
             results: [
