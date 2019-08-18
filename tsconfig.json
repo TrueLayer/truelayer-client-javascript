@@ -1,24 +1,13 @@
 {
     "compilerOptions": {
         "target": "es6",
-        /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
         "module": "commonjs",
-        /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
         "outDir": "dist",
-        /* Generates corresponding .d.ts file. */
         "declaration": true,
-        /* Redirect output structure to the directory. */
         "sourceMap": false,
-        /* Generates corresponding '.map' file. */
         "strict": true,
-        /* Enable all strict type-checking options. */
         "lib": ["es2017"],
-        /* Include the good stuff. */
     },
-    "exclude": [
-        "examples",
-        "node_modules"
-    ],
     "include": [
         "src",
         "test"
