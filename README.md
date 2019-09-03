@@ -51,7 +51,11 @@ const scopes = ["info", "accounts", "balance", "transactions", "offline_access",
 
 // Construct url and redirect to the auth dialog
 app.get("/", (req, res) => {
-    const authURL = client.getAuthUrl(redirect_uri, scopes, "foobar");
+    const authURL = client.getAuthUrl({
+        redirectURI: redirect_uri,
+        scope: scopes,
+        nonce: "foobar"
+    });
     res.redirect(authURL);
 });
 
@@ -110,7 +114,12 @@ The flow of authorization follows the protocol of [OAuth 2.0](https://oauth.net/
 1. The first step in authentication is to redirect the user to the TrueLayer Authentication Server. 
 
     ```javascript
-    const authURL = client.getAuthUrl(env.REDIRECT_URI, scope, "nonce", "form_post");
+    const authURL = client.getAuthUrl({
+        redirectURI: env.REDIRECT_URI,
+        scope,
+        nonce: "nonce",
+        responseMode: "form_post"
+    });
     res.redirect(authURL);
     ```
 
