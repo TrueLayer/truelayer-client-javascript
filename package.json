@@ -29,16 +29,16 @@
         "sinon": "^2.3.2",
         "tslint": "^5.3.2",
         "tslint-eslint-rules": "^4.1.0",
-        "typescript": "^2.3.3",
-        "yarn": "^0.24.5"
+        "typescript": "^3.7.3",
+        "yarn": "^1.21.1"
     },
     "dependencies": {
-        "@types/jwt-decode": "^1.4.28",
-        "@types/node": "^7.0.21",
-        "@types/request-promise": "4.1.33",
+        "@types/jwt-decode": "^2.2.1",
+        "@types/node": "^12.12.17",
+        "@types/request-promise": "^4.1.45",
         "jwt-decode": "^2.2.0",
-        "moment": "^2.18.1",
-        "request": "^2.81.0",
-        "request-promise": "^4.2.1"
+        "moment": "^2.24.0",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.5"
     }
 }
