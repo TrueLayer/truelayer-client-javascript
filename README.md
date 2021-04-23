@@ -1,3 +1,5 @@
+# This library is now deprecated. Please check our [documentation](https://docs.truelayer.com) to integrate our products.
+
 [![npm version](https://badge.fury.io/js/truelayer-client.svg)](//npmjs.com/package/truelayer-client)
 
 <p align="center">
